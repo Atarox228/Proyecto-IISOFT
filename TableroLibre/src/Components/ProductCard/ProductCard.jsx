@@ -2,31 +2,31 @@ import './ProductCard.css'
 import category from '../../assets/category.png'
 import uno from '../../assets/uno.png'
 
-const ProductCard = () => {
+const ProductCard = ({product}) => {
     return (<>
             <div className='productcard-wrapper'> 
                 <div className='card'>
                 <div className='card-header'>
-                    <p>NOMBRE</p>    
+                    <p>{product.name}</p>    
                     <img src={category} className='category-icon'/> 
                 </div>               
-                <img src={uno} className='card-image'/>
+                <img src={product.image_url} alt="product image" className='card-image'/>
 
                 <div className='card-characteristics'></div>
                <div className='card-detail'>
-               <p>LOCALIZACION</p>
+               <p>{product.localization}</p>
                </div>
                <div className='card-detail'>
-               <p>EDAD</p>
+               <p>{product.age}</p>
                </div>
                <div className='card-detail'>
-               <p>DURACION</p>
+               <p>{product.duration}</p>
                </div>
                <div className='card-detail'>
-               <p>JUGADORES</p>
+               <p>{product.players}</p>
                </div>
                <div className='card-price'>
-                <h1>$999</h1>
+                <h1>{product.price}</h1>
                </div>
                
                
