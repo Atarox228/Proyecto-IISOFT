@@ -28,22 +28,38 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;  
+    width: 90%;
+    margin-bottom: 10%;
+    height: 15%;
     
 }
 
 .category-icon {
-    width: 25%;
+    width: 20%;
     height: 50%;
+    aspect-ratio: 1;
 }
 
 .card-image {
     width: 80%;
     height: 25%;
+    margin-bottom: 10%;
 }
 
 
 .card-detail {
-    height: 5%;
+    height: 7%;
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+
+}
+
+.detail-icon {
+    height: 100%;
+    margin-right: 10%;
 }
 
 
@@ -51,4 +67,9 @@
     height: 10%;
     padding-top: 5%;
     padding-bottom: 15%;
+}
+
+
+p {
+    font-size: larger;
 }
