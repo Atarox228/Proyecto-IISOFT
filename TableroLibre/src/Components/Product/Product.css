@@ -2,6 +2,7 @@
     width: 60%;
     height: auto;
     display: inline;
+    margin-top: 200px;
 }
 
 .resumenProducto {
@@ -18,8 +19,8 @@
 }
 
 .imagen {
-    width: 600px;
-    height: auto;
+    width: auto;
+    height: 400px;
 }
 
 .informacionBasica {
