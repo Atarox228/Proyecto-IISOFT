@@ -1,13 +1,13 @@
 #root {
-  width:100%;
-  height: 100%;
-
+  height: 100vh;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
   align-items: center;
   flex-direction: column;
-  display: flex;}
+  display: flex;
+
+}
 
   html, body {
     height: 100vh;
@@ -20,14 +20,20 @@
   display: flex;
   width: 80%;
   height: 100%;
+  justify-content: center;
+  align-items: center;
+  
 }
 
 .products-wrapper {
   flex-direction: row;
-  margin-top: 30px;
+  margin-top: 10px;
   display: flex;
   width: 80%;
   height: 80%;
+  justify-content: center;
+  align-items: center;
+
 }
 
 

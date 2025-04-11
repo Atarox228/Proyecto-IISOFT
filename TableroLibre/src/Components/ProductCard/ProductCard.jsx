@@ -6,9 +6,9 @@ import duration from '../../assets/duration.png'
 import players from '../../assets/players.png'
 
 
-const ProductCard = ({product}) => {
+const ProductCard = ({product, onClick}) => {
     return (<>
-            <div className='productcard-wrapper'> 
+            <div className='productcard-wrapper' onClick={onClick}> 
                 <div className='card'>
                 <div className='card-header'>
                     <p>{product.name}</p>    

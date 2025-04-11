@@ -4,10 +4,19 @@ import Navbar from './Components/Navbar/Navbar.jsx'
 import SearchColumn from './Components/SearchColumn/SearchColumn.jsx'
 import ProductsGrid from './Components/ProductsGrid/ProductsGrid.jsx'
 import supabase from './supabase-client.js'
+import Product from './Components/Product/Product.jsx'
 
 function App() {
 
+  const [selectedCard, setSelectedCard] = useState(null);
+
   const [products, setProducts] = useState([]);
+
+
+  const handleClickedLogo = () => {
+    setSelectedCard(null);
+
+  }
 
   useEffect(() => {
     fetchAllProducts();
@@ -25,10 +34,15 @@ function App() {
   return (
     <>
       <div className='page-wrapper'>
-        <Navbar/>
+        <Navbar onClick={handleClickedLogo}/>
         <div className='products-wrapper'>
-          <SearchColumn/>
-          <ProductsGrid products={products}/>
+          {selectedCard === null ? 
+           <ProductsGrid products={products} setClickedCard = {setSelectedCard}/>
+          :
+           <Product product={selectedCard}/>
+          
+          }
+         
         </div>     
 
 
