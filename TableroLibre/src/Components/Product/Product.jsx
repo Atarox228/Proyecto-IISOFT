@@ -4,8 +4,6 @@ import {Link} from "react-router";
 
 const Product = ({ product }) => {
 
-
-
   return (
       <div className="container">
         <div className="resumenProducto">
@@ -35,9 +33,7 @@ const Product = ({ product }) => {
         {/*  <p>{product.descripcion}*/}
         {/*  </p>*/}
         {/*</div>*/}
-
       </div>
-
   );
 }
 
