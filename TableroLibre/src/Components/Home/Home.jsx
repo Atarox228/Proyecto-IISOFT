@@ -11,7 +11,7 @@ const Home = () => {
   }, []);
 
   const fetchAllProducts = async () => {
-    const {data, error} = await supabase.from("Products").select();
+    const {data, error} = await supabase.from("Products").select().order('created_at', { ascending: false });
     if (error) {
       console.log(error);
     }
