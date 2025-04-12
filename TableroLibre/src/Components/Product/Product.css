@@ -1,6 +1,6 @@
 .container {
     width: 60%;
-    height: auto;
+    height: 70%;
     display: inline;
     overflow: visible;
 }
@@ -66,4 +66,9 @@
     flex-direction: column;
     min-width: max-content;
     min-height: max-content;
+    height: 100%;
+}
+
+.manual embed {
+height: 100%;
 }
