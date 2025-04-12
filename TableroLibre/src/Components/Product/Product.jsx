@@ -1,6 +1,10 @@
 import './Product.css'
+import {Link} from "react-router";
+
 
 const Product = ({ product }) => {
+
+
 
   return (
       <div className="container">
@@ -12,9 +16,11 @@ const Product = ({ product }) => {
             <p>{product.name}</p>
             <p className="nombreVendedor">De Juan Pérez</p>
             <p><strong>$ {product.price}</strong></p>
+            <button className="botonManual">
+            </button>
           </div>
         </div>
-        <div className="caracteristicas">
+        <div className="seccion">
           <p className="textoSeccion">Características</p>
           <hr />
           <div className="informacionDeProducto">
@@ -23,14 +29,12 @@ const Product = ({ product }) => {
             <p>Cantidad de jugadores: {product.players}</p>
           </div>
         </div>
-        <div className="manual">
-          <p className="textoSeccion">Manual de usuario</p>
-          <hr />
-          <embed
-              src={product.user_manual}
-              width="100%"
-              height="85%"/>
-        </div>
+        {/*<div className="seccion">*/}
+        {/*  <p className="textoSeccion">Descripción</p>*/}
+        {/*  <hr />*/}
+        {/*  <p>{product.descripcion}*/}
+        {/*  </p>*/}
+        {/*</div>*/}
 
       </div>
 
