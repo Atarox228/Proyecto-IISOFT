@@ -1,8 +1,16 @@
 import './Product.css'
 import {Link} from "react-router";
+import {useEffect, useState} from "react";
+import {getProductById} from "../../db/queries.jsx";
 
 
-const Product = ({ product }) => {
+const Product = ({ producdt }) => {
+
+  const [product, setProduct] = useState(null);
+
+  useEffect(() => {
+
+  })
 
   return (
       <div className="container">
