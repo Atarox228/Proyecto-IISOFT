@@ -2,7 +2,7 @@
     width: 60%;
     height: auto;
     display: inline;
-    margin-top: 200px;
+    overflow: visible;
 }
 
 .resumenProducto {
@@ -58,4 +58,12 @@
     background-color: dodgerblue;
     border: lightblue;
     border-radius: 5px;
+}
+
+.manual {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    min-width: max-content;
+    min-height: max-content;
 }
