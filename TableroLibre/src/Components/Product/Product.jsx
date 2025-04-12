@@ -31,7 +31,7 @@ const Product = ({ producdt }) => {
           <hr />
           <div className="informacionDeProducto">
             <p>Edad mínima: {product.age}</p>
-            <p>Duración estimada: {product.duration}</p>
+            <p>Duración estimada: {product.duration} min</p>
             <p>Cantidad de jugadores: {product.players}</p>
           </div>
         </div>
