@@ -6,12 +6,11 @@
     width: 80%;
     aspect-ratio: 1;   
     border: 2px solid #024d82;
-    border-radius: 1%;
+    border-radius: 10px;
     height: 100%;
     overflow: hidden;
-    padding: 1%;
     background-image: url('../../assets/grid-background.png');
-    padding: 2%;
+    padding: 3%;
 
 }
 

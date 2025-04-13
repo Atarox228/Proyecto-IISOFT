@@ -5,6 +5,7 @@
   align-items: center;
   flex-direction: column;
   display: flex;
+  font-size: 0.8rem;
 }
 
 html, body {
