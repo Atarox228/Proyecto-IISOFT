@@ -28,7 +28,7 @@ const ProductCard = ({product, onClick}) => {
                 <div className='card-characteristics'>
                <div className='card-detail'>
                 <img src={location} className='detail-icon'/>
-                <p>{product.localization}</p>
+                <p>{product.location}</p>
                </div>
                <div className='card-detail'>
                 <img src={age} className='detail-icon'/>

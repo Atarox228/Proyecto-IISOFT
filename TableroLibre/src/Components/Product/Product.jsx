@@ -2,6 +2,12 @@ import './Product.css'
 import {useParams} from "react-router";
 import {useEffect, useState} from "react";
 import {getProductById} from "../../db/queries.jsx";
+import manual from '../../assets/manual.png';
+import returnIcon from '../../assets/return.png';
+import location from '../../assets/location.png'
+import age from '../../assets/age.png'
+import duration from '../../assets/duration.png'
+import players from '../../assets/players.png'
 
 
 const Product = () => {
@@ -26,6 +32,7 @@ const Product = () => {
         {esManualVisible ? (
             <div className="manual">
               <button className="botonManual" onClick={() => setEsManualVisible(false)} type="button">
+                <img src={returnIcon} className='logoManual'/>
                 <p>Volver al producto</p>
               </button>
               <embed src={product.user_manual}/>
@@ -34,25 +41,32 @@ const Product = () => {
             <>
 
               <div className="resumenProducto">
+                <div className='imagenYResumen'>
                 <div className="contenedorImagen">
                   <img src={product.image_url} className="imagen" alt={"Imagen del juego"}/>
                 </div>
                 <div className="informacionBasica">
-                  <p>{product.name}</p>
+                  <h1>{product.name}</h1>
                   <p className="nombreVendedor">De Juan Pérez</p>
+                  <p>Categoría: {product.category}</p>
+                  <p>Lugar: {product.location}</p>
+                  <p>Edad mínima: {product.age}</p>
+                  <p>Duración estimada: {product.duration} min.</p>
+                  <p>Cantidad de jugadores: {product.players}</p>
                   <p><strong>$ {product.price}</strong></p>
                   <button className="botonManual" onClick={() => setEsManualVisible(true)} type="button">
-                    <p>Manual</p>
+                    <img className='logoManual' src={manual}/>
+                    <p>Ver instrucciones de juego</p>
                   </button>
                 </div>
               </div>
+              </div>
             <div className="seccion">
-            <p className="textoSeccion">Características</p>
+            <p className="textoSeccion">Descripción</p>
+            <p>{product.description}</p>
             <hr />
             <div className="informacionDeProducto">
-            <p>Edad mínima: {product.age}</p>
-            <p>Duración estimada: {product.duration} min</p>
-            <p>Cantidad de jugadores: {product.players}</p>
+
             </div>
             </div>
             {/*<div className="seccion">*/}
