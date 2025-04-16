@@ -1,19 +1,16 @@
 .productsgrid-wrapper {
     display: grid;
     grid-template-columns: repeat(4, 1fr);  /* 4 columnas iguales */
-    grid-template-rows: repeat(2, 1fr);     /* 2 filas iguales */
-    gap: 1%;                                /* Espacio entre cards */
+    gap: 2%;                                /* Espacio entre cards */
     width: 80%;
-    aspect-ratio: 1;   
+    height: 80vh;                           /* Fixed height instead of aspect-ratio */
     border: 2px solid #024d82;
     border-radius: 1%;
-    height: 100%;
-    overflow: hidden;
-    padding: 1%;
+    overflow-y: scroll;                     /* Changed to scroll */
+    overflow-x: hidden;                     /* Hide horizontal scroll */
+    padding: 2%;                            /* Removed duplicate padding */
     background-image: url('../../assets/grid-background.png');
     background-size: cover;
-    padding: 2%;
-
 }
 
 
