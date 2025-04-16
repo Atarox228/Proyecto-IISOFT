@@ -1,14 +1,25 @@
+/** 
+overflow-y: scroll;
+@description: Permite que el contenedor se desplace verticalmente
+overflow-x: hidden;
+@description: Evita que el contenedor se desplace horizontalmente
+
+vh: 1vh = 1% del Altura de pantala
+vw: 1vw = 1% del Ancho de pantala
+*/
+
+
 .productsgrid-wrapper {
     display: grid;
     grid-template-columns: repeat(4, 1fr);  /* 4 columnas iguales */
-    gap: 2%;                                /* Espacio entre cards */
-    width: 80%;
-    height: 80vh;                           /* Fixed height instead of aspect-ratio */
+    gap: 1vw;                                /* Espacio entre cards */
+    width: 130vw;
+    height: 80vh;                           
     border: 2px solid #024d82;
     border-radius: 1%;
-    overflow-y: scroll;                     /* Changed to scroll */
-    overflow-x: hidden;                     /* Hide horizontal scroll */
-    padding: 2%;                            /* Removed duplicate padding */
+    overflow-y: scroll;                    
+    overflow-x: hidden;                     
+    padding: 2vh;                            
     background-image: url('../../assets/grid-background.png');
     background-size: cover;
 }
