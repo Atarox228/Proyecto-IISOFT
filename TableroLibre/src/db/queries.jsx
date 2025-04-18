@@ -9,7 +9,7 @@ export const getProductById = async (id) => {
   return data[0];
 };
 
-export const getNombresDeJuegos = async () => {
+export const getNombresDeProductos = async () => {
   const {data, error} = await supabase.from("Products").select("name");
   return data;
 }

@@ -1,6 +1,6 @@
 import './CreatePublication.css'
 import {useEffect, useState} from "react";
-import {getNombresDeJuegos} from "../../db/queries.jsx";
+import {getNombresDeProductos} from "../../db/queries.jsx";
 import Loading from "../Loading/Loading.jsx";
 
 
@@ -13,7 +13,7 @@ const CreatePublication = () => {
   const [nombreDeJuegos, setNombreDeJuegos] = useState(null);
 
   useEffect(() => {
-    getNombresDeJuegos().then((data) => setNombreDeJuegos(data));
+    getNombresDeProductos().then((data) => setNombreDeJuegos(data));
   }, []);
 
 
