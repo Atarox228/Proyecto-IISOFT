@@ -10,7 +10,7 @@ const ProductsGrid = ({products}) => {
         <div className='productsgrid-wrapper'>         
           {products &&
           products.map((product,index) => (            
-              <ProductCard key={index} product={product}
+              <ProductCard key={product.id} product={product}
                            onClick={() => {
                                console.log("Producto clickeado:", product);
                                navigate(`products/${product.id}`);

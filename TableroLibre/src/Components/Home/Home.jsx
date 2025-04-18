@@ -1,6 +1,7 @@
 import ProductsGrid from "../ProductsGrid/ProductsGrid.jsx";
 import {useEffect, useState} from "react";
 import supabase from "../../supabase-client.js";
+import {Link} from "react-router";
 
 const Home = () => {
 
@@ -22,6 +23,9 @@ const Home = () => {
   return (
       <div className='products-wrapper'>
         <ProductsGrid products={products}/>
+        <Link to={"/create"}>
+          <p>Hola</p>
+        </Link>
       </div>
   );
 }

@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import {getProductById} from "../../db/queries.jsx";
 import manual from '../../assets/manual.png';
 import returnIcon from '../../assets/return.png';
+import Loading from "../Loading/Loading.jsx";
 
 
 const Product = () => {
@@ -20,7 +21,7 @@ const Product = () => {
   }, []);
 
   if (!product) {
-    return (<div>Cargando...</div>);
+    return <Loading />;
   }
 
   return (
