@@ -1,24 +1,15 @@
 import ProductsGrid from "../ProductsGrid/ProductsGrid.jsx";
 import {useEffect, useState} from "react";
-import supabase from "../../supabase-client.js";
 import {Link} from "react-router";
+import {fetchAllProducts} from "../../db/queries.jsx";
 
 const Home = () => {
 
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetchAllProducts();
+    fetchAllProducts().then((data) => setProducts(data));
   }, []);
-
-  const fetchAllProducts = async () => {
-    const {data, error} = await supabase.from("Products").select().order('created_at', { ascending: false });
-    if (error) {
-      console.log(error);
-    }
-    console.log(data);
-    setProducts(data);
-  }
 
   return (
       <div className='products-wrapper'>

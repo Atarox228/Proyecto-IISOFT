@@ -15,9 +15,7 @@ const Product = () => {
 
 
   useEffect(() => {
-    getProductById(id)
-        .then((data) => setProduct(data)
-        );
+    getProductById(id).then((data) => setProduct(data));
   }, []);
 
   if (!product) {
@@ -29,29 +27,29 @@ const Product = () => {
         {esManualVisible ? (
             <div className="manual">
               <button className="botonManual" onClick={() => setEsManualVisible(false)} type="button">
-                <img src={returnIcon} className='logoManual'/>
+                <img src={returnIcon} className='logoManual' alt="volverAProducto"/>
                 <p>Volver al producto</p>
               </button>
-              <embed src={product.user_manual}/>
+              <embed src={product.Juegos.user_manual}/>
             </div>
         ) : (
             <>
               <div className="resumenProducto">
                 <div className='imagenYResumen'>
                   <div className="contenedorImagen">
-                    <img src={product.image_url} className="imagen" alt={"Imagen del juego"}/>
+                    <img src={product.Juegos.image_url} className="imagen" alt={"Imagen del juego"}/>
                   </div>
                   <div className="informacionBasica">
-                    <h1>{product.name}</h1>
+                    <h1>{product.Juegos.name}</h1>
                     <p className="nombreVendedor">De Juan Pérez</p>
-                    <p>Categoría: {product.category}</p>
+                    <p>Categoría: {product.Juegos.category}</p>
                     <p>Lugar: {product.location}</p>
-                    <p>Edad mínima: {product.age}</p>
-                    <p>Duración estimada: {product.duration} min.</p>
-                    <p>Cantidad de jugadores: {product.players}</p>
+                    <p>Edad mínima: {product.Juegos.age}</p>
+                    <p>Duración estimada: {product.Juegos.duration} min.</p>
+                    <p>Cantidad de jugadores: {product.Juegos.players}</p>
                     <p><strong>$ {product.price}</strong></p>
                     <button className="botonManual" onClick={() => setEsManualVisible(true)} type="button">
-                      <img className='logoManual' src={manual}/>
+                      <img className='logoManual' src={manual} alt="logoManual"/>
                       <p>Ver instrucciones de juego</p>
                     </button>
                   </div>

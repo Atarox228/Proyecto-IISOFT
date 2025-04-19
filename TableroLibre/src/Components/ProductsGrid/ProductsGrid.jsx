@@ -9,7 +9,7 @@ const ProductsGrid = ({products}) => {
     return (
         <div className='productsgrid-wrapper'>         
           {products &&
-          products.map((product,index) => (            
+          products.map((product) => (
               <ProductCard key={product.id} product={product}
                            onClick={() => {
                                console.log("Producto clickeado:", product);
