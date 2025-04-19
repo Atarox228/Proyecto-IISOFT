@@ -1,6 +1,6 @@
 import './CreateProduct.css'
 import {useEffect, useState} from "react";
-import {getNameOfGames} from "../../db/queries.jsx";
+import {createProduct, getNameOfGames} from "../../db/queries.jsx";
 import Loading from "../Loading/Loading.jsx";
 
 
@@ -9,7 +9,7 @@ const CreateProduct = () => {
   const [precio, setPrecio] = useState('');
   const [ubicacion, setUbicacion] = useState('');
   const [descripcion, setDescripcion] = useState('');
-  const [juego, setJuego] = useState('');
+  const [nombre, setNombre] = useState('');
   const [nombreDeJuegos, setNombreDeJuegos] = useState(null);
 
   useEffect(() => {
@@ -20,10 +20,8 @@ const CreateProduct = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log('Precio:', precio);
-    console.log('Ubicación:', ubicacion);
-    console.log('Descripción:', descripcion);
-    console.log('Juego:', juego);
+    const productoIncompletoACrear = {nombre, ubicacion, precio, descripcion};
+    createProduct(productoIncompletoACrear);
   };
 
   if (!nombreDeJuegos) {
@@ -40,8 +38,8 @@ const CreateProduct = () => {
             <div>
               <label>Seleccionar juego:</label>
               <select
-                  value={juego}
-                  onChange={(e) => setJuego(e.target.value)}
+                  value={nombre}
+                  onChange={(e) => setNombre(e.target.value)}
                   required
               >
                 <option value="">Ver juegos disponibles</option>
@@ -54,7 +52,11 @@ const CreateProduct = () => {
               <input
                   placeholder="Ingresá el precio del producto"
                   value={precio}
-                  onChange={(e) => setPrecio(e.target.value)}
+                  onChange={(e) => {
+                    if (/^\d+(\.\d+)?$/.test(e.target.value)) {
+                      setPrecio(e.target.value);
+                    }
+                  }}
                   required
               />
             </div>
