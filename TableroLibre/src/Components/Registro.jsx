@@ -4,6 +4,7 @@ import './Estilos/Registro.css';
 import { useNavigate } from 'react-router';
 
 const RegistroPage = () => {
+
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');   
     const [password, setPassword] = useState('');
@@ -12,7 +13,7 @@ const RegistroPage = () => {
     const [usernameError, setUsernameError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [formError, setFormError] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [Loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
 
@@ -25,26 +26,33 @@ const RegistroPage = () => {
             setEmailError('Email inválido');
             return false;
         }
-        
-        // Verificar duplicados solo cuando se envía el formulario para evitar consultas excesivas
         if (checkDatabase) {
             try {
-                // Verificar si el email ya existe en la tabla de perfiles
-                const { data, error } = await supabase
-                    .from('perfiles')
-                    .select('email')
-                    .eq('email', email)
-                    .single();
-                    
-                if (data) {
-                    setEmailError('Este correo electrónico ya está registrado');
-                    return false;
+            // Primero verificamos en la tabla de autenticación
+            const { data, error } = await supabase.auth.admin.listUsers({
+                filter: {
+                email: email
                 }
+            });
+            
+            // Si encontramos usuarios con ese email, está en uso
+            if (data && data.users && data.users.length > 0) {
+                setEmailError('Este correo electrónico ya está registrado');
+                return false;
+            }
+            
+            const { data: profileData, error: profileError } = await supabase
+                .from('perfiles')
+                .select('email')
+                .eq('email', email)
+                .single();
+                
+            if (profileData) {
+                setEmailError('Este correo electrónico ya está registrado');
+                return false;
+            }
             } catch (error) {
-                // El error single() cuando no hay coincidencias es esperado, no es un error real
-                if (!error.message.includes("No rows found")) {
-                    console.error("Error al verificar email:", error);
-                }
+            console.error("Error al verificar email:", error);
             }
         }
         
@@ -56,29 +64,25 @@ const RegistroPage = () => {
         if (!username) {
             setUsernameError('El nombre de usuario es obligatorio');
             return false;
-        } else if (username.length < 5 || username.length > 15) {
-            setUsernameError('El usuario debe tener entre 5 y 15 caracteres');
+        } else if (username.length <= 5 && username.length >= 15) {
+            setUsernameError('El usuario no contiene la cantidad minima/maxima de caracteres');
             return false;
         }
-        
-        // Verificar duplicados solo cuando se envía el formulario
+        // Verificar si el username ya existe en la base de datos
         if (checkDatabase) {
             try {
-                const { data, error } = await supabase
-                    .from('perfiles')
-                    .select('username') 
-                    .eq('username', username)
-                    .single();
-                    
-                if (data) {
-                    setUsernameError('El nombre de usuario ya ha sido registrado');
-                    return false;
-                }
+            const { data, error } = await supabase
+                .from('perfiles')
+                .select('username') 
+                .eq('username', username)
+                .single();
+                
+            if (data) {
+                setUsernameError('El nombre de usuario ya a sido registrado');
+                return false;
+            }
             } catch (error) {
-                // El error single() cuando no hay coincidencias es esperado
-                if (!error.message.includes("No rows found")) {
-                    console.error("Error al verificar username:", error);
-                }
+            console.error("Error al verificar username:", error);
             }
         }
         
@@ -86,7 +90,7 @@ const RegistroPage = () => {
         return true;
     };
 
-    const validatePassword = () => {
+    const validatePassword = (password) => {
         if (!password) {
             setPasswordError('La contraseña es obligatoria');
             return false;
@@ -94,84 +98,76 @@ const RegistroPage = () => {
             setPasswordError('La contraseña debe tener entre 8 y 16 caracteres');
             return false;
         }
-        setPasswordError('');
         return true;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        // Evitar múltiples envíos
-        if (loading) return;
 
         try {
             setLoading(true);
             setFormError('');
 
-            // Validar todos los campos
-            const isEmailValid = await validateEmail(true);
-            const isUsernameValid = await validateUsername(true);
-            const isPasswordValid = validatePassword();
+            const isPasswordValid = validatePassword(password);
 
-            if (!isEmailValid || !isUsernameValid || !isPasswordValid) {
+            const isUsernameValid = validateUsername(true);
+            const isEmailValid = validateEmail(true);
+            
+
+            if (!isUsernameValid || !isPasswordValid || !isEmailValid) {
+                setLoading(false);
                 return;
             }
             
-            // 1. Registrar usuario en la autenticación de Supabase
             const { data, error } = await supabase.auth.signUp({
                 email,
                 password,
                 options: {
-                    data: { 
-                        username: username,
-                    },
+                    data: { username },
                 },
             });
 
             if (error) {
-                console.error("Error en signUp:", error);
-                if (error.message.includes('email')) {
+                if(error.message.includes('email')){
                     setEmailError(error.message);
-                } else {
+                } else if (error.message.includes('username')){
+                    setUsernameError(error.message);
+                } else{
                     setFormError(error.message);
                 }
+                setLoading(false);
                 return;
             }
 
-            if (data.user) {
-                // 2. Crear perfil asociado al usuario
-                const { error: profileError } = await supabase
-                    .from('perfiles')
-                    .insert([{
-                        id: data.user.id,
-                        email: email,
-                        username: username,
-                        created_at: new Date()
-                    }]);
-                
-                if (profileError) {
-                    console.error("Error al crear perfil:", profileError);
-                    setFormError('Error al crear el perfil. Intente nuevamente.');
-                    return;
-                }
-
-                // Limpiar el formulario
-                setEmail('');
-                setUsername('');
-                setPassword('');
-                
-                // Notificar al usuario
-                alert('Registro exitoso. Por favor, verifica tu correo electrónico.');
-                navigate('/login');
+            const { error: profileError } = await supabase
+                .from('perfiles')
+                .insert([{
+                    email,
+                    username,
+                    password
+                }]);
+            
+            if (profileError) {
+                setFormError(profileError.message);
+                setLoading(false);
+                return;
             }
+
+            alert('Registro exitoso');
+            navigate('/Login');
             
         } catch (error) {
-            console.error("Error general:", error);
             setFormError('Error en el registro. Intente nuevamente.');
+            console.error(error);
         } finally {
             setLoading(false);
         }
     };
+
+    // Validadores para eventos onBlur (cuando el usuario sale del campo)
+    const handleEmailBlur = () => validateEmail(false);
+    const handleUsernameBlur = () => validateUsername(false);
+    const handlePasswordBlur = () => validatePassword();
 
     return (
         <div className="registro-container">
@@ -182,13 +178,13 @@ const RegistroPage = () => {
                     <div className="form-group">
                         <label htmlFor="email">Mail</label>
                         <input
-                            type="text"
-                            id="email"
-                            placeholder="Ingresá mail"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            onBlur={() => validateEmail(false)}
-                            className={emailError ? 'input-error' : ''}
+                        type="text"
+                        id="email"
+                        placeholder="Ingresá mail"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        onBlur={handleEmailBlur}
+                        className={emailError ? 'input-error' : ''}
                         />
                         {emailError && <p className="error-message">{emailError}</p>}
                     </div>
@@ -196,13 +192,13 @@ const RegistroPage = () => {
                     <div className="form-group">
                         <label htmlFor="username">Usuario</label>
                         <input
-                            type="text"
-                            id="username"
-                            placeholder="Ingresá nombre de usuario"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            onBlur={() => validateUsername(false)}
-                            className={usernameError ? 'input-error' : ''}
+                        type="text"
+                        id="username"
+                        placeholder="Ingresá nombre de usuario"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        onBlur={handleUsernameBlur}
+                        className={usernameError ? 'input-error' : ''}
                         />
                         {usernameError && <p className="error-message">{usernameError}</p>}
                     </div>
@@ -210,13 +206,13 @@ const RegistroPage = () => {
                     <div className="form-group">
                         <label htmlFor="password">Contraseña</label>
                         <input
-                            type="password"
-                            id="password"
-                            placeholder="Ingresá contraseña"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            onBlur={validatePassword}
-                            className={passwordError ? 'input-error' : ''}
+                        type="password"
+                        id="password"
+                        placeholder="Ingresá contraseña"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        onBlur={handlePasswordBlur}
+                        className={passwordError ? 'input-error' : ''}
                         />
                         {passwordError && <p className="error-message">{passwordError}</p>}
                     </div>
@@ -226,14 +222,14 @@ const RegistroPage = () => {
                     <button 
                         type="submit" 
                         className="create-account-btn"
-                        disabled={loading}
+                        disabled={Loading}
                     >
-                        {loading ? 'Procesando...' : 'Crear cuenta'}
+                        {Loading ? 'Procesando...' : 'Crear cuenta'}
                     </button>
                 </form>
                 
                 <p className="login-link">
-                    ¿Ya estas registrado? <a href="/login">ingresa acá</a>
+                ¿Ya estas registrado? <a href="/Login">ingresa acá</a>
                 </p>
             </div>
         </div>

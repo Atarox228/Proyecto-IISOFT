@@ -1,150 +1,130 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router';
 import supabase from "../supabase-client.js";
-import './Estilos/Login.css';
+import './Estilos/Registro.css';
+import { useNavigate } from 'react-router';
 
-const LoginPage = () => {
-  const [identifier, setIdentifier] = useState(''); // Puede ser email o username
-  const [password, setPassword] = useState('');
-  
-  const [identifierError, setIdentifierError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [formError, setFormError] = useState('');
-  const [loading, setLoading] = useState(false);
-  
-  const navigate = useNavigate();
+const Login = () => {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [usernameError, setUsernameError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [formError, setFormError] = useState('');
+    const [loading, setLoading] = useState(false);
 
-  const validateIdentifier = () => {
-    if (!identifier) {
-      setIdentifierError('El usuario o email es obligatorio');
-      return false;
-    }
-    setIdentifierError('');
-    return true;
-  };
+    const navigate = useNavigate();
 
-  const validatePassword = () => {
-    if (!password) {
-      setPasswordError('La contraseña es obligatoria');
-      return false;
-    }
-    setPasswordError('');
-    return true;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    // Evitar múltiples envíos
-    if (loading) return;
-    
-    // Validar campos
-    const isIdentifierValid = validateIdentifier();
-    const isPasswordValid = validatePassword();
-    
-    if (!isIdentifierValid || !isPasswordValid) {
-      return;
-    }
-    
-    try {
-      setLoading(true);
-      setFormError('');
-      
-      // Verificar si es email o username
-      const isEmail = identifier.includes('@');
-      let email = identifier;
-      
-      // Si es username, buscar el email asociado
-      if (!isEmail) {
-        const { data: userData, error: userError } = await supabase
-          .from('perfiles')
-          .select('email')
-          .eq('username', identifier)
-          .single();
-        
-        if (userError || !userData) {
-          setFormError('Usuario no encontrado');
-          return;
+    const validateUsername = () => {
+        if (!username) {
+            setUsernameError('El nombre de usuario es obligatorio');
+            return false;
         }
-        
-        email = userData.email;
-      }
-      
-      // Iniciar sesión con Supabase
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: email,
-        password
-      });
-      
-      if (error) {
-        console.error("Error de inicio de sesión:", error);
-        setFormError('Credenciales inválidas');
-        return;
-      }
-      
-      // Si el inicio de sesión es exitoso
-      // Redirigir al usuario a la página principal
-      navigate('/');
-      
-    } catch (error) {
-      console.error("Error general:", error);
-      setFormError('Ocurrió un error durante el inicio de sesión. Inténtalo de nuevo.');
-    } finally {
-      setLoading(false);
-    }
-  };
+        setUsernameError('');
+        return true;
+    };
 
-  return (
-    <div className="login-container">
-      <div className="login-form-container">
-        <h1 className="login-title">Iniciar sesión</h1>
-        
-        <form onSubmit={handleSubmit} className="login-form">
-          <div className="form-group">
-            <label htmlFor="identifier">Usuario o Email</label>
-            <input
-              type="text"
-              id="identifier"
-              placeholder="Ingresá tu usuario o email"
-              value={identifier}
-              onChange={(e) => setIdentifier(e.target.value)}
-              onBlur={validateIdentifier}
-              className={identifierError ? 'input-error' : ''}
-            />
-            {identifierError && <p className="error-message">{identifierError}</p>}
-          </div>
-          
-          <div className="form-group">
-            <label htmlFor="password">Contraseña</label>
-            <input
-              type="password"
-              id="password"
-              placeholder="Ingresá contraseña"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              onBlur={validatePassword}
-              className={passwordError ? 'input-error' : ''}
-            />
-            {passwordError && <p className="error-message">{passwordError}</p>}
-          </div>
-          
-          {formError && <p className="form-error">{formError}</p>}
-          
-          <button 
-            type="submit" 
-            className="login-btn"
-            disabled={loading}
-          >
-            {loading ? 'Procesando...' : 'Ingresar'}
-          </button>
-        </form>
-        
-        <p className="register-link">
-          ¿No estas registrado? <a href="/registro">registrate acá</a>
-        </p>
-      </div>
-    </div>
-  );
+    const validatePassword = () => {
+        if (!password) {
+            setPasswordError('La contraseña es obligatoria');
+            return false;
+        }
+        setPasswordError('');
+        return true;
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            setLoading(true);
+            setFormError('');
+
+            const isUsernameValid = validateUsername();
+            const isPasswordValid = validatePassword();
+
+            if (!isUsernameValid || !isPasswordValid) {
+                setLoading(false);
+                return;
+            }
+
+            // Verificar directamente en la tabla perfiles
+            const { data, error } = await supabase
+                .from('perfiles')
+                .select('*')
+                .eq('username', username)
+                .eq('password', password)
+                .single();
+
+            if (error || !data) {
+                setFormError('Usuario o contraseña incorrectos');
+                setLoading(false);
+                return;
+            }
+
+            // Almacenar información de usuario en localStorage o en un contexto
+            localStorage.setItem('user', JSON.stringify(data));
+            
+            // Redirigir al usuario a la página principal
+            navigate('/home');
+            
+        } catch (error) {
+            console.error("Error al iniciar sesión:", error);
+            setFormError('Error al iniciar sesión. Intente nuevamente.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return (
+        <div className="registro-container">
+            <div className="registro-form-container">
+                <h1 className="registro-title">Iniciar sesión</h1>
+                
+                <form onSubmit={handleSubmit} className="registro-form">
+                    <div className="form-group">
+                        <label htmlFor="username">Usuario</label>
+                        <input
+                            type="text"
+                            id="username"
+                            placeholder="Ingresá nombre de usuario"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            onBlur={validateUsername}
+                            className={usernameError ? 'input-error' : ''}
+                        />
+                        {usernameError && <p className="error-message">{usernameError}</p>}
+                    </div>
+                    
+                    <div className="form-group">
+                        <label htmlFor="password">Contraseña</label>
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="Ingresá contraseña"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            onBlur={validatePassword}
+                            className={passwordError ? 'input-error' : ''}
+                        />
+                        {passwordError && <p className="error-message">{passwordError}</p>}
+                    </div>
+                    
+                    {formError && <p className="form-error">{formError}</p>}
+                    
+                    <button 
+                        type="submit" 
+                        className="create-account-btn"
+                        disabled={loading}
+                    >
+                        {loading ? 'Procesando...' : 'Ingresar'}
+                    </button>
+                </form>
+                
+                <p className="login-link">
+                    ¿No estas registrado? <a href="/Registro">registrate acá</a>
+                </p>
+            </div>
+        </div>
+    );
 };
 
-export default LoginPage;
+export default Login;
