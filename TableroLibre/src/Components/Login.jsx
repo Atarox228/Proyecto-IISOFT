@@ -4,29 +4,25 @@ import supabase from "../supabase-client.js";
 import './Estilos/Login.css';
 
 const LoginPage = () => {
-  // Estados para los campos del formulario
-  const [username, setUsername] = useState('');
+  const [identifier, setIdentifier] = useState(''); // Puede ser email o username
   const [password, setPassword] = useState('');
   
-  // Estados para manejo de errores
-  const [usernameError, setUsernameError] = useState('');
+  const [identifierError, setIdentifierError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [formError, setFormError] = useState('');
   const [loading, setLoading] = useState(false);
   
   const navigate = useNavigate();
 
-  // Validación del nombre de usuario
-  const validateUsername = () => {
-    if (!username) {
-      setUsernameError('El nombre de usuario es obligatorio');
+  const validateIdentifier = () => {
+    if (!identifier) {
+      setIdentifierError('El usuario o email es obligatorio');
       return false;
     }
-    setUsernameError('');
+    setIdentifierError('');
     return true;
   };
 
-  // Validación de la contraseña
   const validatePassword = () => {
     if (!password) {
       setPasswordError('La contraseña es obligatoria');
@@ -36,15 +32,17 @@ const LoginPage = () => {
     return true;
   };
 
-  // Manejo del envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Validar todos los campos
-    const isUsernameValid = validateUsername();
+    // Evitar múltiples envíos
+    if (loading) return;
+    
+    // Validar campos
+    const isIdentifierValid = validateIdentifier();
     const isPasswordValid = validatePassword();
     
-    if (!isUsernameValid || !isPasswordValid) {
+    if (!isIdentifierValid || !isPasswordValid) {
       return;
     }
     
@@ -52,42 +50,45 @@ const LoginPage = () => {
       setLoading(true);
       setFormError('');
       
-      // Primero, necesitamos obtener el email asociado con el username
-      // ya que Supabase Auth requiere email para login, no username
-      const { data: userData, error: userError } = await supabase
-        .from('perfiles')
-        .select('email')
-        .eq('username', username)
-        .single();
+      // Verificar si es email o username
+      const isEmail = identifier.includes('@');
+      let email = identifier;
       
-      if (userError || !userData) {
-        setFormError('Usuario no encontrado');
-        setLoading(false);
-        return;
+      // Si es username, buscar el email asociado
+      if (!isEmail) {
+        const { data: userData, error: userError } = await supabase
+          .from('perfiles')
+          .select('email')
+          .eq('username', identifier)
+          .single();
+        
+        if (userError || !userData) {
+          setFormError('Usuario no encontrado');
+          return;
+        }
+        
+        email = userData.email;
       }
       
-      // Iniciar sesión con Supabase usando el email obtenido
+      // Iniciar sesión con Supabase
       const { data, error } = await supabase.auth.signInWithPassword({
-        email: userData.email,
+        email: email,
         password
       });
       
       if (error) {
+        console.error("Error de inicio de sesión:", error);
         setFormError('Credenciales inválidas');
-      } else {
-        // Guardamos el token en localStorage (Supabase lo hace automáticamente)
-        // Pero podemos acceder a él si lo necesitamos
-        const token = data.session.access_token;
-        
-        // Opcional: guardar el token explícitamente si necesitas usarlo
-        localStorage.setItem('supabase_token', token);
-        
-        // Redireccionar a la página principal o dashboard
-        navigate('/Home');
+        return;
       }
+      
+      // Si el inicio de sesión es exitoso
+      // Redirigir al usuario a la página principal
+      navigate('/');
+      
     } catch (error) {
+      console.error("Error general:", error);
       setFormError('Ocurrió un error durante el inicio de sesión. Inténtalo de nuevo.');
-      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -100,17 +101,17 @@ const LoginPage = () => {
         
         <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
-            <label htmlFor="username">Usuario</label>
+            <label htmlFor="identifier">Usuario o Email</label>
             <input
               type="text"
-              id="username"
-              placeholder="Ingresá nombre de usuario"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              onBlur={validateUsername}
-              className={usernameError ? 'input-error' : ''}
+              id="identifier"
+              placeholder="Ingresá tu usuario o email"
+              value={identifier}
+              onChange={(e) => setIdentifier(e.target.value)}
+              onBlur={validateIdentifier}
+              className={identifierError ? 'input-error' : ''}
             />
-            {usernameError && <p className="error-message">{usernameError}</p>}
+            {identifierError && <p className="error-message">{identifierError}</p>}
           </div>
           
           <div className="form-group">
@@ -139,7 +140,7 @@ const LoginPage = () => {
         </form>
         
         <p className="register-link">
-          ¿No estas registrado? <a href="/Registro">registrate acá</a>
+          ¿No estas registrado? <a href="/registro">registrate acá</a>
         </p>
       </div>
     </div>
