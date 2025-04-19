@@ -13,8 +13,8 @@ vw: 1vw = 1% del Ancho de pantala
     display: grid;
     grid-template-columns: repeat(4, 1fr);  /* 4 columnas iguales */
     gap: 1vw;                                /* Espacio entre cards */
-    width: 130vw;
-    height: 80vh;                           
+    width: 130%;
+    height: 80%;                           
     border: 2px solid #024d82;
     border-radius: 1vh;
     overflow-y: scroll;                    
