@@ -1,5 +1,5 @@
 import './App.css'
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router";
 import Layout from "./Components/Layout/Layout.jsx";
 import Home from "./Components/Home/Home.jsx";
 import Product from "./Components/Product/Product.jsx";
@@ -7,9 +7,11 @@ import Registro from "./Components/Registro.jsx";
 import Login from "./Components/Login.jsx";
 import ProtectedRoute from './Components/ProtectedRoute';
 import { AuthProvider } from "./Components/context/AuthContext";
-import NotFound from './Components/NotFound'; // Asegúrate de crear este componente
+import NotFound from './Components/NotFound';
+import CreateProduct from "./Components/CreateProduct/CreateProduct.jsx";
 
 function App() {
+
   return (
     <>
       <AuthProvider>
@@ -20,7 +22,8 @@ function App() {
               <Route path="products/:id" element={<Product />}/>
               <Route path="Login" element={<Login />} />
               <Route path="Registro" element={<Registro />} />
-              
+              <Route path="create" element={<CreateProduct />}/>
+
               {/* Rutas protegidas */}
               <Route element={<ProtectedRoute />}>
                 {/* Coloca aquí tus rutas que requieren autenticación */}

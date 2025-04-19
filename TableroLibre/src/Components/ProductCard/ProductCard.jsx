@@ -20,10 +20,10 @@ const ProductCard = ({product, onClick}) => {
             <div className='productcard-wrapper' onClick={onClick}> 
                 <div className='card'>
                     <div className='card-header'>
-                        <h3>{product.name}</h3>    
-                        <img src={categoryIcons[product.category]} className='category-icon'/> 
+                        <h3>{product.Juegos.name}</h3>
+                        <img src={categoryIcons[product.Juegos.category]} className='category-icon'/>
                     </div>               
-                    <img src={product.image_url} alt="product image" className='card-image'/>
+                    <img src={product.Juegos.image_url} alt="product image" className='card-image'/>
                     <div className='card-characteristics'>
                 <div className='card-detail'>
                     <img src={location} className='detail-icon'/>
@@ -31,15 +31,15 @@ const ProductCard = ({product, onClick}) => {
                 </div>
                 <div className='card-detail'>
                     <img src={age} className='detail-icon'/>
-                <p>{product.age}+</p>
+                <p>{product.Juegos.age}+</p>
                 </div>
                 <div className='card-detail'>
                     <img src={duration} className='detail-icon'/>
-                <p>{product.duration}'</p>
+                <p>{product.Juegos.duration}'</p>
                 </div>
                 <div className='card-detail'>
                     <img src={players} className='detail-icon'/>
-                <p>{product.players}</p>
+                <p>{product.Juegos.players}</p>
                 </div>
                 </div>
                 <div className='card-price'>

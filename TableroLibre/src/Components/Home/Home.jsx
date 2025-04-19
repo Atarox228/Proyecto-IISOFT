@@ -1,7 +1,7 @@
 import ProductsGrid from "../ProductsGrid/ProductsGrid.jsx";
 import {useEffect, useState} from "react";
-import supabase from "../../supabase-client.js";
 import {Link} from "react-router";
+import {fetchAllProducts} from "../../db/queries.jsx";
 import { useAuth } from "../context/AuthContext";
 import "./Home.css";
 
@@ -11,20 +11,8 @@ const Home = () => {
   const { isAuthenticated, user } = useAuth();
 
   useEffect(() => {
-    console.log("Estado de autenticación:", isAuthenticated);
-    fetchAllProducts();
+    fetchAllProducts().then((data) => setProducts(data));
   }, [isAuthenticated]);
-
-  const fetchAllProducts = async () => {
-    console.log("Intentando obtener productos...");
-    const {data, error} = await supabase.from("Products_old").select().order('created_at', { ascending: false });
-    if (error) {
-      console.log("Error al obtener productos:", error);
-    } else {
-      console.log("Productos obtenidos:", data);
-    }
-    setProducts(data || []);
-  }
 
   return (
     <div>
@@ -41,6 +29,9 @@ const Home = () => {
       <div className='products-wrapper'>
         <ProductsGrid products={products} />
       </div>
+      <Link to={"/create"}>
+        <p>Hola</p>
+      </Link>
     </div>
   );
 }
