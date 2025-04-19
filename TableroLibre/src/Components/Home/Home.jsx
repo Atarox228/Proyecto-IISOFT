@@ -11,16 +11,19 @@ const Home = () => {
   const { isAuthenticated, user } = useAuth();
 
   useEffect(() => {
+    console.log("Estado de autenticación:", isAuthenticated);
     fetchAllProducts();
-  }, []);
+  }, [isAuthenticated]);
 
   const fetchAllProducts = async () => {
+    console.log("Intentando obtener productos...");
     const {data, error} = await supabase.from("Products_old").select().order('created_at', { ascending: false });
     if (error) {
-      console.log(error);
+      console.log("Error al obtener productos:", error);
+    } else {
+      console.log("Productos obtenidos:", data);
     }
-    console.log(data);
-    setProducts(data);
+    setProducts(data || []);
   }
 
   return (
