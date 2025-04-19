@@ -1,6 +1,6 @@
 .navbar-wrapper {
-    height: 10vh;
-    width: 20vw;
+    height: 10%;
+    width: 20%;
     flex-direction: column;
     display: flex;
     align-items: center;  
@@ -9,6 +9,6 @@
 }
 
 .logo {
-    width: 6vw;
-    height: 12vh;
+    width: 50%;
+    height: 50%;
 }
