@@ -44,7 +44,7 @@ const RegistroPage = () => {
             const { data: profileData, error: profileError } = await supabase
                 .from('Usuarios')
                 .select('email')
-                .eq('email', email)
+                .eq('email', Mail)
                 .single();
                 
             if (profileData) {
@@ -64,7 +64,7 @@ const RegistroPage = () => {
         if (!username) {
             setUsernameError('El nombre de usuario es obligatorio');
             return false;
-        } else if (username.length > 5 && username.length < 15) {
+        } else if (username.length <= 5 && username.length >= 15) {
             setUsernameError('El usuario no contiene la cantidad minima/maxima de caracteres');
             return false;
         }
@@ -74,7 +74,7 @@ const RegistroPage = () => {
             const { data, error } = await supabase
                 .from('Usuarios')
                 .select('username') 
-                .eq('username', username)
+                .eq('username', Username)
                 .single();
                 
             if (data) {
@@ -94,8 +94,8 @@ const RegistroPage = () => {
         if (!password) {
             setPasswordError('La contraseña es obligatoria');
             return false;
-        } else if (password.length > 8 && password.length < 16) {
-            setPasswordError('La contraseña no contiene la cantidad minima/maxima de caracteres');
+        } else if (password.length < 8 || password.length > 16) {
+            setPasswordError('La contraseña debe tener entre 8 y 16 caracteres');
             return false;
         }
         return true;
@@ -142,9 +142,9 @@ const RegistroPage = () => {
             const { error: profileError } = await supabase
                 .from('Usuarios')
                 .insert([{
-                    id: data.user.id,
+                    email,
                     username,
-                    email
+                    password
                 }]);
             
             if (profileError) {

@@ -25,7 +25,7 @@ const Home = () => {
     <div>
         <div className="auth-buttons">
           <Link to="./Registro">
-            <button className="create-account-btn">Registro</button>
+            <button className="create-account-btn">Registrarse</button>
           </Link>
           <Link to="./Login">
             <button className="create-account-btn">Iniciar Sesión</button>
