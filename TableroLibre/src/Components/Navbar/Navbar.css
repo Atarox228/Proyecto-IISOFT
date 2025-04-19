@@ -1,14 +1,57 @@
 .navbar-wrapper {
     height: 10%;
-    width: 20%;
-    flex-direction: column;
+    width: 100%;
+    flex-direction: row;
     display: flex;
     align-items: center;  
-    justify-content: center;
+    justify-content: space-between;
     margin-bottom: 1%;
+    padding: 0 20px;
+    position: relative;
 }
 
 .logo {
     width: 50%;
     height: 50%;
+    min-width: 100px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.username {
+    font-size: 1rem;
+    color: #044070;
+    font-weight: 500;
+}
+
+.logout-btn {
+    padding: 8px 16px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+}
+
+.logout-btn:hover {
+    background-color: #d32f2f;
+}
+
+@media (max-width: 768px) {
+    .navbar-wrapper {
+        flex-direction: column;
+        height: auto;
+        padding: 10px;
+    }
+    
+    .user-info {
+        margin-top: 10px;
+        flex-direction: column;
+    }
 }

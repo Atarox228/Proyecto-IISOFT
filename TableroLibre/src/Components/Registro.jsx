@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import supabase from "../supabase-client.js";
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from './context/AuthContext';
 import './Estilos/Registro.css';
-import { useNavigate } from 'react-router';
 
 const RegistroPage = () => {
-
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');   
     const [password, setPassword] = useState('');
@@ -13,11 +12,12 @@ const RegistroPage = () => {
     const [usernameError, setUsernameError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [formError, setFormError] = useState('');
-    const [Loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
+    const { register } = useAuth();
 
-    const validateEmail = async (checkDatabase = false) => {
+    const validateEmail = () => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!email) {
             setEmailError('El email es obligatorio');
@@ -26,71 +26,23 @@ const RegistroPage = () => {
             setEmailError('Email inválido');
             return false;
         }
-        if (checkDatabase) {
-            try {
-            // Primero verificamos en la tabla de autenticación
-            const { data, error } = await supabase.auth.admin.listUsers({
-                filter: {
-                email: email
-                }
-            });
-            
-            // Si encontramos usuarios con ese email, está en uso
-            if (data && data.users && data.users.length > 0) {
-                setEmailError('Este correo electrónico ya está registrado');
-                return false;
-            }
-            
-            const { data: profileData, error: profileError } = await supabase
-                .from('perfiles')
-                .select('email')
-                .eq('email', email)
-                .single();
-                
-            if (profileData) {
-                setEmailError('Este correo electrónico ya está registrado');
-                return false;
-            }
-            } catch (error) {
-            console.error("Error al verificar email:", error);
-            }
-        }
-        
         setEmailError('');
         return true;
     };
 
-    const validateUsername = async (checkDatabase = false) => {
+    const validateUsername = () => {
         if (!username) {
             setUsernameError('El nombre de usuario es obligatorio');
             return false;
-        } else if (username.length <= 5 && username.length >= 15) {
-            setUsernameError('El usuario no contiene la cantidad minima/maxima de caracteres');
+        } else if (username.length < 6 || username.length > 15) {
+            setUsernameError('El usuario debe tener entre 6 y 15 caracteres');
             return false;
         }
-        // Verificar si el username ya existe en la base de datos
-        if (checkDatabase) {
-            try {
-            const { data, error } = await supabase
-                .from('perfiles')
-                .select('username') 
-                .eq('username', username)
-                .single();
-                
-            if (data) {
-                setUsernameError('El nombre de usuario ya a sido registrado');
-                return false;
-            }
-            } catch (error) {
-            console.error("Error al verificar username:", error);
-            }
-        }
-        
         setUsernameError('');
         return true;
     };
 
-    const validatePassword = (password) => {
+    const validatePassword = () => {
         if (!password) {
             setPasswordError('La contraseña es obligatoria');
             return false;
@@ -98,6 +50,7 @@ const RegistroPage = () => {
             setPasswordError('La contraseña debe tener entre 8 y 16 caracteres');
             return false;
         }
+        setPasswordError('');
         return true;
     };
 
@@ -108,47 +61,26 @@ const RegistroPage = () => {
             setLoading(true);
             setFormError('');
 
-            const isPasswordValid = validatePassword(password);
+            const isEmailValid = validateEmail();
+            const isUsernameValid = validateUsername();
+            const isPasswordValid = validatePassword();
 
-            const isUsernameValid = validateUsername(true);
-            const isEmailValid = validateEmail(true);
-            
-
-            if (!isUsernameValid || !isPasswordValid || !isEmailValid) {
+            if (!isEmailValid || !isUsernameValid || !isPasswordValid) {
                 setLoading(false);
                 return;
             }
             
-            const { data, error } = await supabase.auth.signUp({
-                email,
-                password,
-                options: {
-                    data: { username },
-                },
-            });
+            // Utilizar el método register del AuthContext
+            const { success, error } = await register(email, username, password);
 
-            if (error) {
-                if(error.message.includes('email')){
-                    setEmailError(error.message);
-                } else if (error.message.includes('username')){
-                    setUsernameError(error.message);
-                } else{
-                    setFormError(error.message);
+            if (!success) {
+                if (error.includes('email')) {
+                    setEmailError(error);
+                } else if (error.includes('username')) {
+                    setUsernameError(error);
+                } else {
+                    setFormError(error);
                 }
-                setLoading(false);
-                return;
-            }
-
-            const { error: profileError } = await supabase
-                .from('perfiles')
-                .insert([{
-                    email,
-                    username,
-                    password
-                }]);
-            
-            if (profileError) {
-                setFormError(profileError.message);
                 setLoading(false);
                 return;
             }
@@ -164,11 +96,6 @@ const RegistroPage = () => {
         }
     };
 
-    // Validadores para eventos onBlur (cuando el usuario sale del campo)
-    const handleEmailBlur = () => validateEmail(false);
-    const handleUsernameBlur = () => validateUsername(false);
-    const handlePasswordBlur = () => validatePassword();
-
     return (
         <div className="registro-container">
             <div className="registro-form-container">
@@ -183,7 +110,7 @@ const RegistroPage = () => {
                         placeholder="Ingresá mail"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        onBlur={handleEmailBlur}
+                        onBlur={validateEmail}
                         className={emailError ? 'input-error' : ''}
                         />
                         {emailError && <p className="error-message">{emailError}</p>}
@@ -197,7 +124,7 @@ const RegistroPage = () => {
                         placeholder="Ingresá nombre de usuario"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        onBlur={handleUsernameBlur}
+                        onBlur={validateUsername}
                         className={usernameError ? 'input-error' : ''}
                         />
                         {usernameError && <p className="error-message">{usernameError}</p>}
@@ -211,7 +138,7 @@ const RegistroPage = () => {
                         placeholder="Ingresá contraseña"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        onBlur={handlePasswordBlur}
+                        onBlur={validatePassword}
                         className={passwordError ? 'input-error' : ''}
                         />
                         {passwordError && <p className="error-message">{passwordError}</p>}
@@ -222,9 +149,9 @@ const RegistroPage = () => {
                     <button 
                         type="submit" 
                         className="create-account-btn"
-                        disabled={Loading}
+                        disabled={loading}
                     >
-                        {Loading ? 'Procesando...' : 'Crear cuenta'}
+                        {loading ? 'Procesando...' : 'Crear cuenta'}
                     </button>
                 </form>
                 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import supabase from "../supabase-client.js";
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from './context/AuthContext';
 import './Estilos/Registro.css';
-import { useNavigate } from 'react-router';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -12,6 +12,7 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
+    const { login } = useAuth();
 
     const validateUsername = () => {
         if (!username) {
@@ -46,25 +47,17 @@ const Login = () => {
                 return;
             }
 
-            // Verificar directamente en la tabla perfiles
-            const { data, error } = await supabase
-                .from('perfiles')
-                .select('*')
-                .eq('username', username)
-                .eq('password', password)
-                .single();
+            // Utilizar el método login del AuthContext
+            const { success, error } = await login(username, password);
 
-            if (error || !data) {
-                setFormError('Usuario o contraseña incorrectos');
+            if (!success) {
+                setFormError(error || 'Usuario o contraseña incorrectos');
                 setLoading(false);
                 return;
             }
 
-            // Almacenar información de usuario en localStorage o en un contexto
-            localStorage.setItem('user', JSON.stringify(data));
-            
             // Redirigir al usuario a la página principal
-            navigate('/home');
+            navigate('/');
             
         } catch (error) {
             console.error("Error al iniciar sesión:", error);
