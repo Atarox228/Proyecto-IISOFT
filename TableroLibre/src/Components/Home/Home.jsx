@@ -16,7 +16,7 @@ const Home = () => {
 
   return (
     <div>
-      {!isAuthenticated && (
+      {!isAuthenticated ? (
         <div className="auth-buttons">
           <Link to="./Registro">
             <button className="create-account-btn">Registrarse</button>
@@ -24,14 +24,20 @@ const Home = () => {
           <Link to="./Login">
             <button className="create-account-btn">Iniciar Sesión</button>
           </Link>
+          <Link to="./create">
+            <button className="create-account-btn">Crear Producto</button>
+          </Link>
         </div>
+      ) : (
+          <div className="auth-buttons">
+            <Link to="./create">
+              <button className="create-account-btn">Crear Producto</button>
+            </Link>
+          </div>
       )}
       <div className='products-wrapper'>
         <ProductsGrid products={products} />
       </div>
-      <Link to={"/create"}>
-        <p>Hola</p>
-      </Link>
     </div>
   );
 }
