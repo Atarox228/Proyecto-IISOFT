@@ -22,10 +22,10 @@ function App() {
               <Route path="products/:id" element={<Product />}/>
               <Route path="Login" element={<Login />} />
               <Route path="Registro" element={<Registro />} />
-              <Route path="create" element={<CreateProduct />}/>
 
               {/* Rutas protegidas */}
               <Route element={<ProtectedRoute />}>
+                <Route path="create" element={<CreateProduct />}/>
                 {/* Coloca aquí tus rutas que requieren autenticación */}
                 {/* Por ejemplo: <Route path="/profile" element={<Profile />} /> */}
               </Route>
