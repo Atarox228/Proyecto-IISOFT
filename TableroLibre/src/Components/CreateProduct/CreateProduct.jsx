@@ -1,7 +1,8 @@
 import './CreateProduct.css'
 import {useEffect, useState} from "react";
-import {createProduct, getNameOfGames} from "../../db/queries.jsx";
+import {createProduct, getIdOfGameByName, getNameOfGames} from "../../db/queries.jsx";
 import Loading from "../Loading/Loading.jsx";
+import {useNavigate} from "react-router";
 
 
 const CreateProduct = () => {
@@ -11,17 +12,25 @@ const CreateProduct = () => {
   const [descripcion, setDescripcion] = useState('');
   const [nombre, setNombre] = useState('');
   const [nombreDeJuegos, setNombreDeJuegos] = useState(null);
+  const [idDeJuego, setIdDeJuego] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     getNameOfGames().then((data) => setNombreDeJuegos(data));
   }, []);
 
+  useEffect(() => {
+    getIdOfGameByName(nombre).then((data) => {
+      setIdDeJuego(data);
+    })
+  }, [nombre]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const productoIncompletoACrear = {nombre, ubicacion, precio, descripcion};
-    createProduct(productoIncompletoACrear);
+    const productBody = {idDeJuego, ubicacion, precio, descripcion};
+    createProduct(productBody);
+    navigate('/');
   };
 
   if (!nombreDeJuegos) {

@@ -20,35 +20,37 @@ export const getNameOfGames = async () => {
 export const fetchAllProducts = async () => {
   const {data, error} = await supabase
       .from('Productos')
-      .select('*, Juegos(*)');
+      .select('*, Juegos(*)')
+      .order('created_at', { ascending: false });
   if (error) {
     console.log(error);
   }
   return data;
 }
 
-export const createProduct = async ({nombre, ubicacion, precio, descripcion}) => {
-  const {idDeJuego, error} = await supabase
+export const getIdOfGameByName = async (name) => {
+  const {data, error} = await supabase
       .from("Juegos")
-      .select("id")
-      .eq('name', nombre);
+      .select("*")
+      .eq('name', name);
   if (error) {
     console.log(error);
   }
+  return data[0].id;
+}
 
+export const createProduct = async ({idDeJuego, ubicacion, precio, descripcion}) => {
   const { data, errorInsert } = await supabase
-      .from("Productos")
-      .insert([
-        {
-          idJuego: idDeJuego,
-          location: ubicacion,
-          price: precio,
-          description: descripcion
-        }
-      ]);
+    .from("Productos")
+    .insert([
+      {
+        id_juego: idDeJuego,
+        description: descripcion,
+        price: precio,
+        location: ubicacion
+      }
+    ]);
   if (errorInsert) {
     console.error("Error al querer insertar producto", errorInsert);
   }
-  console.log(data);
-
 }

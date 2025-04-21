@@ -25,9 +25,9 @@ function App() {
 
               {/* Rutas protegidas */}
               <Route element={<ProtectedRoute />}>
-                <Route path="create" element={<CreateProduct />}/>
                 {/* Coloca aquí tus rutas que requieren autenticación */}
                 {/* Por ejemplo: <Route path="/profile" element={<Profile />} /> */}
+                <Route path="create" element={<CreateProduct />}/>
               </Route>
 
               {/* Página 404 */}

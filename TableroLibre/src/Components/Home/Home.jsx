@@ -1,18 +1,24 @@
 import ProductsGrid from "../ProductsGrid/ProductsGrid.jsx";
 import {useEffect, useState} from "react";
-import {Link} from "react-router";
+import {Link, useLocation} from "react-router";
 import {fetchAllProducts} from "../../db/queries.jsx";
 import { useAuth } from "../context/AuthContext";
 import "./Home.css";
+import Loading from "../Loading/Loading.jsx";
 
 const Home = () => {
 
   const [products, setProducts] = useState([]);
   const { isAuthenticated, user } = useAuth();
+  const location = useLocation();
 
   useEffect(() => {
     fetchAllProducts().then((data) => setProducts(data));
-  }, [isAuthenticated]);
+  }, [isAuthenticated, location]);
+
+  if (!products) {
+    return <Loading />;
+  }
 
   return (
     <div>
