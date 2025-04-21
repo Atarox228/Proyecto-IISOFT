@@ -53,7 +53,7 @@ const CreateProduct = () => {
                   placeholder="Ingresá el precio del producto"
                   value={precio}
                   onChange={(e) => {
-                    if (/^\d+(\.\d+)?$/.test(e.target.value)) {
+                    if (e.target.value === "" || /^\d+(\.\d+)?$/.test(e.target.value)) {
                       setPrecio(e.target.value);
                     }
                   }}

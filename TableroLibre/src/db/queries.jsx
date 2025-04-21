@@ -39,10 +39,16 @@ export const createProduct = async ({nombre, ubicacion, precio, descripcion}) =>
   const { data, errorInsert } = await supabase
       .from("Productos")
       .insert([
-        { idJuego: idDeJuego, location: ubicacion, price: precio, description: descripcion }
+        {
+          idJuego: idDeJuego,
+          location: ubicacion,
+          price: precio,
+          description: descripcion
+        }
       ]);
   if (errorInsert) {
-    console.log(errorInsert);
+    console.error("Error al querer insertar producto", errorInsert);
   }
+  console.log(data);
 
 }
