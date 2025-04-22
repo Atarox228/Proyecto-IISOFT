@@ -58,3 +58,12 @@ export const createProduct = async ({idDeJuego, ubicacion, precio, descripcion})
     navigate('/');
   }
 }
+
+export const cancelReserve = async({id_product}) => {
+  const {data, error} = await supabase.from("Productos").update({id_buyer: null}).eq('id', id_product);
+  if (error) {
+    console.log(error);
+  } else {
+    console.log(cancelado);
+  }
+}
