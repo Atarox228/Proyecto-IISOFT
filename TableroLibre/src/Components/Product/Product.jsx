@@ -1,5 +1,5 @@
 import './Product.css'
-import {useParams} from "react-router";
+import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {getProductById} from "../../db/queries.jsx";
 import manual from '../../assets/manual.png';

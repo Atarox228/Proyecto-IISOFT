@@ -1,6 +1,6 @@
 import ProductCard from '../ProductCard/ProductCard';
 import './ProductsGrid.css'
-import {useNavigate} from "react-router";
+import {useNavigate} from "react-router-dom";
 
 const ProductsGrid = ({products}) => {
 
