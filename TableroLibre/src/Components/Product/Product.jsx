@@ -22,6 +22,8 @@ const Product = () => {
     return <Loading />;
   }
 
+
+
   return (
       <div className="container">
         {esManualVisible ? (
@@ -41,7 +43,7 @@ const Product = () => {
                   </div>
                   <div className="informacionBasica">
                     <h1>{product.Juegos.name}</h1>
-                    <p className="nombreVendedor">De Juan Pérez</p>
+                    <p className="nombreVendedor">De {product.seller_username}</p>
                     <p>Categoría: {product.Juegos.category}</p>
                     <p>Lugar: {product.location}</p>
                     <p>Edad mínima: {product.Juegos.age}</p>
@@ -51,6 +53,9 @@ const Product = () => {
                     <button className="botonManual" onClick={() => setEsManualVisible(true)} type="button">
                       <img className='logoManual' src={manual} alt="logoManual"/>
                       <p>Ver instrucciones de juego</p>
+                    </button>
+                    <button className="botonManual" onClick={() => null} type="button">
+                      <p>Reservar juego</p>
                     </button>
                   </div>
                 </div>
