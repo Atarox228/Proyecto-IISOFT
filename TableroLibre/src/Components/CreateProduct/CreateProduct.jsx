@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {createProduct, getIdOfGameByName, getNameOfGames} from "../../db/queries.jsx";
 import Loading from "../Loading/Loading.jsx";
 import {useNavigate} from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 
 const CreateProduct = () => {
@@ -14,6 +15,7 @@ const CreateProduct = () => {
   const [nombreDeJuegos, setNombreDeJuegos] = useState(null);
   const [idDeJuego, setIdDeJuego] = useState('');
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   useEffect(() => {
     getNameOfGames().then((data) => setNombreDeJuegos(data));
@@ -29,10 +31,18 @@ const CreateProduct = () => {
 
   }, [nombre]);
 
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const productBody = {idDeJuego, ubicacion, precio, descripcion};
+    const productBody = {
+      idDeJuego,
+      ubicacion,
+      precio,
+      descripcion,
+      seller_username: user.username  
+    };
     createProduct(productBody);
     navigate('/');
   };

@@ -41,7 +41,7 @@ export const getIdOfGameByName = async (name) => {
   return data[0].id;
 }
 
-export const createProduct = async ({idDeJuego, ubicacion, precio, descripcion}) => {
+export const createProduct = async ({ idDeJuego, ubicacion, precio, descripcion, seller_username }) => {
   const { data, errorInsert } = await supabase
     .from("Productos")
     .insert([
@@ -49,15 +49,14 @@ export const createProduct = async ({idDeJuego, ubicacion, precio, descripcion})
         id_juego: idDeJuego,
         description: descripcion,
         price: precio,
-        location: ubicacion
+        location: ubicacion,
+        seller_username // 👈 este campo debe existir en tu tabla
       }
     ]);
   if (errorInsert) {
     console.error("Error al querer insertar producto", errorInsert);
-  } else {
-    navigate('/');
   }
-}
+};
 
 export const cancelReserve = async({id_product}) => {
   const {data, error} = await supabase.from("Productos").update({id_buyer: null}).eq('id', id_product);
