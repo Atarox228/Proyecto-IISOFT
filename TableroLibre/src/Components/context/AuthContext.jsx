@@ -40,32 +40,32 @@ export const AuthProvider = ({ children }) => {
     checkSession();
     
     // Suscripción a cambios de autenticación
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        if (event === 'SIGNED_IN' && session) {
-          // Al iniciar sesión, obtenemos el perfil
-          const { data: profileData } = await supabase
-            .from('perfiles')
-            .select('*')
-            .eq('email', session.user.email)
-            .single();
-            
-          if (profileData) {
-            setUser(profileData);
-            localStorage.setItem('user', JSON.stringify(profileData));
-          }
-        } else if (event === 'SIGNED_OUT') {
-          setUser(null);
-          localStorage.removeItem('user');
-        }
-      }
-    );
-    
-    return () => {
-      if (authListener && authListener.subscription) {
-        authListener.subscription.unsubscribe();
-      }
-    };
+    //const { data: authListener } = supabase.auth.onAuthStateChange(
+    //  async (event, session) => {
+    //    if (event === 'SIGNED_IN' && session) {
+    //      // Al iniciar sesión, obtenemos el perfil
+    //      const { data: profileData } = await supabase
+    //        .from('perfiles')
+    //        .select('*')
+    //        .eq('email', session.user.email)
+    //        .single();
+    //        
+    //      if (profileData) {
+    //        setUser(profileData);
+    //        localStorage.setItem('user', JSON.stringify(profileData));
+    //      }
+    //    } else if (event === 'SIGNED_OUT') {
+    //      setUser(null);
+    //      localStorage.removeItem('user');
+    //    }
+    //  }
+    //);
+    //
+    //return () => {
+    //  if (authListener && authListener.subscription) {
+    //    authListener.subscription.unsubscribe();
+    //  }
+    //};
   }, []);
 
   const login = async (username, password) => {

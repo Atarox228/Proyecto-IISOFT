@@ -14,7 +14,7 @@ const Home = () => {
 
   useEffect(() => {
     fetchAllProducts().then((data) => setProducts(data));
-  }, [isAuthenticated, location]);
+  }, []);
 
   if (!products) {
     return <Loading />;

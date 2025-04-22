@@ -18,10 +18,12 @@ export const getNameOfGames = async () => {
 }
 
 export const fetchAllProducts = async () => {
+  console.log('fetching')
   const {data, error} = await supabase
       .from('Productos')
       .select('*, Juegos(*)')
       .order('created_at', { ascending: false });
+      console.log('fetched')
   if (error) {
     console.log(error);
   }
@@ -52,5 +54,7 @@ export const createProduct = async ({idDeJuego, ubicacion, precio, descripcion})
     ]);
   if (errorInsert) {
     console.error("Error al querer insertar producto", errorInsert);
+  } else {
+    navigate('/');
   }
 }
