@@ -1,6 +1,6 @@
 import ProductsGrid from "../ProductsGrid/ProductsGrid.jsx";
 import {useEffect, useState} from "react";
-import {Link, useLocation} from "react-router";
+import {Link, useLocation} from "react-router-dom";
 import {fetchAllProducts} from "../../db/queries.jsx";
 import { useAuth } from "../context/AuthContext";
 import "./Home.css";

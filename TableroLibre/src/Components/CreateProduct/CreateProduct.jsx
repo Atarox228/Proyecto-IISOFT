@@ -2,7 +2,7 @@ import './CreateProduct.css'
 import {useEffect, useState} from "react";
 import {createProduct, getIdOfGameByName, getNameOfGames} from "../../db/queries.jsx";
 import Loading from "../Loading/Loading.jsx";
-import {useNavigate} from "react-router";
+import {useNavigate} from "react-router-dom";
 
 
 const CreateProduct = () => {
@@ -20,9 +20,13 @@ const CreateProduct = () => {
   }, []);
 
   useEffect(() => {
-    getIdOfGameByName(nombre).then((data) => {
-      setIdDeJuego(data);
-    })
+    if (nombre) {
+      getIdOfGameByName(nombre).then((data) => {
+        setIdDeJuego(data);
+      });
+    }
+
+
   }, [nombre]);
 
   const handleSubmit = (e) => {
