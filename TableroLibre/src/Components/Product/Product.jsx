@@ -20,6 +20,11 @@ const Product = () => {
     getProductById(id).then((data) => setProduct(data));
   }, []);
 
+  useEffect(() => {
+    getProductById(id).then((data) => setProduct(data));
+  }, [product]);
+
+
   if (!product) {
     return <Loading />;
   }
