@@ -33,6 +33,15 @@ const Login = () => {
         return true;
     };
 
+    const handleLocation = () => {
+        if (location.state?.id) {
+            let id = location.state?.id
+            navigate('/Registro', { state: { id: id } });;  
+          } else {
+            navigate("/Registro");     
+          }
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -119,7 +128,7 @@ const Login = () => {
                 </form>
                 
                 <p className="login-link">
-                    ¿No estas registrado? <a href="/Registro">registrate acá</a>
+                    ¿No estas registrado? <a onClick={handleLocation}>registrate acá</a>
                 </p>
             </div>
         </div>

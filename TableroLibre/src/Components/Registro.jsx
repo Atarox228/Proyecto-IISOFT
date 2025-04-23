@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 import './Estilos/Registro.css';
 
@@ -12,7 +12,8 @@ const RegistroPage = () => {
     const [usernameError, setUsernameError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [formError, setFormError] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);    
+    let location = useLocation();
 
     const navigate = useNavigate();
     const { register } = useAuth();
@@ -54,6 +55,16 @@ const RegistroPage = () => {
         return true;
     };
 
+    const handleLocation = () => {
+        if (location.state?.id) {
+            let id = location.state?.id
+            navigate('/Login', { state: { id: id } });;  
+          } else {
+            navigate("/Login");     
+          }
+    }
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -86,7 +97,13 @@ const RegistroPage = () => {
             }
 
             alert('Registro exitoso');
-            navigate('/Login');
+            if (location.state?.id) {
+                navigate(`/products/${location.state?.id}`);
+                window.location.reload();
+              } else {
+                navigate("/");         
+                window.location.reload();  
+              }
             
         } catch (error) {
             setFormError('Error en el registro. Intente nuevamente.');
@@ -156,7 +173,7 @@ const RegistroPage = () => {
                 </form>
                 
                 <p className="login-link">
-                ¿Ya estas registrado? <a href="/Login">ingresa acá</a>
+                ¿Ya estas registrado? <a onClick={handleLocation}>ingresa acá</a>
                 </p>
             </div>
         </div>
