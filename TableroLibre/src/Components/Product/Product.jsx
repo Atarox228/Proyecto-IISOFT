@@ -7,6 +7,7 @@ import returnIcon from '../../assets/return.png';
 import Loading from "../Loading/Loading.jsx";
 import { useAuth } from "../context/AuthContext";
 import supabase from '../../supabase-client.js';
+import { useNavigate} from 'react-router-dom';
 
 
 const Product = () => {
@@ -15,6 +16,7 @@ const Product = () => {
   const [esManualVisible, setEsManualVisible] = useState(false);
   const {id} = useParams();  
   const {isAuthenticated, user } = useAuth();  
+  const navigate = useNavigate();
 
   useEffect(() => {
     getProductById(id).then((data) => setProduct(data));
@@ -48,7 +50,7 @@ const Product = () => {
   };
 
   const handleLoginRedirect = () => {
-    window.location.href = "/Login";
+    navigate('/login', { state: { id: product.id } });;
   };
 
   const handleConfirmSale = async () => {
