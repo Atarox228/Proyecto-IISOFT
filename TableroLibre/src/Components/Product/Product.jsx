@@ -6,6 +6,7 @@ import manual from '../../assets/manual.png';
 import returnIcon from '../../assets/return.png';
 import Loading from "../Loading/Loading.jsx";
 import { useAuth } from "../context/AuthContext";
+import supabase from '../../supabase-client.js';
 
 
 const Product = () => {
@@ -25,6 +26,7 @@ const Product = () => {
 
   const isProductBought = product.id_buyer !== null;
   const isBuyer = isAuthenticated && user?.id === product.id_buyer;
+  const isSeller = isAuthenticated && user?.username === product.seller_username;
 
 
   const handleBuy = () => {
@@ -44,7 +46,47 @@ const Product = () => {
     window.location.href = "/Login";
   };
 
+  const handleConfirmSale = async () => {
+    if (!product?.id) {
+      console.error("Id invalido");
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+      .from("Productos")
+      .delete()
+      .eq("id", product.id);
+      
+      if (error) {
+        throw error;
+      }
+
+      alert("Venta confirmada");
+      window.location.href = "/";
+    } catch (err) {
+      console.error("Error al confirmar la venta:", err.message);
+      alert("Ocurrió un error al confirmar la venta");
+    }
+  }
+  
+
+
+ 
+
   const renderReservationButton = () => {
+    if (isSeller) {
+      if (isProductBought) {
+        return (
+          <button className="botonManual" onClick={handleConfirmSale}>
+            <p>Confirmar entrega</p>
+          </button>
+        );
+      } else {
+        return null;
+      }
+    }
+
     if (isProductBought) {
       return isBuyer ? (
         <button className="botonManual" onClick={handleCancelReserve}>
