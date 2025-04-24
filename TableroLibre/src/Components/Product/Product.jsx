@@ -37,7 +37,7 @@ const Product = () => {
 
 
   const handleBuy = () => {
-    console.log("Comprando producto con ID:", product.id);
+    navigate(`/products/${product.id}/reserve`);
   };
 
   const handleCancelReserve = () => {
