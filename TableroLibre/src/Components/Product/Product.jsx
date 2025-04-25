@@ -3,6 +3,7 @@ import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {cancelReserve, getProductById} from "../../db/queries.jsx";
 import manual from '../../assets/manual.png';
+import receipt from '../../assets/receipt-icon.png';
 import returnIcon from '../../assets/return.png';
 import Loading from "../Loading/Loading.jsx";
 import { useAuth } from "../context/AuthContext";
@@ -40,14 +41,7 @@ const Product = () => {
     navigate(`/products/${product.id}/reserve`);
   };
 
-  const handleCancelReserve = () => {
-    if (user?.id && product?.id) {
-      cancelReserve({id_product: product.id});
-    } else {
-      console.error("Faltan datos para cancelar la reserva");
-    }
-    getProductById(id).then((data) => setProduct(data));
-  };
+
 
   const handleLoginRedirect = () => {
     navigate('/login', { state: { id: product.id } });;
@@ -96,8 +90,9 @@ const Product = () => {
 
     if (isProductBought) {
       return isBuyer ? (
-        <button className="botonManual" onClick={handleCancelReserve}>
-          <p>Cancelar reserva</p>
+        <button className="botonManual" onClick={handleBuy}>
+           <img className='logoManual' src={receipt} alt="logoComprobante"/>
+          <p>Ver comprobante de compra</p>
         </button>
       ) : (
         <button className="botonManual" disabled>
