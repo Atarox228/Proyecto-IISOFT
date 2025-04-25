@@ -46,35 +46,71 @@ export const reserveProduct = async ({ idProducto, idUsuarioReserva }) => {
     return { success: false, message: "Faltan parámetros para reservar el producto" };
   }
 
-  const product = await getProductById(idProducto); 
+  const { data: product, error: productError } = await supabase
+    .from("Productos")
+    .select("*")
+    .eq("id", idProducto)
+    .single();
 
-  if (!product) {
+  if (productError || !product) {
     return { success: false, message: "Producto no encontrado" };
   }
 
   if (product.id_buyer === null) {
-    const { data, error } = await supabase
+    const { error: updateError } = await supabase
       .from("Productos")
       .update({ id_buyer: idUsuarioReserva })
-      .eq('id', idProducto);
+      .eq("id", idProducto);
 
-    if (error) {
+    if (updateError) {
       return { success: false, message: "Error al reservar el producto" };
     } else {
+      const { data: buyerData, error: buyerError } = await supabase
+        .from("perfiles")
+        .select("*")
+        .eq("id", idUsuarioReserva)
+        .single();
+
+      const { data: sellerData, error: sellerError } = await supabase
+        .from("perfiles")
+        .select("*")
+        .eq("username", product.seller_username)
+        .single();
+
+      if (buyerError || sellerError || !buyerData || !sellerData) {
+        return { success: false, message: "No se pudo obtener la información del vendedor o comprador" };
+      }
+      console.log("Insertando comprobante con:", {
+        seller: sellerData.username,
+        seller_email: sellerData.email,
+        address: product.location,
+        buyer: buyerData.username,
+        buyer_email: buyerData.email,
+        price: product.price,
+        product_id: product.id
+      });
+      const { error: receiptError } = await supabase
+        .from("Comprobantes")
+        .insert([{
+          seller: sellerData.username,
+          seller_email: sellerData.email,
+          address: product.location,
+          buyer: buyerData.username,
+          buyer_email: buyerData.email,
+          price: product.price,
+          product_id: product.id
+        }]);
+
+      if (receiptError) {
+        return { success: false, message: "Error al generar el comprobante" };
+      }
+
       return { success: true, message: "" };
     }
   } else {
-    return { success: false, message: "Error al confirmar la reserva: el producto ya fue reservado" };
+    return { success: false, message: "El producto ya fue reservado" };
   }
 };
-
-export const getSellerInformation = async ({userVendedor}) => {
-  const {data, error} = await supabase.from('perfiles').select('*').eq('username', userVendedor);
-  if (error) {
-    console.log(error);
-  } 
-  return data[0];
-}
 
 export const createProduct = async ({ idDeJuego, ubicacion, precio, descripcion, seller_username }) => {
   const { data, errorInsert } = await supabase
@@ -99,6 +135,24 @@ export const cancelReserve = async({id_product}) => {
   if (error) {
     console.log(error);
   } else {
-    console.log('cancelado');
+    const {data, error} = await supabase.from("Comprobantes").delete().eq('product_id', id_product);
+    if (error) {
+      console.log(error);
+    }
   }
 }
+
+
+export const getReceiptFrom = async ({ productId }) => {
+  const { data, error } = await supabase
+    .from("Comprobantes")
+    .select("*")
+    .eq("product_id", productId)
+    .single();
+  if (error) {
+    console.error("Error obteniendo el comprobante:", error);
+    return null;
+  }
+
+  return data;
+};
