@@ -9,6 +9,7 @@ import ProtectedRoute from './Components/ProtectedRoute';
 import { AuthProvider } from "./Components/context/AuthContext";
 import NotFound from './Components/NotFound';
 import CreateProduct from "./Components/CreateProduct/CreateProduct.jsx";
+import Reserve from "./Components/Reserve/Reserve.jsx"
 
 function App() {
 
@@ -26,7 +27,8 @@ function App() {
               {/* Rutas protegidas */}
               <Route element={<ProtectedRoute />}>
                 {/* Coloca aquí tus rutas que requieren autenticación */}
-                {/* Por ejemplo: <Route path="/profile" element={<Profile />} /> */}
+                {/* Por ejemplo: <Route path="/profile" element={<Profile />} /> */}                
+                <Route path="products/:id/reserve" element={<Reserve/>} />
                 <Route path="create" element={<CreateProduct />}/>
               </Route>
 
