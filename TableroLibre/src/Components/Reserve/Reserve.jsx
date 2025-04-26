@@ -82,7 +82,7 @@ const Reserve = () => {
     const handleConfirmSale = async () => {
       if (user?.id && product?.id) {
           await confirmSale({ idProducto : product.id });
-          alert('Entrega confirmada');
+          setCancelled(true);
           setTimeout(() => {
               navigate("/");
           }, 3000);
@@ -115,7 +115,6 @@ const Reserve = () => {
                     <h1>Comprobante</h1>               
                     {receipt ? (
                       <>
-                      {justBought && <p>¿Estás seguro de confirmar la entrega?</p>}
                         <p>Mail interesado: {receipt.buyer_email}</p>
                         <p>Nombre del producto: {receipt.product_name}</p>
                         <p>
@@ -125,7 +124,7 @@ const Reserve = () => {
                         </p>
                         <p>Número de pedido: #{receipt.id}</p>
                         {cancelled ? (
-                          <p className="reserve-message">Se confirmo la entrega</p>
+                          <p className="reserve-message">Entrega confirmada</p>
                         ) : (
                           <button className='button' onClick={handleConfirmSale}>Confirmar entrega</button>
                         )}
