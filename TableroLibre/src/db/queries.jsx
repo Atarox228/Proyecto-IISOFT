@@ -48,7 +48,7 @@ export const reserveProduct = async ({ idProducto, idUsuarioReserva }) => {
 
   const { data: product, error: productError } = await supabase
     .from("Productos")
-    .select("*")
+    .select("*, Juegos(*)")
     .eq("id", idProducto)
     .single();
 
@@ -87,7 +87,8 @@ export const reserveProduct = async ({ idProducto, idUsuarioReserva }) => {
         buyer: buyerData.username,
         buyer_email: buyerData.email,
         price: product.price,
-        product_id: product.id
+        product_id: product.id,
+        product_name: product?.Juegos?.name || null
       });
       const { error: receiptError } = await supabase
         .from("Comprobantes")
@@ -98,7 +99,8 @@ export const reserveProduct = async ({ idProducto, idUsuarioReserva }) => {
           buyer: buyerData.username,
           buyer_email: buyerData.email,
           price: product.price,
-          product_id: product.id
+          product_id: product.id,
+          product_name: product?.Juegos?.name || null
         }]);
 
       if (receiptError) {
@@ -111,6 +113,18 @@ export const reserveProduct = async ({ idProducto, idUsuarioReserva }) => {
     return { success: false, message: "El producto ya fue reservado" };
   }
 };
+
+export const confirmSale = async ({idProducto}) => {
+  const {data, error} = await supabase.from("Productos").delete().eq("id", idProducto);
+  if (error) {
+    console.log(error);
+  } else {
+    const {data, error} = await supabase.from("Comprobantes").delete().eq('product_id', idProducto);
+    if (error) {
+      console.log(error);
+    }
+  }
+}
 
 export const createProduct = async ({ idDeJuego, ubicacion, precio, descripcion, seller_username }) => {
   const { data, errorInsert } = await supabase
