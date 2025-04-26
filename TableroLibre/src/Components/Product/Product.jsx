@@ -36,52 +36,22 @@ const Product = () => {
   const isBuyer = isAuthenticated && user?.id === product.id_buyer;
   const isSeller = isAuthenticated && user?.username === product.seller_username;
 
-
   const handleBuy = () => {
     navigate(`/products/${product.id}/reserve`);
   };
-
-
 
   const handleLoginRedirect = () => {
     navigate('/login', { state: { id: product.id } });;
   };
 
-  const handleConfirmSale = async () => {
-    if (!product?.id) {
-      console.error("Id invalido");
-      return;
-    }
-
-    try {
-      const { error } = await supabase
-      .from("Productos")
-      .delete()
-      .eq("id", product.id);
-      
-      if (error) {
-        throw error;
-      }
-
-      alert("Venta confirmada");
-      window.location.href = "/";
-    } catch (err) {
-      console.error("Error al confirmar la venta:", err.message);
-      alert("Ocurrió un error al confirmar la venta");
-    }
-  }
-  
-
-
- 
-
   const renderReservationButton = () => {
     if (isSeller) {
       if (isProductBought) {
         return (
-          <button className="botonManual" onClick={handleConfirmSale}>
-            <p>Confirmar entrega</p>
-          </button>
+            <button className="botonManual" onClick={handleBuy}>
+               <img className='logoManual' src={receipt} alt="logoComprobante"/>
+              <p>Ver comprobante de venta</p>
+            </button>
         );
       } else {
         return null;
