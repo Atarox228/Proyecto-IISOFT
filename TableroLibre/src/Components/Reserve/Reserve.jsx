@@ -3,7 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import NotFound from '../NotFound';
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getProductById, reserveProduct, getSellerInformation } from "../../db/queries.jsx";
+import { getProductById, reserveProduct, getReceiptFrom, cancelReserve } from "../../db/queries.jsx";
 
 const Reserve = () => {
     const { isAuthenticated, user } = useAuth();      
@@ -12,9 +12,11 @@ const Reserve = () => {
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
-    const [seller, setSeller] = useState(null);
     const [reserveMessage, setReserveMessage] = useState("");
+    const [cancelled, setCancelled] = useState(false)
     const navigate = useNavigate();
+    const [receipt, setReceipt] = useState(null);
+    const [justBought, setJustBought] = useState(false)
 
     useEffect(() => {
         setLoading(true);
@@ -22,31 +24,54 @@ const Reserve = () => {
           .then(async (data) => {
             if (data) {
               setProduct(data);
-              const sellerInfo = await getSellerInformation({ userVendedor: data.seller_username });
-              setSeller(sellerInfo);
             } else {
               setError(true);
             }
           })
           .catch(() => setError(true))
           .finally(() => setLoading(false));
-      }, [id]);
+    }, [id]);
 
+    useEffect(() => {
+        if (product && product.id_buyer === user.id && !receipt) {
+            getReceiptFrom({ productId: product.id }).then((receiptData) => {
+                setReceipt(receiptData);
+            });
+        }
+    }, [product, user.id, receipt]);
 
-
-      const handleReserve = async () => {
+    const handleReserve = async () => {
         const result = await reserveProduct({ idProducto: product.id, idUsuarioReserva: user.id });
-        setReserveMessage(result.message);
-      
+        setReserveMessage(result.message);      
         if (result.success) {
+          const receiptData = await getReceiptFrom({ productId: product.id });
+          setReceipt(receiptData);
           const updatedProduct = await getProductById(id);
           setProduct(updatedProduct);
+          setJustBought(true);
         } else {
             setTimeout(() => {
                 navigate("/");
               }, 3000);
         }
-      };
+    };
+
+    const handleCancelReserve = async () => {
+        if (user?.id && product?.id) {
+            await cancelReserve({ id_product: product.id });
+            setCancelled(true);
+            setTimeout(() => {
+                navigate(`/products/${product.id}`); // Redirigir al producto después de 3 segundos
+            }, 3000);
+        } else {
+            console.error("Faltan datos para cancelar la reserva");
+        }
+        setTimeout(() => {
+          getProductById(id).then((data) => setProduct(data));
+      }, 3000);
+        
+
+    };
 
     if (loading) return <p>Cargando...</p>;
     if (error || !product) return <NotFound />;
@@ -57,35 +82,46 @@ const Reserve = () => {
 
     const isNotTheBuyer = () => product.id_buyer !== user.id;
 
-    
-
     return (
-        <>
-            {isAuthenticated && (isSeller() || (isReserved() && isNotTheBuyer())) ? (
-                <NotFound />
-            ) : (
-                !isReserved() ? (
-                    <div className='reserve-wrapper'>
-                        <div className='reserve-window'>
-                            <h1>Reservar</h1>
-                            <p>¿Estás seguro que querés reservar el producto?</p>
-                            {reserveMessage && <p className="reserve-message">{reserveMessage}</p>}
-                            <button className='button' onClick={handleReserve}>Reservar</button>
-                        </div>
-                    </div>
+      <>
+        {isAuthenticated && (isSeller() || (isReserved() && isNotTheBuyer())) ? (
+          <NotFound />
+        ) : (
+          !isReserved() ? (
+            <div className='reserve-wrapper'>
+              <div className='reserve-window'>
+                <h1>Reservar</h1>
+                <p>¿Estás seguro que querés reservar el producto?</p>
+                {reserveMessage && <p className="reserve-message">{reserveMessage}</p>}
+                <button className='button' onClick={handleReserve}>Reservar</button>
+              </div>
+            </div>
+          ) : (
+            <div className='reserve-wrapper'>
+              <div className='reserved-window'>
+                <h1>Comprobante</h1>               
+                {receipt ? (
+                  <>
+                  {justBought && <p>¡Gracias por confirmar la reserva!</p>}
+                    <p>Mail vendedor: {receipt.seller_email}</p>
+                    <p>Ubicación de retiro: {receipt.address}</p>
+                    <p>Precio: ${receipt.price}</p>
+                    <p>Número de pedido: #{receipt.id}</p>
+                    {cancelled ? (
+                      <p className="reserve-message">La reserva fue cancelada</p>
+                    ) : (
+                      <button className='button' onClick={handleCancelReserve}>Cancelar reserva</button>
+                    )}
+                  </>
                 ) : (
-                    <div className='reserve-wrapper'>
-                        <div className='reserved-window'>
-                            <h1>Reservado</h1>
-                            <p>¡Gracias por confirmar tu reserva!</p>
-                            <p>mail vendedor: {seller.email}</p>
-                            <p>Ubicación de retiro: {product.location}</p>
-                            <p>precio: ${product.price}</p>                            
-                        </div>
-                    </div>
-                )
-            )}
-        </>
+                  <p>Cargando comprobante...</p>
+                )}
+
+              </div>
+            </div>
+          )
+        )}
+      </>
     );
 }
 
