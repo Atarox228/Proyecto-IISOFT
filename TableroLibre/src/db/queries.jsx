@@ -170,3 +170,19 @@ export const getReceiptFrom = async ({ productId }) => {
 
   return data;
 };
+
+export const onSearch= async ({ name }) => {
+  console.log("el juego es")
+  console.log(name);
+  const {data, error} = await supabase
+      .from("Productos").select("Juegos(*), *").eq('Juegos.name', name);
+  if (error) {
+    console.log(error);
+  }
+  console.log(data);
+
+  return data;
+}
+
+
+
