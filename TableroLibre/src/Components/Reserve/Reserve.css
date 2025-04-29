@@ -1,0 +1,73 @@
+.reserve-wrapper {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-image: url('../../assets/grid-background.png');
+    background-size: cover;
+    padding: 15px;    
+    border-radius: 15px;           
+    border: 2px solid #024d82;
+    height: 500px;
+    overflow: visible;
+}
+
+.reserve-window {
+    width: 30%;
+    border-radius: 5px;
+    background-color: #fbf1e0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.reserved-window {
+
+        width: 30%;
+        height: 70%;
+        border-radius: 5px;
+        background-color: #fbf1e0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+    
+}
+.reserved-window h1:first-of-type {
+    width: 100%;
+    align-items: start;
+    border-bottom: 3px solid #044070;
+    padding-bottom: 5px; 
+    margin-bottom: 20px; 
+  
+}
+
+.reserve-window h1:first-of-type {
+        width: 100%;
+        align-items: start;
+        border-bottom: 3px solid #044070;
+        padding-bottom: 5px; 
+        margin-bottom: 20px; 
+      
+}
+
+.reserve-message {
+    margin-top: 1rem;
+    color: red;
+    font-style: italic;
+}
+
+.button {
+    background-color: #04a4ff;
+    border: lightblue;
+    border-radius: 5px;    
+    width: 50%;
+    height: 35px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    margin-top: 40px
+}

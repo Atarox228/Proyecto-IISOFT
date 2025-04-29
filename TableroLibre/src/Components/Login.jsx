@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 import './Estilos/Registro.css';
 
@@ -10,6 +10,7 @@ const Login = () => {
     const [passwordError, setPasswordError] = useState('');
     const [formError, setFormError] = useState('');
     const [loading, setLoading] = useState(false);
+    let location = useLocation();
 
     const navigate = useNavigate();
     const { login } = useAuth();
@@ -31,6 +32,15 @@ const Login = () => {
         setPasswordError('');
         return true;
     };
+
+    const handleLocation = () => {
+        if (location.state?.id) {
+            let id = location.state?.id
+            navigate('/Registro', { state: { id: id } });;  
+          } else {
+            navigate("/Registro");     
+          }
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -56,8 +66,13 @@ const Login = () => {
                 return;
             }
 
-            // Redirigir al usuario a la página principal
-            navigate('/');
+            if (location.state?.id) {
+                navigate(`/products/${location.state?.id}`);
+                window.location.reload();
+              } else {
+                navigate("/");         
+                window.location.reload();  
+              }
             
         } catch (error) {
             console.error("Error al iniciar sesión:", error);
@@ -113,7 +128,7 @@ const Login = () => {
                 </form>
                 
                 <p className="login-link">
-                    ¿No estas registrado? <a href="/Registro">registrate acá</a>
+                    ¿No estas registrado? <a onClick={handleLocation}>registrate acá</a>
                 </p>
             </div>
         </div>
