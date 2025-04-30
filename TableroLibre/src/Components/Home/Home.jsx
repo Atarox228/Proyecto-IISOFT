@@ -5,16 +5,36 @@ import {fetchAllProducts} from "../../db/queries.jsx";
 import { useAuth } from "../context/AuthContext";
 import "./Home.css";
 import Loading from "../Loading/Loading.jsx";
+import SearchColumn from "../SearchColumn/SearchColumn.jsx";
 
 const Home = () => {
-
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const { isAuthenticated, user } = useAuth();
   const location = useLocation();
 
   useEffect(() => {
-    fetchAllProducts().then((data) => setProducts(data));
+    fetchAllProducts().then((data) => {
+      setProducts(data);
+      setFilteredProducts(data);
+    });
   }, []);
+
+  const handleSearch = (searchQuery) => {
+    // Si no hay texto de búsqueda, mostrar todos los productos
+    if (!searchQuery) {
+      setFilteredProducts(products);
+      return;
+    }
+    
+    // Filtrar productos basados en el texto de búsqueda
+    const query = searchQuery.toLowerCase();
+    const results = products.filter(product => 
+      product.Juegos.name.toLowerCase().includes(query)
+    );
+    
+    setFilteredProducts(results);
+  };
 
   if (!products) {
     return <Loading />;
@@ -22,6 +42,8 @@ const Home = () => {
 
   return (
     <div>
+      <SearchColumn onSearch={handleSearch} />
+      
       {!isAuthenticated ? (
         <div className="auth-buttons">
           <Link to="./Registro">
@@ -42,7 +64,7 @@ const Home = () => {
           </div>
       )}
       <div className='products-wrapper'>
-        <ProductsGrid products={products} />
+        <ProductsGrid products={filteredProducts} />
       </div>
     </div>
   );
