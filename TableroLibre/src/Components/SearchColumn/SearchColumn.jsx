@@ -1,13 +1,12 @@
-import './SearchColumn.css'
+import './SearchColumn.css';
+import SearchBar from '../SearchBar/SearchBar';
 
-const SearchColumn = () => {
+const SearchColumn = ({ onSearch }) => {
     return (
         <div className='searchcolumn-wrapper'>
-               
-
-               
+            <SearchBar onSearch={onSearch} />
         </div>
-    )
-}
+    );
+};
 
 export default SearchColumn;
