@@ -5,6 +5,7 @@ import diceIcon from '../../assets/dices-icon.png';
 const SearchBar = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedDuration, setSelectedDuration] = useState('');
 
   // Opciones para los selectores
   const categoryOptions = [
@@ -14,6 +15,13 @@ const SearchBar = ({ onSearch }) => {
     { value: 'tablero', label: 'Tablero' }
   ];
 
+  const durationOptions = [
+    { value: '', label: 'Cualquier duración' },
+    { value: '15_', label: 'Menor a 15 minutos' },
+    { value: '15-45', label: 'De 15 a 45 minutos' },
+    { value: '45+', label: 'Mayor a 45 minutos' }
+  ];
+
   // Manejar el envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,7 +29,8 @@ const SearchBar = ({ onSearch }) => {
     // Tipo de filtros (Se pueden agregar los demas)
     const searchParams = {
       query: searchQuery,
-      category: selectedCategory
+      category: selectedCategory,
+      duration: selectedDuration
     };
     // Llamar a la función de búsqueda pasada como prop
     if (onSearch) onSearch(searchParams);
@@ -40,7 +49,7 @@ const SearchBar = ({ onSearch }) => {
           />
           <button type="submit" className="search-button">Buscar</button>
         </div>
-
+        
         <div className="search-filters">
           <div className="filter-group">
             <label>Categoría:</label>
@@ -49,6 +58,20 @@ const SearchBar = ({ onSearch }) => {
               onChange={(e) => setSelectedCategory(e.target.value)}
             >
               {categoryOptions.map(option => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          
+          <div className="filter-group"> 
+            <label>Duración de juego:</label>
+            <select 
+              value={selectedDuration}
+              onChange={(e) => setSelectedDuration(e.target.value)}
+            >
+              {durationOptions.map(option => (
                 <option key={option.value} value={option.value}>
                   {option.label}
                 </option>

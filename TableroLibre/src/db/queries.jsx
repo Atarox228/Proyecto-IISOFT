@@ -171,18 +171,34 @@ export const getReceiptFrom = async ({ productId }) => {
   return data;
 };
 
-export const onSearch= async ({ name, categoria }) => {
+export const onSearch= async ({ name, category, duration }) => {
   console.log("el juego es")
   console.log(name);
-  console.log("la categoria es", categoria);
-
-  const {data, error} = await supabase
+  console.log("la categoria es", category);
+  console.log("la duracion es", duration);
+  //CREO QUE ESTA QUERY ESTA MEDIA AL DOPE
+    let query = supabase  
       .from("Productos").select("Juegos(*), *")
       .eq('Juegos.name', name)
-      .eq('Juegos.category', categoria);
+      .eq('Juegos.category', category);
+    //if (duration) {             
+    //  const [min, max] = duration.split("-");
+    //  if (max) {
+    //    // Rango: 0-15, 15-45, etc.
+    //    query = query
+    //      .gt("Juegos.duration", parseInt(min))
+    //      .lt("Juegos.duration", parseInt(max));
+    //  } else if (min.endsWith("+")) {
+    //    // Rango abierto: 45+
+    //    const minValue = parseInt(min);
+    //    query = query.gte("Juegos.duration", minValue);
+    //  }
+    //}
+  const {data, error} = await query;
 
   if (error) {
-    console.log(error);
+    console.log(error)
+    return [];
   }
   console.log(data);
 

@@ -38,6 +38,29 @@ const Home = () => {
         product.Juegos.category === searchParams.category
       );
     }
+    // Filtrar por duración
+    if (searchParams.duration) {
+      const [min, max] = searchParams.duration.split('-');
+      
+      if (max) { // Rango (por ejemplo: 15-45)
+        results = results.filter(product => {
+          const duration = parseInt(product.Juegos.duration);
+          return duration >= parseInt(min) && duration <= parseInt(max);
+        });
+      } else if (min.endsWith('+')) { // Más de X (por ejemplo: 120+)
+        const minValue = parseInt(min);
+        results = results.filter(product => {
+          const duration = parseInt(product.Juegos.duration);
+          return duration >= minValue;
+        });
+      } else if (min.endsWith('_')) { // Menos de X (por ejemplo: <15)
+        const minValue = parseInt(min);
+        results = results.filter(product => {
+          const duration = parseInt(product.Juegos.duration);
+          return duration < minValue;
+        });
+      }
+    }
     
     setFilteredProducts(results);
   };
