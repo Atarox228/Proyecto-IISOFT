@@ -4,13 +4,27 @@ import diceIcon from '../../assets/dices-icon.png';
 
 const SearchBar = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
+
+  // Opciones para los selectores
+  const categoryOptions = [
+    { value: '', label: 'Todas las categorías' },
+    { value: 'cartas', label: 'Cartas' },
+    { value: 'dados', label: 'Dados' },
+    { value: 'tablero', label: 'Tablero' }
+  ];
 
   // Manejar el envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
     
+    // Tipo de filtros (Se pueden agregar los demas)
+    const searchParams = {
+      query: searchQuery,
+      category: selectedCategory
+    };
     // Llamar a la función de búsqueda pasada como prop
-    if (onSearch) onSearch(searchQuery);
+    if (onSearch) onSearch(searchParams);
   };
 
   return (
@@ -25,6 +39,22 @@ const SearchBar = ({ onSearch }) => {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
           <button type="submit" className="search-button">Buscar</button>
+        </div>
+
+        <div className="search-filters">
+          <div className="filter-group">
+            <label>Categoría:</label>
+            <select 
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+            >
+              {categoryOptions.map(option => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </form>
     </div>

@@ -20,18 +20,24 @@ const Home = () => {
     });
   }, []);
 
-  const handleSearch = (searchQuery) => {
+  const handleSearch = (searchParams) => {
+    // Filtrar productos basados en los parámetros de búsqueda
+    let results = [...products];
+
     // Si no hay texto de búsqueda, mostrar todos los productos
-    if (!searchQuery) {
-      setFilteredProducts(products);
-      return;
-    }
-    
     // Filtrar productos basados en el texto de búsqueda
-    const query = searchQuery.toLowerCase();
-    const results = products.filter(product => 
-      product.Juegos.name.toLowerCase().includes(query)
-    );
+    if (searchParams.query) {
+      const query = searchParams.query.toLowerCase();
+      results = results.filter(product => 
+        product.Juegos.name.toLowerCase().includes(query)
+      );
+    }
+    // Filtrar por categoría
+    if (searchParams.category) {
+      results = results.filter(product => 
+        product.Juegos.category === searchParams.category
+      );
+    }
     
     setFilteredProducts(results);
   };
