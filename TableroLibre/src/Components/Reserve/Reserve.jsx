@@ -17,8 +17,8 @@ const Reserve = () => {
     const navigate = useNavigate();
     const [receipt, setReceipt] = useState(null);
     const [justBought, setJustBought] = useState(false)
-    const [payment, setPayment] = useState('efectivo'); 
-    const [delivery, setDelivery] = useState('retiro'); 
+    const [payment, setPayment] = useState('Efectivo'); 
+    const [delivery, setDelivery] = useState('Retiro por domicilio del vendedor'); 
 
     
     useEffect(() => {
@@ -105,6 +105,22 @@ const Reserve = () => {
 
     const isNotTheBuyer = () => product.id_buyer !== user.id;
 
+
+    const paymentRender = () => {
+      if (receipt.payment_method != 'Efectivo') {
+        return ( 
+          <>
+          <div className='receipt-item'>
+            <p>CBU</p>
+            <p>00000000000000000000</p>      
+          </div>
+          <button className='button' disabled>Subir comprobante de pago</button>
+          </>
+        )
+      }
+
+    };
+
     return (
       <>
         {isAuthenticated && (
@@ -148,14 +164,14 @@ const Reserve = () => {
                     <h1>Reservar</h1>
                     <p>Seleccionar método de pago:</p>
                     <div className='radio-wrapper'>
-                    <input type="radio" name="payment" value="efectivo"  checked={payment === 'efectivo'} onChange={(e) => setPayment(e.target.value)}/>
+                    <input type="radio" name="payment" value="Efectivo"  checked={payment === 'Efectivo'} onChange={(e) => setPayment(e.target.value)}/>
                     <p>Efectivo</p>
-                    <input type="radio" name="payment" value="transferencia" checked={payment === 'transferencia'} onChange={(e) => setPayment(e.target.value)}/>
+                    <input type="radio" name="payment" value="Transferencia" checked={payment === 'Transferencia'} onChange={(e) => setPayment(e.target.value)}/>
                     <p>Transferencia</p>
                     </div>
                     <p>Seleccionar método de envío:</p>
                     <div className='radio-wrapper'>
-                    <input type="radio" name ="delivery" value="Retiro" checked={delivery === 'retiro'}  onChange={(e) => setDelivery(e.target.value)}/>
+                    <input type="radio" name ="delivery" value="Retiro" checked={delivery === 'Retiro por domicilio del vendedor'}  onChange={(e) => setDelivery(e.target.value)}/>
                     <p>Retiro por domicilio del vendedor</p>
                     </div>
                     {reserveMessage && <p className="reserve-message">{reserveMessage}</p>}
@@ -165,14 +181,37 @@ const Reserve = () => {
               ) : (
                 <div className='reserve-wrapper'>
                   <div className='reserved-window'>
-                    <h1>Comprobante</h1>               
+                    <h3>Comprobante</h3>               
                     {receipt ? (
                       <>
                       {justBought && <p>¡Gracias por confirmar la reserva!</p>}
-                        <p>Mail vendedor: {receipt.seller_email}</p>
-                        <p>Ubicación de retiro: {receipt.address}</p>
-                        <p>Precio: ${receipt.price}</p>
-                        <p>Número de pedido: #{receipt.id}</p>
+                      <div className='receipt-item'>
+                      <p>Número de pedido: </p>
+                      <p>#{receipt.id}</p>
+                      </div>
+                      <div className='receipt-item'>
+                      <p>Email del vendedor:</p>
+                      <p>{receipt.seller_email}</p>                        
+                      </div>
+
+                      <div className='receipt-item'>
+                        <p>Método de entrega:</p>
+                        <p>{receipt.delivery_method}</p>
+                      </div>
+                      <div className='receipt-item'>
+                      <p>Ubicación de retiro:</p>
+                      <p> {receipt.address}</p>
+                      </div>
+                      <div className='receipt-item'>
+                        <p>Monto a pagar:</p>
+                        <p>${receipt.price}</p>
+                      </div>
+                      <div className='receipt-item'>
+                        <p>Método de pago:</p>
+                        <p>{receipt.payment_method}</p>
+                      </div>
+                      {paymentRender()}
+
                         {cancelled ? (
                           <p className="reserve-message">La reserva fue cancelada</p>
                         ) : (
