@@ -3,13 +3,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
+    padding-top: 15px;
     background-image: url('../../assets/grid-background.png');
     background-size: cover;
-    padding: 15px;    
     border-radius: 15px;           
     border: 2px solid #024d82;
-    height: 500px;
+    height: fit-content;
+    padding:1%;
     overflow: visible;
 }
 
@@ -20,12 +21,20 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 100px;
+}
+
+.reserve-window h1:first-of-type {
+    font-weight: bold;
+    width: 100%;
+    align-items: start;
+    border-bottom: 3px solid #044070;
 }
 
 .reserved-window {
 
         width: 30%;
-        height: 70%;
+        height: fit-content;
         border-radius: 5px;
         background-color: #fbf1e0;
         display: flex;
@@ -34,22 +43,34 @@
         justify-content: space-around;
     
 }
-.reserved-window h1:first-of-type {
+.reserved-window h3:first-of-type {
     width: 100%;
     align-items: start;
     border-bottom: 3px solid #044070;
     padding-bottom: 5px; 
-    margin-bottom: 20px; 
+    margin-bottom: 10px; 
   
 }
 
-.reserve-window h1:first-of-type {
-        width: 100%;
-        align-items: start;
-        border-bottom: 3px solid #044070;
-        padding-bottom: 5px; 
-        margin-bottom: 20px; 
-      
+.radio-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.radio-wrapper:first-of-type p {
+    margin-right: 20px;
+}
+
+
+.receipt-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.receipt-item p:first-of-type {
+    font-weight: bold;
 }
 
 .reserve-message {
@@ -62,12 +83,12 @@
     background-color: #04a4ff;
     border: lightblue;
     border-radius: 5px;    
-    width: 50%;
+    width: 90%;
     height: 35px;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     margin-bottom: 10px;
-    margin-top: 40px
+    margin-top: 10px
 }
