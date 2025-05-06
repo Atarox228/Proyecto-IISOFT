@@ -114,7 +114,7 @@ const Reserve = () => {
             <p>CBU</p>
             <p>00000000000000000000</p>      
           </div>
-          <button className='button' disabled>Subir comprobante de pago</button>
+          <button className='button' disabled>Subir comprobante de transferencia</button>
           </>
         )
       }

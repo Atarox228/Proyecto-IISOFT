@@ -9,7 +9,8 @@
     background-size: cover;
     border-radius: 15px;           
     border: 2px solid #024d82;
-    height: 700px;
+    height: fit-content;
+    padding:1%;
     overflow: visible;
 }
 
@@ -20,6 +21,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 100px;
+}
+
+.reserve-window h1:first-of-type {
+    font-weight: bold;
+    width: 100%;
+    align-items: start;
+    border-bottom: 3px solid #044070;
 }
 
 .reserved-window {
@@ -74,7 +83,7 @@
     background-color: #04a4ff;
     border: lightblue;
     border-radius: 5px;    
-    width: 80%;
+    width: 90%;
     height: 35px;
     display: flex;
     flex-direction: row;
