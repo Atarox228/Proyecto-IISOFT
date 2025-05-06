@@ -5,16 +5,65 @@ import {fetchAllProducts} from "../../db/queries.jsx";
 import { useAuth } from "../context/AuthContext";
 import "./Home.css";
 import Loading from "../Loading/Loading.jsx";
+import SearchColumn from "../SearchColumn/SearchColumn.jsx";
 
 const Home = () => {
-
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const { isAuthenticated, user } = useAuth();
   const location = useLocation();
 
   useEffect(() => {
-    fetchAllProducts().then((data) => setProducts(data));
+    fetchAllProducts().then((data) => {
+      setProducts(data);
+      setFilteredProducts(data);
+    });
   }, []);
+
+  const handleSearch = (searchParams) => {
+    // Filtrar productos basados en los parámetros de búsqueda
+    let results = [...products];
+
+    // Si no hay texto de búsqueda, mostrar todos los productos
+    // Filtrar productos basados en el texto de búsqueda
+    if (searchParams.query) {
+      const query = searchParams.query.toLowerCase();
+      results = results.filter(product => 
+        product.Juegos.name.toLowerCase().includes(query)
+      );
+    }
+    // Filtrar por categoría
+    if (searchParams.category) {
+      results = results.filter(product => 
+        product.Juegos.category === searchParams.category
+      );
+    }
+    // Filtrar por duración
+    if (searchParams.duration) {
+      const [min, max] = searchParams.duration.split('-');
+      
+      if (max) { // Rango (por ejemplo: 15-45)
+        results = results.filter(product => {
+          const duration = parseInt(product.Juegos.duration);
+          return duration >= parseInt(min) && duration <= parseInt(max);
+        });
+      } else if (min.endsWith('+')) { // Más de X (por ejemplo: 120+)
+        const minValue = parseInt(min);
+        results = results.filter(product => {
+          const duration = parseInt(product.Juegos.duration);
+          return duration >= minValue;
+        });
+      } else if (min.endsWith('_')) { // Menos de X (por ejemplo: <15)
+        const minValue = parseInt(min);
+        results = results.filter(product => {
+          const duration = parseInt(product.Juegos.duration);
+          return duration < minValue;
+        });
+      }
+    }
+    
+    setFilteredProducts(results);
+  };
 
   if (!products) {
     return <Loading />;
@@ -22,6 +71,8 @@ const Home = () => {
 
   return (
     <div>
+      <SearchColumn onSearch={handleSearch} />
+      
       {!isAuthenticated ? (
         <div className="auth-buttons">
           <Link to="./Registro">
@@ -42,7 +93,7 @@ const Home = () => {
           </div>
       )}
       <div className='products-wrapper'>
-        <ProductsGrid products={products} />
+        <ProductsGrid products={filteredProducts} />
       </div>
     </div>
   );
