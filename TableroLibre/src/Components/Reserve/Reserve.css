@@ -43,6 +43,17 @@
   
 }
 
+.radio-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.radio-wrapper:first-of-type p {
+    margin-right: 20px;
+}
+
 .reserve-window h1:first-of-type {
         width: 100%;
         align-items: start;

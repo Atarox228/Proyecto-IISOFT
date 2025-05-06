@@ -41,7 +41,7 @@ export const getIdOfGameByName = async (name) => {
   return data[0].id;
 }
 
-export const reserveProduct = async ({ idProducto, idUsuarioReserva }) => {
+export const reserveProduct = async ({ idProducto, idUsuarioReserva, metodoPago, metodoEntrega }) => {
   if (!idProducto || !idUsuarioReserva) {
     return { success: false, message: "Faltan parámetros para reservar el producto" };
   }
@@ -88,7 +88,10 @@ export const reserveProduct = async ({ idProducto, idUsuarioReserva }) => {
         buyer_email: buyerData.email,
         price: product.price,
         product_id: product.id,
-        product_name: product?.Juegos?.name || null
+        product_name: product?.Juegos?.name || null,
+        payment_method: metodoPago,
+        delivery_method: metodoEntrega
+
       });
       const { error: receiptError } = await supabase
         .from("Comprobantes")
@@ -100,7 +103,9 @@ export const reserveProduct = async ({ idProducto, idUsuarioReserva }) => {
           buyer_email: buyerData.email,
           price: product.price,
           product_id: product.id,
-          product_name: product?.Juegos?.name || null
+          product_name: product?.Juegos?.name || null,
+          payment_method: metodoPago,
+          delivery_method: metodoEntrega
         }]);
 
       if (receiptError) {
@@ -108,6 +113,7 @@ export const reserveProduct = async ({ idProducto, idUsuarioReserva }) => {
       }
 
       return { success: true, message: "" };
+
     }
   } else {
     return { success: false, message: "El producto ya fue reservado" };

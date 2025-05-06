@@ -17,6 +17,8 @@ const Reserve = () => {
     const navigate = useNavigate();
     const [receipt, setReceipt] = useState(null);
     const [justBought, setJustBought] = useState(false)
+    const [payment, setPayment] = useState('efectivo'); 
+    const [delivery, setDelivery] = useState('retiro'); 
 
     
     useEffect(() => {
@@ -48,7 +50,7 @@ const Reserve = () => {
     }, [product, user.id, receipt]);
 
     const handleReserve = async () => {
-        const result = await reserveProduct({ idProducto: product.id, idUsuarioReserva: user.id });
+        const result = await reserveProduct({ idProducto: product.id, idUsuarioReserva: user.id, metodoPago: payment, metodoEntrega:delivery });
         setReserveMessage(result.message);      
         if (result.success) {
           const receiptData = await getReceiptFrom({ productId: product.id });
@@ -144,9 +146,20 @@ const Reserve = () => {
                 <div className='reserve-wrapper'>
                   <div className='reserve-window'>
                     <h1>Reservar</h1>
-                    <p>¿Estás seguro que querés reservar el producto?</p>
+                    <p>Seleccionar método de pago:</p>
+                    <div className='radio-wrapper'>
+                    <input type="radio" name="payment" value="efectivo"  checked={payment === 'efectivo'} onChange={(e) => setPayment(e.target.value)}/>
+                    <p>Efectivo</p>
+                    <input type="radio" name="payment" value="transferencia" checked={payment === 'transferencia'} onChange={(e) => setPayment(e.target.value)}/>
+                    <p>Transferencia</p>
+                    </div>
+                    <p>Seleccionar método de envío:</p>
+                    <div className='radio-wrapper'>
+                    <input type="radio" name ="delivery" value="Retiro" checked={delivery === 'retiro'}  onChange={(e) => setDelivery(e.target.value)}/>
+                    <p>Retiro por domicilio del vendedor</p>
+                    </div>
                     {reserveMessage && <p className="reserve-message">{reserveMessage}</p>}
-                    <button className='button' onClick={handleReserve}>Reservar</button>
+                    <button className='button' onClick={handleReserve}>Confirmar reserva</button>
                   </div>
                 </div>
               ) : (
