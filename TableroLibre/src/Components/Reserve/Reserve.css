@@ -92,3 +92,8 @@
     margin-bottom: 10px;
     margin-top: 10px
 }
+
+.successful-load {
+    color: green;
+    font-style: italic;
+}

@@ -213,3 +213,28 @@ export const onSearch= async ({ name, category, duration }) => {
 
 
 
+export const uploadFile = async ({file}) => {
+
+  const fileName = `payment_${Date.now()}.jpg`; 
+  const filePath = `${fileName}`;
+
+  const { data, error } = await supabase
+    .storage
+    .from('payments') 
+    .upload(filePath, file);
+
+  if (error) {
+    console.log(error);
+    return null;
+  }
+
+
+  const { data: publicUrlData } = supabase
+    .storage
+    .from('payments')
+    .getPublicUrl(filePath);
+
+  console.log(publicUrlData.publicUrl);
+};
+
+
