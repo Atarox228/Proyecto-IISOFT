@@ -212,4 +212,46 @@ export const onSearch= async ({ name, category, duration }) => {
 }
 
 
+// Verifica si el usuario ya tiene un CBU registrado
+export const checkUserHasCbu = async (username) => {
+  try {
+    const { data, error } = await supabase
+      .from("perfiles")
+      .select("cbu")
+      .eq("username", username)
+      .single();
+    
+    if (error) {
+      console.error("Error checking CBU:", error);
+      return false;
+    }
+    
+    // Si data.cbu existe y no está vacío, el usuario tiene CBU
+    return !!data.cbu;
+  } catch (error) {
+    console.error("Exception checking CBU:", error);
+    return false;
+  }
+};
+
+// Guarda el CBU del usuario
+export const saveCbu = async (username, cbu) => {
+  try {
+    const { error } = await supabase
+      .from("perfiles")
+      .update({ cbu: cbu })
+      .eq("username", username);
+    
+    if (error) {
+      console.error("Error saving CBU:", error);
+      throw new Error(error.message);
+    }
+    
+    return true;
+  } catch (error) {
+    console.error("Exception saving CBU:", error);
+    throw error;
+  }
+};
+
 

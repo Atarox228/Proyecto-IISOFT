@@ -1,0 +1,82 @@
+.cbu-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+    padding: 20px;
+  }
+  
+  .cbu-form {
+    width: 70%;
+    max-width: 500px;
+    background-color: #fbf1e0;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .cbu-form h3 {
+    color: #0b5a8e;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #0b5a8e;
+  }
+  
+  .cbu-form p {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 16px;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    color: #0b5a8e;
+    margin-bottom: 5px;
+    font-weight: 500;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: transparent;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  
+  .form-group input:focus {
+    border-color: #0b5a8e;
+  }
+  
+  .error-message {
+    color: #f44336;
+    font-size: 14px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  .submit-cbu-btn {
+    width: 100%;
+    background-color: #0099ff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+  }
+  
+  .submit-cbu-btn:hover {
+    background-color: #0077cc;
+  }
