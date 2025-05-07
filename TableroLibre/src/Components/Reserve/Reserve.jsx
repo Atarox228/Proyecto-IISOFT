@@ -169,7 +169,7 @@ const Reserve = () => {
                     <input type="radio" name="payment" value="Transferencia" checked={payment === 'Transferencia'} onChange={(e) => setPayment(e.target.value)}/>
                     <p>Transferencia</p>
                     </div>
-                    <p>Seleccionar método de envío:</p>
+                    <p>Método de envío:</p>
                     <div className='radio-wrapper'>
                     <input type="radio" name ="delivery" value="Retiro" checked={delivery === 'Retiro por domicilio del vendedor'}  onChange={(e) => setDelivery(e.target.value)}/>
                     <p>Retiro por domicilio del vendedor</p>
