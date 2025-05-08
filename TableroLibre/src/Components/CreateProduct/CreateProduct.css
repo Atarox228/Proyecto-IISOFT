@@ -1,14 +1,66 @@
 .formContainer {
     background-color: antiquewhite;
-    width: 70%;
+    width: 50%;
     margin: 0 auto;
-    height: auto;
+    height: fit-content;
     padding: 15px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    margin-top:50px;
+    margin-bottom:50px;
+
+}
+
+.formContainer h3:first-of-type {
+    margin-top: 5px;
+    margin-bottom: 20px;
+    border-bottom: 3px solid #044070; 
+    width: 100%;
 }
 
 form div {
     text-align: left;
 }
+
+.form-item {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+    width: 100%;
+    gap: 10px;
+
+
+}
+
+form p {
+    font-weight: bold;
+}
+
+form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-item input {
+    width: 50%;
+}
+
+.form button {
+
+    background-color: #04a4ff;
+    border: lightblue;
+    border-radius: 5px;    
+    width: 50%;
+    height: 35px;
+}
+
+
 
 form input,
 form textarea {
@@ -17,6 +69,12 @@ form textarea {
     border-bottom: 2px solid #ccc;
     outline: none;
     width: auto;
+}
+
+.textarea-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
 .lined-textarea {

@@ -87,10 +87,9 @@ const CreateProduct = () => {
     <div className="container">
       <div className="formContainer">
         <h3>Crear publicación</h3>
-        <hr />
         <form onSubmit={handleSubmit}>
-          <div>
-            <label>Seleccionar juego:</label>
+          <div className='form-item'>
+            <p>Seleccionar juego:</p>
             <select
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
@@ -101,8 +100,8 @@ const CreateProduct = () => {
               )}
             </select>
           </div>
-          <div>
-            <label>Precio:</label>
+          <div className='form-item'>
+            <p>Precio:</p>
             <input
               placeholder="Ingresá el precio del producto"
               value={precio}
@@ -115,8 +114,8 @@ const CreateProduct = () => {
             />
           </div>
 
-          <div>
-            <label>Ubicación:</label>
+          <div className='form-item'>
+            <p>Ubicación:</p>
             <input
               placeholder="Ingresá la ubicación del producto"
               value={ubicacion}
@@ -125,8 +124,8 @@ const CreateProduct = () => {
             />
           </div>
 
-          <div>
-            <label>Descripción:</label>
+          <div className='textarea-container'>
+            <p>Descripción:</p>
             <textarea
               className="lined-textarea"
               placeholder="Ingresá la descripción del producto"
@@ -136,7 +135,7 @@ const CreateProduct = () => {
               required
             />
           </div>
-          <button className="crearPublicacion" type="submit">Crear</button>
+          <button className="button" type="submit">Crear</button>
         </form>
       </div>
     </div>
