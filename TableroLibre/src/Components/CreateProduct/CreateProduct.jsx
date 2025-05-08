@@ -135,7 +135,7 @@ const CreateProduct = () => {
               required
             />
           </div>
-          <button className="button" type="submit">Crear</button>
+          <button className="create-button" type="submit">Crear</button>
         </form>
       </div>
     </div>

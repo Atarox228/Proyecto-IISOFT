@@ -51,13 +51,14 @@ form {
     width: 50%;
 }
 
-.form button {
+.create-button {
 
     background-color: #04a4ff;
     border: lightblue;
     border-radius: 5px;    
-    width: 50%;
+    width: 40%;
     height: 35px;
+    margin-top: 10px;
 }
 
 
