@@ -3,7 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import NotFound from '../NotFound';
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getProductById, reserveProduct, getReceiptFrom, cancelReserve, confirmSale, uploadFile} from "../../db/queries.jsx";
+import { getProductById, reserveProduct, getReceiptFrom, cancelReserve, confirmSale, uploadFile, savePaymentUrl} from "../../db/queries.jsx";
 
 const Reserve = () => {
     const { isAuthenticated, user } = useAuth();      
@@ -115,15 +115,25 @@ const Reserve = () => {
         const handleFileChange = async (e) => {
           const file = e.target.files[0];
           if (file) {
-            console.log("Archivo seleccionado:", file); 
-            setfile({file: file});          
-
+            console.log("Archivo seleccionado:", file);
+            setfile(file);
+        
             try {
-              await uploadFile({ file });
-            } catch (error) {
-              console.log(error);
+              const publicUrl = await uploadFile({ file });
+              if (publicUrl) {
+                setReceipt((prev) => ({
+                  ...prev,
+                  payment_url: publicUrl
+                }));
+
+
+                
+        
+                await savePaymentUrl({receiptId: receipt.id, publicUrl: publicUrl});
+              }
+            } catch (err) {
+              console.error("Error subiendo o guardando URL:", err);
             }
-          
           }
         };
     
@@ -131,7 +141,7 @@ const Reserve = () => {
           <>
             <div className='receipt-item'>
               <p>CBU:</p>
-              <p>{payment.seller_cbu}</p>
+              <p>{receipt.seller_cbu}</p>
             </div>
             <input
               id="file-upload"
