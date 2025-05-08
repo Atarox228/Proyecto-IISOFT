@@ -276,7 +276,22 @@ export const uploadFile = async ({file}) => {
     .from('payments')
     .getPublicUrl(filePath);
 
-  console.log(publicUrlData.publicUrl);
+
+  return publicUrlData.publicUrl;
+};
+
+export const savePaymentUrl = async ({receiptId, publicUrl}) => {
+  const { data, error } = await supabase
+    .from('Comprobantes')
+    .update({ payment_url: publicUrl })
+    .eq('id', receiptId);
+
+  if (error) {
+    console.error('Error actualizando el comprobante:', error);
+    return null;
+  }
+
+  return data;
 };
 
 
