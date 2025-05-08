@@ -105,7 +105,8 @@ export const reserveProduct = async ({ idProducto, idUsuarioReserva, metodoPago,
           product_id: product.id,
           product_name: product?.Juegos?.name || null,
           payment_method: metodoPago,
-          delivery_method: metodoEntrega
+          delivery_method: metodoEntrega,
+          seller_cbu: sellerData.cbu
         }]);
 
       if (receiptError) {
