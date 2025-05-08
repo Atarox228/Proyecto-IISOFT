@@ -79,6 +79,11 @@
     font-style: italic;
 }
 
+.successful-load {
+    color: green;
+    font-style: italic;
+}
+
 .button {
     background-color: #04a4ff;
     border: lightblue;

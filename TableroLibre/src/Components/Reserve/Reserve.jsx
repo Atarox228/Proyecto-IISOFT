@@ -3,7 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import NotFound from '../NotFound';
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getProductById, reserveProduct, getReceiptFrom, cancelReserve, confirmSale} from "../../db/queries.jsx";
+import { getProductById, reserveProduct, getReceiptFrom, cancelReserve, confirmSale, uploadFile} from "../../db/queries.jsx";
 
 const Reserve = () => {
     const { isAuthenticated, user } = useAuth();      
@@ -19,7 +19,7 @@ const Reserve = () => {
     const [justBought, setJustBought] = useState(false)
     const [payment, setPayment] = useState('Efectivo'); 
     const [delivery, setDelivery] = useState('Retiro por domicilio del vendedor'); 
-
+    const [file, setfile] = useState(null);
     
     useEffect(() => {
         setLoading(true);
@@ -107,16 +107,48 @@ const Reserve = () => {
 
 
     const paymentRender = () => {
-      if (receipt.payment_method != 'Efectivo') {
-        return ( 
+      if (receipt.payment_method !== 'Efectivo') {
+        const handleFileClick = () => {
+          document.getElementById('file-upload').click();
+        };
+    
+        const handleFileChange = async (e) => {
+          const file = e.target.files[0];
+          if (file) {
+            console.log("Archivo seleccionado:", file); 
+            setfile({file: file});          
+
+            try {
+              await uploadFile({ file });
+            } catch (error) {
+              console.log(error);
+            }
+          
+          }
+        };
+    
+        return (
           <>
-          <div className='receipt-item'>
-            <p>CBU:</p>
-            <p>{receipt.seller_cbu}</p>      
-          </div>
-          <button className='button' disabled>Subir comprobante de transferencia</button>
+            <div className='receipt-item'>
+              <p>CBU:</p>
+              <p>{payment.seller_cbu}</p>
+            </div>
+            <input
+              id="file-upload"
+              type="file"
+              style={{ display: 'none' }}
+              onChange={handleFileChange}
+            />
+            {!file ? (
+            <button className='button' onClick={handleFileClick}>
+            Subir comprobante de transferencia
+          </button>
+            ) :(
+              <p className='successful-load'>Comprobante cargado</p>
+            )}
+
           </>
-        )
+        );
       }
 
     };
