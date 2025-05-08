@@ -111,8 +111,8 @@ const Reserve = () => {
         return ( 
           <>
           <div className='receipt-item'>
-            <p>CBU</p>
-            <p>00000000000000000000</p>      
+            <p>CBU:</p>
+            <p>{receipt.seller_cbu}</p>      
           </div>
           <button className='button' disabled>Subir comprobante de transferencia</button>
           </>
