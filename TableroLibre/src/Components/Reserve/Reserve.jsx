@@ -44,6 +44,9 @@ const Reserve = () => {
         if ((product.id_buyer === user.id || product.seller_username === user.username) && !receipt) {
             getReceiptFrom({ productId: product.id }).then((receiptData) => {
                 setReceipt(receiptData);
+                if (receiptData.payment_url) {
+                    setUploadSuccess(true);
+                }
             });
         }
     }, [product, user, receipt]);
@@ -167,6 +170,9 @@ const Reserve = () => {
         }
     };
 
+
+
+
     const renderPaymentDetails = () => {
         if (!receipt || receipt.payment_method === 'Efectivo') {
             return null;
@@ -186,7 +192,7 @@ const Reserve = () => {
                     onChange={handleFileChange}
                 />
                 {fileError && <p className="reserve-message">{fileError}</p>}
-                {!uploadSuccess ? (
+                {!uploadSuccess   ? (
                     <button className='button' onClick={handleFileClick}>
                         Subir comprobante de transferencia
                     </button>
