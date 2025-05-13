@@ -18,9 +18,9 @@ const SearchBar = ({ onSearch }) => {
 
   const durationOptions = [
     { value: '', label: 'Todas' },
-    { value: '15_', label: '0-15' },
-    { value: '15-45', label: '15-45' },
-    { value: '45+', label: '45+' }
+    { value: '15_', label: "0-15'" },
+    { value: '15-45', label: "15'-45'" },
+    { value: '45+', label: "45'+" }
   ];
 
   const ageOptions = [
