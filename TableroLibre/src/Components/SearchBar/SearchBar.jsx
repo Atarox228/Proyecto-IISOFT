@@ -6,20 +6,28 @@ const SearchBar = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedDuration, setSelectedDuration] = useState('');
+  const [selectedAge, setSelectedAge] = useState('');
 
   // Opciones para los selectores
   const categoryOptions = [
-    { value: '', label: 'Todas las categorías' },
+    { value: '', label: 'Todas' },
     { value: 'cartas', label: 'Cartas' },
     { value: 'dados', label: 'Dados' },
     { value: 'tablero', label: 'Tablero' }
   ];
 
   const durationOptions = [
-    { value: '', label: 'Cualquier duración' },
-    { value: '15_', label: 'Menor a 15 minutos' },
-    { value: '15-45', label: 'De 15 a 45 minutos' },
-    { value: '45+', label: 'Mayor a 45 minutos' }
+    { value: '', label: 'Todas' },
+    { value: '15_', label: "0-15'" },
+    { value: '15-45', label: "15'-45'" },
+    { value: '45+', label: "45'+" }
+  ];
+
+  const ageOptions = [
+    { value: '', label: 'Todas' },
+    { value: '8_', label: '0-8' },
+    { value: '8-16', label: '8-16' },
+    { value: '16+', label: '16+' }
   ];
 
   // Manejar el envío del formulario
@@ -30,7 +38,8 @@ const SearchBar = ({ onSearch }) => {
     const searchParams = {
       query: searchQuery,
       category: selectedCategory,
-      duration: selectedDuration
+      duration: selectedDuration,
+      age: selectedAge
     };
     // Llamar a la función de búsqueda pasada como prop
     if (onSearch) onSearch(searchParams);
@@ -66,12 +75,26 @@ const SearchBar = ({ onSearch }) => {
           </div>
           
           <div className="filter-group"> 
-            <label>Duración de juego:</label>
+            <label>Duración:</label>
             <select 
               value={selectedDuration}
               onChange={(e) => setSelectedDuration(e.target.value)}
             >
               {durationOptions.map(option => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="filter-group"> 
+            <label>Edad:</label>
+            <select 
+              value={selectedAge}
+              onChange={(e) => setSelectedAge(e.target.value)}
+            >
+              {ageOptions.map(option => (
                 <option key={option.value} value={option.value}>
                   {option.label}
                 </option>

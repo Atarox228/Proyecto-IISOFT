@@ -61,6 +61,30 @@ const Home = () => {
         });
       }
     }
+
+    //Filtrar por edad
+    if (searchParams.age) {
+      const [min, max] = searchParams.age.split('-');
+      
+      if (max) { // Rango (por ejemplo: 8-16)
+        results = results.filter(product => {
+          const age = parseInt(product.Juegos.age);
+          return age >= parseInt(min) && age <= parseInt(max);
+        });
+      } else if (min.endsWith('+')) { // Más de X (por ejemplo: 16+)
+        const minValue = parseInt(min);
+        results = results.filter(product => {
+          const age = parseInt(product.Juegos.age);
+          return age >= minValue;
+        });
+      } else if (min.endsWith('_')) { // Menos de X (por ejemplo: <8)
+        const minValue = parseInt(min);
+        results = results.filter(product => {
+          const age = parseInt(product.Juegos.age);
+          return age < minValue;
+        });
+      }
+    }
     
     setFilteredProducts(results);
   };
