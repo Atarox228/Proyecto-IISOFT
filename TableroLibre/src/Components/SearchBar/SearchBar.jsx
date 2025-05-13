@@ -6,6 +6,7 @@ const SearchBar = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedDuration, setSelectedDuration] = useState('');
+  const [selectedAge, setSelectedAge] = useState('');
 
   // Opciones para los selectores
   const categoryOptions = [
@@ -22,6 +23,13 @@ const SearchBar = ({ onSearch }) => {
     { value: '45+', label: 'Mayor a 45 minutos' }
   ];
 
+  const ageOptions = [
+    { value: '', label: 'Todas las edades' },
+    { value: '8_', label: 'Menor a 8 años' },
+    { value: '8-16', label: 'De 8 a 16 años' },
+    { value: '16+', label: 'Mayor a 16 años' }
+  ];
+
   // Manejar el envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,7 +38,8 @@ const SearchBar = ({ onSearch }) => {
     const searchParams = {
       query: searchQuery,
       category: selectedCategory,
-      duration: selectedDuration
+      duration: selectedDuration,
+      age: selectedAge
     };
     // Llamar a la función de búsqueda pasada como prop
     if (onSearch) onSearch(searchParams);
@@ -72,6 +81,20 @@ const SearchBar = ({ onSearch }) => {
               onChange={(e) => setSelectedDuration(e.target.value)}
             >
               {durationOptions.map(option => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="filter-group"> 
+            <label>Edad:</label>
+            <select 
+              value={selectedAge}
+              onChange={(e) => setSelectedAge(e.target.value)}
+            >
+              {ageOptions.map(option => (
                 <option key={option.value} value={option.value}>
                   {option.label}
                 </option>
