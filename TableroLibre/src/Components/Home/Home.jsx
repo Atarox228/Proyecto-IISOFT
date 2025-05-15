@@ -85,6 +85,13 @@ const Home = () => {
         });
       }
     }
+
+    //Filtro por cantidad de jugadores
+    if (searchParams.players) {
+      results = results.filter(product => 
+        product.Juegos.players === searchParams.players
+      );
+    }
     
     setFilteredProducts(results);
   };

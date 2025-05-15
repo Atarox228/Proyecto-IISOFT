@@ -294,4 +294,19 @@ export const savePaymentUrl = async ({receiptId, publicUrl}) => {
   return data;
 };
 
+//En esta query se obtienen las cantidad de jugadores del supabase
+export const cantidadJugadoresUnicas = async () => {
+  const {data, error } = await supabase
+    .from('Juegos')
+    .select('players', { count: 'exact'})
+    .order('players', {ascending: true})
+  
+    if (error) {
+      console.error('Error obteniendo cantidad de jugadores', error);
+      return [];
+    }
+
+    const cantidadJugadores = [...new Set(data.map(juego => juego.players))];  // Los 3 puntos "..." convierten el Set de nuevo en un array
+    return cantidadJugadores;
+};
 
