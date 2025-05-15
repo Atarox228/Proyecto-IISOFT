@@ -20,7 +20,30 @@ const Home = () => {
     });
   }, []);
 
+  // Filtrar por mis reservas
+  const filterByReservations = () => {
+    if (!user || !products.length) return;
+    
+    // Filtrar productos donde id_buyer coincide con el ID del usuario
+    const reservedProducts = products.filter(product => product.id_buyer === user.id);
+    setFilteredProducts(reservedProducts);
+  };
+
+  // Filtrar por mis publicaciones
+  const filterByPublications = () => {
+    if (!user || !products.length) return;
+    
+    // Filtrar productos donde seller_username coincide con el username del usuario
+    const reservedProducts = products.filter(product => product.seller_username === user.username);
+    setFilteredProducts(reservedProducts);
+  };
+
+
   const handleSearch = (searchParams) => {
+    // Restablecer el modo de visualización al realizar una búsqueda
+    setViewingReservations(false);
+    setViewingPublications(false);
+    
     // Filtrar productos basados en los parámetros de búsqueda
     let results = [...products];
 
@@ -89,6 +112,8 @@ const Home = () => {
     setFilteredProducts(results);
   };
 
+  
+
   if (!products) {
     return <Loading />;
   }
@@ -110,11 +135,23 @@ const Home = () => {
           </Link>
         </div>
       ) : (
-          <div className="auth-buttons">
-            <Link to="./create">
-              <button className="create-account-btn">Crear Producto</button>
-            </Link>
-          </div>
+        <div className="auth-buttons">
+          <Link to="./create">
+            <button className="create-account-btn">Crear Producto</button>
+          </Link>
+          <button 
+            className="view-mode-btn" 
+            onClick={filterByReservations}
+          >
+            Mis Reservas
+          </button>
+          <button 
+            className="view-mode-btn" 
+            onClick={filterByPublications}
+          >
+            Mis Publicaciones
+          </button>
+        </div>
       )}
       <div className='products-wrapper'>
         <ProductsGrid products={filteredProducts} />

@@ -12,16 +12,32 @@
   }
   
   .create-account-btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #4CAF50;
+    width: 100%;
+    background-color: #0099ff;
     color: white;
-    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    padding: 12px;
+    font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+  }
+
+  .view-mode-btn{
+    width: 100%;
+    background-color: #0099ff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
   }
   
-  .create-account-btn:hover {
-    background-color: #45a049;
+  .create-account-btn:hover, .view-mode-btn:hover {
+    background-color: #0284db;
   }
+
