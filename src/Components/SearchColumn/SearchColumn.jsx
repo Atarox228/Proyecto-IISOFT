@@ -1,5 +1,5 @@
 import './SearchColumn.css';
-import SearchBar from '../SearchBar/SearchBar';
+import SearchBar from '../SearchBar/SearchBar.jsx';
 
 const SearchColumn = ({ onSearch }) => {
     return (

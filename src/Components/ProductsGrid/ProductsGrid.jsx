@@ -1,4 +1,4 @@
-import ProductCard from '../ProductCard/ProductCard';
+import ProductCard from '../ProductCard/ProductCard.jsx';
 import './ProductsGrid.css'
 import {useNavigate} from "react-router-dom";
 

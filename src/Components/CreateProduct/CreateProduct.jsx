@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { createProduct, getIdOfGameByName, getNameOfGames, checkUserHasCbu, saveCbu } from "../../db/queries.jsx";
 import Loading from "../Loading/Loading.jsx";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext.jsx";
 import CbuForm from "../CbuForm/CbuForm.jsx";
 
 const CreateProduct = () => {

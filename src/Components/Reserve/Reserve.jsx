@@ -1,6 +1,6 @@
 import './Reserve.css'
-import { useAuth } from "../context/AuthContext";
-import NotFound from '../NotFound';
+import { useAuth } from "../context/AuthContext.jsx";
+import NotFound from '../NotFound.jsx';
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getProductById, reserveProduct, getReceiptFrom, cancelReserve, confirmSale, uploadFile, savePaymentUrl} from "../../db/queries.jsx";

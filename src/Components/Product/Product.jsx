@@ -6,7 +6,7 @@ import manual from '../../assets/manual.png';
 import receipt from '../../assets/receipt-icon.png';
 import returnIcon from '../../assets/return.png';
 import Loading from "../Loading/Loading.jsx";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext.jsx";
 import supabase from '../../supabase-client.js';
 import { useNavigate} from 'react-router-dom';
 

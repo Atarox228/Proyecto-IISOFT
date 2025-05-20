@@ -5,9 +5,9 @@ import Home from "./Components/Home/Home.jsx";
 import Product from "./Components/Product/Product.jsx";
 import Registro from "./Components/Registro.jsx";
 import Login from "./Components/Login.jsx";
-import ProtectedRoute from './Components/ProtectedRoute';
-import { AuthProvider } from "./Components/context/AuthContext";
-import NotFound from './Components/NotFound';
+import ProtectedRoute from './Components/ProtectedRoute.jsx';
+import { AuthProvider } from "./Components/context/AuthContext.jsx";
+import NotFound from './Components/NotFound.jsx';
 import CreateProduct from "./Components/CreateProduct/CreateProduct.jsx";
 import Reserve from "./Components/Reserve/Reserve.jsx"
 

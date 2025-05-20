@@ -2,7 +2,7 @@ import ProductsGrid from "../ProductsGrid/ProductsGrid.jsx";
 import {useEffect, useState} from "react";
 import {Link, useLocation} from "react-router-dom";
 import {fetchAllProducts} from "../../db/queries.jsx";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext.jsx";
 import "./Home.css";
 import Loading from "../Loading/Loading.jsx";
 import SearchColumn from "../SearchColumn/SearchColumn.jsx";
