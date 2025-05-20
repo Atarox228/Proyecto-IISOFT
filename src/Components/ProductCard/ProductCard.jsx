@@ -42,12 +42,15 @@ const ProductCard = ({product, onClick}) => {
                 <p>{product.Juegos.players}</p>
                 </div>
                 </div>
-                <div className='card-price'>
-                    <h1>$ {product.price}</h1>
-                </div>
-               
-               
-               
+                {product.id_buyer ? (
+                    <div className='card-footer card-status'>
+                        <h1>RESERVADO</h1>
+                    </div>
+                ) : (
+                    <div className='card-footer card-price'>
+                        <h1>$ {product.price}</h1>
+                    </div>
+                )}
                </div>        
             </div>
          </>)
