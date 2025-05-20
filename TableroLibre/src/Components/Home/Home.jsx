@@ -11,6 +11,8 @@ const Home = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const { isAuthenticated, user } = useAuth();
+  const [viewingReservations, setViewingReservations] = useState(false);
+  const [viewingPublications, setViewingPublications] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
