@@ -106,9 +106,10 @@
     margin-bottom: 8px;
 
     font-weight: 500;
-    cursor: pointer;
+    cursor: pointer; /* Cambia el cursor a pointer para indicar que es un botón */
 }
 
+/* Permite que el mouse cambie de formato para que directamente no se pueda seleccionar el boton */
 .botonManual:disabled {
     opacity: 1;
     cursor: not-allowed;
@@ -134,7 +135,7 @@ margin-right: 10px;
     margin-top: 5px;
     height: 90%;
     border-radius: 10px;
-    width: 100%;
+    width: auto; /* es para que ocupen gran parte del fondo, modificable*/
 }
 
 .informacionBasica p {

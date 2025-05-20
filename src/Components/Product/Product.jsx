@@ -61,7 +61,7 @@ const Product = () => {
       return `https://www.youtube.com/embed/${videoId}`;
     }
     
-    // Si no se pudo extraer el ID o el formato no es reconocido, devolver la URL original
+    // Si no se pudo extraer el ID o el formato no es reconocido, devuelvo la URL original
     return url;
   };
 
@@ -123,6 +123,8 @@ const Product = () => {
           <embed src={product.Juegos.user_manual} />
         </div>
       ) : esTutorialVisible ? (
+        // Si el tutorial es un video de YouTube, usa iframe
+        // Si proviene de otra fuente, usa embed
         <div className="manual">
           <button className="botonManual" onClick={() => setEsTutorialVisible(false)} type="button">
             <img src={returnIcon} className='logoManual' alt="volverAProducto"/>
@@ -133,7 +135,7 @@ const Product = () => {
               className="tutorial-video"
               src={getYoutubeEmbedUrl(product.Juegos.tutorial_url)}
               title="Tutorial de juego"
-              frameBorder="0"
+              frameBorder="0" //es para sacarle un borde blanco chiquito que se le genera
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen>
             </iframe>
