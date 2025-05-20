@@ -3,6 +3,7 @@ import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {cancelReserve, getProductById} from "../../db/queries.jsx";
 import manual from '../../assets/manual.png';
+import tutorial from '../../assets/video-icon-32.png';
 import receipt from '../../assets/receipt-icon.png';
 import returnIcon from '../../assets/return.png';
 import Loading from "../Loading/Loading.jsx";
@@ -15,6 +16,7 @@ const Product = () => {
 
   const [product, setProduct] = useState(null);
   const [esManualVisible, setEsManualVisible] = useState(false);
+  const [esTutorialVisible, setEsTutorialVisible] = useState(false);
   const {id} = useParams();  
   const {isAuthenticated, user } = useAuth();  
   const navigate = useNavigate();
@@ -35,6 +37,33 @@ const Product = () => {
   const isProductBought = product.id_buyer !== null;
   const isBuyer = isAuthenticated && user?.id === product.id_buyer;
   const isSeller = isAuthenticated && user?.username === product.seller_username;
+
+  const getYoutubeEmbedUrl = (url) => {
+    // Transformar URLs de YouTube a formato embed
+    // Formato: https://www.youtube.com/embed/VIDEO_ID
+    let videoId = '';
+    
+    // Manejar formatos comunes de URLs de YouTube
+    if (url.includes('youtube.com/watch')) {
+      // Extraer el parámetro v= de URLs como: https://www.youtube.com/watch?v=VIDEO_ID
+      const urlParams = new URL(url).searchParams;
+      videoId = urlParams.get('v');
+    } else if (url.includes('youtu.be/')) {
+      // Extraer de URLs cortas como: https://youtu.be/VIDEO_ID
+      videoId = url.split('youtu.be/')[1];
+      // Eliminar parámetros adicionales si existen
+      if (videoId.includes('?')) {
+        videoId = videoId.split('?')[0];
+      }
+    }
+    
+    if (videoId) {
+      return `https://www.youtube.com/embed/${videoId}`;
+    }
+    
+    // Si no se pudo extraer el ID o el formato no es reconocido, devolver la URL original
+    return url;
+  };
 
   const handleBuy = () => {
     navigate(`/products/${product.id}/reserve`);
@@ -93,6 +122,25 @@ const Product = () => {
           </button>
           <embed src={product.Juegos.user_manual} />
         </div>
+      ) : esTutorialVisible ? (
+        <div className="manual">
+          <button className="botonManual" onClick={() => setEsTutorialVisible(false)} type="button">
+            <img src={returnIcon} className='logoManual' alt="volverAProducto"/>
+            <p>Volver al producto</p>
+          </button>
+          {product.Juegos.tutorial_url.includes('youtube.com') || product.Juegos.tutorial_url.includes('youtu.be') ? (
+            <iframe 
+              className="tutorial-video"
+              src={getYoutubeEmbedUrl(product.Juegos.tutorial_url)}
+              title="Tutorial de juego"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen>
+            </iframe>
+          ) : (
+            <embed src={product.Juegos.tutorial_url} />
+          )}
+        </div>
       ) : (
         <>
           <div className="resumenProducto">
@@ -109,12 +157,22 @@ const Product = () => {
                 <p>Duración estimada: {product.Juegos.duration} min.</p>
                 <p>Cantidad de jugadores: {product.Juegos.players}</p>
                 <p><strong>$ {product.price}</strong></p>
+                {product.Juegos.tutorial_url ? (
+                  <button className="botonManual" onClick={() => setEsTutorialVisible(true)} type="button">
+                    <img className='logoManual' src={tutorial} alt="logoTutorial"/>
+                    <p>Ver tutorial</p>
+                  </button>
+                ) : (
+                  <button className="botonManual" disabled>
+                    <img className='logoManual' src={tutorial} alt="logoTutorial"/>
+                    <p>Tutorial no disponible</p>
+                  </button>
+                )}
                 <button className="botonManual" onClick={() => setEsManualVisible(true)} type="button">
                   <img className='logoManual' src={manual} alt="logoManual"/>
                   <p>Ver instrucciones de juego</p>
-                </button>              
+                </button>
                 {renderReservationButton()}
-
               </div>
             </div>
           </div>

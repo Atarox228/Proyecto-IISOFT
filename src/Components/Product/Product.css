@@ -95,14 +95,23 @@
 
 .botonManual {
     background-color: #04a4ff;
-    border: lightblue;
+    border: none;
     border-radius: 5px;    
     width: 100%;
-    height: 35px;
+    height: 40px;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    margin-bottom: 8px;
+
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.botonManual:disabled {
+    opacity: 1;
+    cursor: not-allowed;
 }
 
 .logoManual {
@@ -121,10 +130,11 @@ margin-right: 10px;
     height: 800px;
 }
 
-.manual embed {
+.manual embed, .manual iframe.tutorial-video {
     margin-top: 5px;
     height: 90%;
     border-radius: 10px;
+    width: 100%;
 }
 
 .informacionBasica p {
