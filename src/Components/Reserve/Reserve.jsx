@@ -21,6 +21,7 @@ const Reserve = () => {
     const [file, setFile] = useState(null);
     const [fileError, setFileError] = useState("");
     const [uploadSuccess, setUploadSuccess] = useState(false);
+    const [imageURL, setImageURL] = useState('');
     
     const navigate = useNavigate();
     
@@ -46,6 +47,7 @@ const Reserve = () => {
                 setReceipt(receiptData);
                 if (receiptData.payment_url) {
                     setUploadSuccess(true);
+                    setImageURL(receiptData.payment_url);
                 }
             });
         }
@@ -170,6 +172,25 @@ const Reserve = () => {
         }
     };
 
+    useEffect(() => {
+        const algo = async () => {
+            const tokenKey = "sb-avckerhnxvluqdbgkksn-auth-token";
+            const tokenString = localStorage.getItem(tokenKey);
+            const token = JSON.parse(tokenString);
+            const enlace = "https://avckerhnxvluqdbgkksn.supabase.co/storage/v1/object/public/payments//ApunteMatricesP1.jpg";
+            const locura = await fetch("https://avckerhnxvluqdbgkksn.supabase.co/storage/v1/object/public/payments//ApunteMatricesP1.jpg", {
+                method : 'GET',
+                headers : { 'Content-type' : 'application/json',
+                    'apikey' : import.meta.env.VITE_SUPABASE_ANON_KEY,
+                    'Authorization' : 'Bearer ' + token },
+            });
+            console.log(locura);
+            console.log(locura.url);
+            console.log(locura.body);
+
+        }
+        algo();
+    }, []);
 
 
 
@@ -243,6 +264,14 @@ const Reserve = () => {
                                     Ver producto asociado
                                 </a>
                             </p>
+
+                            <div>
+                                <img
+                                    src={imageURL}
+                                    alt="Apunte de Matrices"
+                                    style={{ maxWidth: '100%', height: 'auto', border: '1px solid #ddd', borderRadius: '4px', padding: '5px' }}
+                                />
+                            </div>
                             <p>Número de pedido: #{receipt.id}</p>
                             {cancelled ? (
                                 <p className="reserve-message">Entrega confirmada</p>
