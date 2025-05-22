@@ -14,6 +14,7 @@ const Home = () => {
   const [viewingReservations, setViewingReservations] = useState(false);
   const [viewingPublications, setViewingPublications] = useState(false);
   const location = useLocation();
+  const [isResultEmpty, setIsResultEmpty] = useState(false);
 
   useEffect(() => {
     fetchAllProducts().then((data) => {
@@ -117,7 +118,13 @@ const Home = () => {
         product.Juegos.players === searchParams.players
       );
     }
-    
+
+    // Para avisar que no se encontró nada
+    if (results.length === 0) {
+      setIsResultEmpty(true);
+    } else {
+      setIsResultEmpty(false);
+    }
     setFilteredProducts(results);
   };
 
@@ -163,7 +170,7 @@ const Home = () => {
         </div>
       )}
       <div className='products-wrapper'>
-        <ProductsGrid products={filteredProducts} />
+        <ProductsGrid products={filteredProducts} isResultEmpty={isResultEmpty}/>
       </div>
     </div>
   );
