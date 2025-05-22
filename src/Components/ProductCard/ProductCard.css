@@ -67,8 +67,8 @@
     margin-right: 10%;
 }
 
-
-.card-price {
+/* tuve que hacer una clase nueva para generalizar */
+.card-footer {
     height: 10%;
     background-color: #04a4ff;
     width: 100%;
@@ -79,14 +79,29 @@
     border-radius: 0 0 1vh 1vh;
 }
 
+/* color respectivo para cada caso */
+.card-price {
+    background-color: #04a4ff; 
+}
+
+.card-status {
+    background-color: red; 
+}
+
+/* Utilizan distinto bloque debido a que cuando estan juntos se ve mal */
 .card-price > h1 {
+    color: white;
+    font-size: 4vh;
+}
+
+.card-status > h1 {
     color: white;
     font-size: 3vh;
 }
 
 .card-price > h1::first-letter {
     color: #024d82; 
-  }
+}
 
 p {
     font-size: 2vh;
