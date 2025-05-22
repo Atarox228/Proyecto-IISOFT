@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './SearchBar.css';
 import diceIcon from '../../assets/dices-icon.png';
+import search from '../../assets/search.png';
 import {cantidadJugadoresUnicas} from "../../db/queries.jsx";
 import supabase from '../../supabase-client.js';
 
@@ -79,10 +80,13 @@ const SearchBar = ({ onSearch }) => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <button type="submit" className="search-button">Buscar</button>
+          <button type="submit" className="search-button">
+            <img src={search}/>
+          </button>
         </div>
         
         <div className="search-filters">
+          <div className='filter-row'>
           <div className="filter-group">
             <label>Categoría:</label>
             <select 
@@ -110,7 +114,8 @@ const SearchBar = ({ onSearch }) => {
               ))}
             </select>
           </div>
-
+          </div>
+          <div className='filter-row'>   
           <div className="filter-group"> 
             <label>Edad:</label>
             <select 
@@ -124,6 +129,7 @@ const SearchBar = ({ onSearch }) => {
               ))}
             </select>
           </div>
+            
 
           <div className="filter-group"> 
             <label>Jugadores:</label>
@@ -138,6 +144,7 @@ const SearchBar = ({ onSearch }) => {
               ))}
             </select>
           </div>
+          </div> 
 
         </div>
       </form>

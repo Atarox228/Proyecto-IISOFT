@@ -128,43 +128,59 @@ const Home = () => {
   }
 
   return (
-    <div>
-      <SearchColumn onSearch={handleSearch} />
-      
-      {!isAuthenticated ? (
-        <div className="auth-buttons">
-          <Link to="./Registro">
-            <button className="create-account-btn">Registrarse</button>
-          </Link>
-          <Link to="./Login">
-            <button className="create-account-btn">Iniciar Sesión</button>
-          </Link>
-          <Link to="./create">
-            <button className="create-account-btn">Crear Producto</button>
-          </Link>
-        </div>
-      ) : (
-        <div className="auth-buttons">
-          <Link to="./create">
-            <button className="create-account-btn">Crear Producto</button>
-          </Link>
-          <button 
-            className="view-mode-btn" 
-            onClick={filterByReservations}
-          >
-            Mis Reservas
-          </button>
-          <button 
-            className="view-mode-btn" 
-            onClick={filterByPublications}
-          >
-            Mis Publicaciones
-          </button>
-        </div>
+    <div className="home-wrapper">
+      <div className="dashboard-wrapper">
+        {!isAuthenticated ? (
+          <div className="auth-buttons">
+            <div className="button-group">
+            <Link to="./Registro">
+              <button className="view-mode-btn">Registrarse</button>
+            </Link>
+            <Link to="./Login">
+             <button className="view-mode-btn">Iniciar Sesión</button>
+            </Link>
+            </div>
+              <div className="button-group">
+            <Link to="./create">
+             <button className="view-mode-btn">Crear Producto</button>
+            </Link>
+            </div>
+          </div>
+        ) : (
+          <div className="auth-buttons">            
+            <div className="button-group">
+            <button 
+             className="view-mode-btn" 
+             onClick={filterByReservations}
+            >
+             Mis Reservas
+            </button>
+            <button 
+             className="view-mode-btn" 
+             onClick={filterByPublications}
+            >
+             Mis Publicaciones
+            </button>
+            </div>
+            <div className="button-group">
+
+            <Link to="./create">
+             <button className="view-mode-btn">Crear Producto</button>
+            </Link>
+            </div>
+          </div>
       )}
-      <div className='products-wrapper'>
-        <ProductsGrid products={filteredProducts} />
       </div>
+      <div className="filter-and-table">
+        <SearchColumn onSearch={handleSearch} />  
+          <div className='products-wrapper'>
+            <ProductsGrid products={filteredProducts} />
+          </div>
+      </div>
+      
+      
+      
+
     </div>
   );
 }

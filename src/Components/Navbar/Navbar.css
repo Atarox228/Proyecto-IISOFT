@@ -1,16 +1,14 @@
 .navbar-wrapper {
-  height: 10%;
+  height: 5%;
   width: 20%;
   flex-direction: column;
   display: flex;
   align-items: center;  
   justify-content: center;
-  margin-bottom: 1%;
 }
 
 .logo {
   width: 50%;
   height: 50%;
-  z-index: 10;
   position: relative; 
 }
