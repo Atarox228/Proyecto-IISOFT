@@ -21,6 +21,8 @@ const Reserve = () => {
     const [file, setFile] = useState(null);
     const [fileError, setFileError] = useState("");
     const [uploadSuccess, setUploadSuccess] = useState(false);
+    const [paymentURL, setPaymentURL] = useState('');
+    const [receiptButtonClicked, setReceiptButtonClicked] = useState(false);
     
     const navigate = useNavigate();
     
@@ -46,6 +48,7 @@ const Reserve = () => {
                 setReceipt(receiptData);
                 if (receiptData.payment_url) {
                     setUploadSuccess(true);
+                    setPaymentURL(receiptData.payment_url);
                 }
             });
         }
@@ -170,8 +173,23 @@ const Reserve = () => {
         }
     };
 
-
-
+    // Botón que permite ver el comprobante si existe y sino no hace nada.
+    const seeReceiptButton = () => {
+        if (paymentURL !== '') {
+            return (
+                <>
+                    <button className="button" onClick={() => setReceiptButtonClicked(true)}>
+                        Ver comprobante de transferencia
+                    </button>
+                </>
+            )
+        }
+        return (
+            <>
+                <p className="reserve-message">Comprobante no disponible</p>
+            </>
+        )
+    }
 
     const renderPaymentDetails = () => {
         if (!receipt || receipt.payment_method === 'Efectivo') {
@@ -228,34 +246,50 @@ const Reserve = () => {
     if (isSeller && isReserved) {
         return (
             <div className='reserve-wrapper'>
-                <div className='reserved-window'>
-                    <h1>Comprobante</h1>               
-                    {receipt ? (
-                        <>
-                            <p>Mail interesado: {receipt.buyer_email}</p>
-                            <p>Nombre del producto: {receipt.product_name}</p>
-                            <p>
-                                <a 
-                                    href={`/products/${product.id}`} 
-                                    target="_blank" 
-                                    rel="noopener noreferrer"
-                                >
-                                    Ver producto asociado
-                                </a>
-                            </p>
-                            <p>Número de pedido: #{receipt.id}</p>
-                            {cancelled ? (
-                                <p className="reserve-message">Entrega confirmada</p>
-                            ) : (
-                                <button className='button' onClick={handleConfirmSale}>
-                                    Confirmar entrega
-                                </button>
-                            )}
-                        </>
-                    ) : (
-                        <p>Cargando comprobante...</p>
-                    )}
-                </div>
+                { receiptButtonClicked ? (
+                    <div className="containerReceiptImage">
+                        <button className="button" onClick={() => setReceiptButtonClicked(false)} type="button">
+                            Volver
+                        </button>
+                        <img
+                            src={paymentURL}
+                            alt="Comprobante de transferencia"
+                            className="receiptImage"
+                        />
+                    </div>
+                ) : (
+                    <div className='reserved-window'>
+                        <h1>Comprobante</h1>
+                        {receipt ? (
+                            <>
+                                <p>Mail interesado: {receipt.buyer_email}</p>
+                                <p>Nombre del producto: {receipt.product_name}</p>
+                                <p>
+                                    <a
+                                        href={`/products/${product.id}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        Ver producto asociado
+                                    </a>
+                                </p>
+
+                                <p>Número de pedido: #{receipt.id}</p>
+
+                                {seeReceiptButton()}
+                                {cancelled ? (
+                                    <p className="reserve-message">Entrega confirmada</p>
+                                ) : (
+                                    <button className='button' onClick={handleConfirmSale}>
+                                        Confirmar entrega
+                                    </button>
+                                )}
+                            </>
+                        ) : (
+                            <p>Cargando comprobante...</p>
+                        )}
+                    </div>
+                )}
             </div>
         );
     }
