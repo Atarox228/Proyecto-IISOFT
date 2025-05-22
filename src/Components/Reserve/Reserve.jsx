@@ -21,7 +21,8 @@ const Reserve = () => {
     const [file, setFile] = useState(null);
     const [fileError, setFileError] = useState("");
     const [uploadSuccess, setUploadSuccess] = useState(false);
-    const [imageURL, setImageURL] = useState('');
+    const [paymentURL, setPaymentURL] = useState('');
+    const [receiptButtonClicked, setReceiptButtonClicked] = useState(false);
     
     const navigate = useNavigate();
     
@@ -47,7 +48,7 @@ const Reserve = () => {
                 setReceipt(receiptData);
                 if (receiptData.payment_url) {
                     setUploadSuccess(true);
-                    setImageURL(receiptData.payment_url);
+                    setPaymentURL(receiptData.payment_url);
                 }
             });
         }
@@ -172,27 +173,25 @@ const Reserve = () => {
         }
     };
 
-    useEffect(() => {
-        const algo = async () => {
-            const tokenKey = "sb-avckerhnxvluqdbgkksn-auth-token";
-            const tokenString = localStorage.getItem(tokenKey);
-            const token = JSON.parse(tokenString);
-            const enlace = "https://avckerhnxvluqdbgkksn.supabase.co/storage/v1/object/public/payments//ApunteMatricesP1.jpg";
-            const locura = await fetch("https://avckerhnxvluqdbgkksn.supabase.co/storage/v1/object/public/payments//ApunteMatricesP1.jpg", {
-                method : 'GET',
-                headers : { 'Content-type' : 'application/json',
-                    'apikey' : import.meta.env.VITE_SUPABASE_ANON_KEY,
-                    'Authorization' : 'Bearer ' + token },
-            });
-            console.log(locura);
-            console.log(locura.url);
-            console.log(locura.body);
-
+    // Botón que permite ver el comprobante si existe y sino no hace nada.
+    const seeReceiptButton = () => {
+        if (paymentURL !== '') {
+            return (
+                <>
+                    <button className="button" onClick={() => setReceiptButtonClicked(true)}>
+                        Ver comprobante de transferencia
+                    </button>
+                </>
+            )
         }
-        algo();
-    }, []);
-
-
+        return (
+            <>
+                <button className="button">
+                    Comprobante no disponible
+                </button>
+            </>
+        )
+    }
 
     const renderPaymentDetails = () => {
         if (!receipt || receipt.payment_method === 'Efectivo') {
@@ -249,42 +248,50 @@ const Reserve = () => {
     if (isSeller && isReserved) {
         return (
             <div className='reserve-wrapper'>
-                <div className='reserved-window'>
-                    <h1>Comprobante</h1>               
-                    {receipt ? (
-                        <>
-                            <p>Mail interesado: {receipt.buyer_email}</p>
-                            <p>Nombre del producto: {receipt.product_name}</p>
-                            <p>
-                                <a 
-                                    href={`/products/${product.id}`} 
-                                    target="_blank" 
-                                    rel="noopener noreferrer"
-                                >
-                                    Ver producto asociado
-                                </a>
-                            </p>
+                { receiptButtonClicked ? (
+                    <div className="containerReceiptImage">
+                        <button className="button" onClick={() => setReceiptButtonClicked(false)} type="button">
+                            Volver
+                        </button>
+                        <img
+                            src={paymentURL}
+                            alt="Comprobante de transferencia"
+                            className="receiptImage"
+                        />
+                    </div>
+                ) : (
+                    <div className='reserved-window'>
+                        <h1>Comprobante</h1>
+                        {receipt ? (
+                            <>
+                                <p>Mail interesado: {receipt.buyer_email}</p>
+                                <p>Nombre del producto: {receipt.product_name}</p>
+                                <p>
+                                    <a
+                                        href={`/products/${product.id}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        Ver producto asociado
+                                    </a>
+                                </p>
 
-                            <div>
-                                <img
-                                    src={imageURL}
-                                    alt="Apunte de Matrices"
-                                    style={{ maxWidth: '100%', height: 'auto', border: '1px solid #ddd', borderRadius: '4px', padding: '5px' }}
-                                />
-                            </div>
-                            <p>Número de pedido: #{receipt.id}</p>
-                            {cancelled ? (
-                                <p className="reserve-message">Entrega confirmada</p>
-                            ) : (
-                                <button className='button' onClick={handleConfirmSale}>
-                                    Confirmar entrega
-                                </button>
-                            )}
-                        </>
-                    ) : (
-                        <p>Cargando comprobante...</p>
-                    )}
-                </div>
+                                <p>Número de pedido: #{receipt.id}</p>
+
+                                {seeReceiptButton()}
+                                {cancelled ? (
+                                    <p className="reserve-message">Entrega confirmada</p>
+                                ) : (
+                                    <button className='button' onClick={handleConfirmSale}>
+                                        Confirmar entrega
+                                    </button>
+                                )}
+                            </>
+                        ) : (
+                            <p>Cargando comprobante...</p>
+                        )}
+                    </div>
+                )}
             </div>
         );
     }
