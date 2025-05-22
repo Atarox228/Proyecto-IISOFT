@@ -1,6 +1,6 @@
 import ProductsGrid from "../ProductsGrid/ProductsGrid.jsx";
 import {useEffect, useState} from "react";
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {fetchAllProducts} from "../../db/queries.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import "./Home.css";
@@ -10,7 +10,7 @@ import SearchColumn from "../SearchColumn/SearchColumn.jsx";
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, logout } = useAuth();
   const [viewingReservations, setViewingReservations] = useState(false);
   const [viewingPublications, setViewingPublications] = useState(false);
   const location = useLocation();
@@ -121,7 +121,16 @@ const Home = () => {
     setFilteredProducts(results);
   };
 
-  
+  const manejarCerrarSesion = () => {
+    if (logout) {
+      logout();
+    }
+    // Limpiar el localStorage
+    localStorage.clear();
+    // Recargar la página
+    window.location.reload();
+
+  };
 
   if (!products) {
     return <Loading />;
@@ -159,6 +168,17 @@ const Home = () => {
             onClick={filterByPublications}
           >
             Mis Publicaciones
+          </button>
+        </div>
+      )}
+      {/* Tuve que ponerlo aparte para poder ubicarlo en otro lugar, de esta manera es independiente */}
+      {isAuthenticated && (
+        <div className="logout-container">
+          <button 
+            className="logout-btn" 
+            onClick={manejarCerrarSesion}
+          >
+            Cerrar Sesión
           </button>
         </div>
       )}
