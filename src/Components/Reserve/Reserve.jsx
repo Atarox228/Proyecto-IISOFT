@@ -186,9 +186,7 @@ const Reserve = () => {
         }
         return (
             <>
-                <button className="button">
-                    Comprobante no disponible
-                </button>
+                <p className="reserve-message">Comprobante no disponible</p>
             </>
         )
     }
