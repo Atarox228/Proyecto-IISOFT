@@ -310,3 +310,27 @@ export const cantidadJugadoresUnicas = async () => {
     return cantidadJugadores;
 };
 
+// Función para actualizar un producto
+export const updateProduct = async (productData) => {
+  try {
+    const { data, error } = await supabase
+      .from('Productos')
+      .update({
+        location: productData.location,
+        price: productData.price,
+        description: productData.description
+      })
+      .eq('id', productData.id)
+      .select();
+
+    if (error) {
+      console.error('Error updating product:', error);
+      throw error;
+    }
+
+    return data[0];
+  } catch (error) {
+    console.error('Error in updateProduct:', error);
+    throw error;
+  }
+};

@@ -1,4 +1,5 @@
 import './App.css'
+import EditProduct from './Components/EditProduct/EditProduct.jsx';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./Components/Layout/Layout.jsx";
 import Home from "./Components/Home/Home.jsx";
@@ -29,6 +30,7 @@ function App() {
                 {/* Coloca aquí tus rutas que requieren autenticación */}
                 {/* Por ejemplo: <Route path="/profile" element={<Profile />} /> */}                
                 <Route path="products/:id/reserve" element={<Reserve/>} />
+                <Route path="/products/:id/edit" element={<EditProduct />} />
                 <Route path="create" element={<CreateProduct />}/>
               </Route>
 
