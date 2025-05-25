@@ -4,6 +4,10 @@ import {Link, useLocation, useNavigate} from "react-router-dom";
 import {fetchAllProducts} from "../../db/queries.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import "./Home.css";
+import logout from '../../assets/log-out.png'
+import signin from '../../assets/sign-in.png'
+import add from '../../assets/add-icon.png'
+import signup from '../../assets/sign-up.png'
 import Loading from "../Loading/Loading.jsx";
 import SearchColumn from "../SearchColumn/SearchColumn.jsx";
 
@@ -144,54 +148,76 @@ const Home = () => {
   }
 
   return (
-    <div>
-      <SearchColumn onSearch={handleSearch} />
-      
-      {!isAuthenticated ? (
-        <div className="auth-buttons">
-          <Link to="./Registro">
-            <button className="create-account-btn">Registrarse</button>
-          </Link>
-          <Link to="./Login">
-            <button className="create-account-btn">Iniciar Sesión</button>
-          </Link>
-          <Link to="./create">
-            <button className="create-account-btn">Crear Producto</button>
-          </Link>
-        </div>
-      ) : (
-        <div className="auth-buttons">
-          <Link to="./create">
-            <button className="create-account-btn">Crear Producto</button>
-          </Link>
-          <button 
-            className="view-mode-btn" 
-            onClick={filterByReservations}
-          >
-            Mis Reservas
-          </button>
-          <button 
-            className="view-mode-btn" 
-            onClick={filterByPublications}
-          >
-            Mis Publicaciones
-          </button>
-        </div>
+    <div className="home-wrapper">
+      <div className="dashboard-wrapper">
+        {!isAuthenticated ? (
+          <div className="auth-buttons">
+            <div className="button-group">
+            <Link to="./Registro">
+              
+              <button className="view-mode-btn">
+                <img src={signup}/>
+                Registrarse
+                </button>
+            </Link>
+            <Link to="./Login">
+             <button className="view-mode-btn">Iniciar Sesión</button>
+            </Link>
+            </div>
+              <div className="button-group">
+            <Link to="./create">
+             <button className="view-mode-btn">
+              <img src={add}/>
+              Crear Producto
+              </button>
+            </Link>
+            </div>
+          </div>
+        ) : (
+          <div className="auth-buttons">            
+            <div className="button-group">
+            <button 
+             className="view-mode-btn" 
+             onClick={filterByReservations}
+            >
+             Mis Reservas
+            </button>
+            <button 
+             className="view-mode-btn" 
+             onClick={filterByPublications}
+            >
+             Mis Publicaciones
+            </button>
+            </div>
+            <div className="button-group">
+
+            <Link to="./create">
+             <button className="view-mode-btn">Crear Producto</button>
+            </Link>
+            {isAuthenticated && (
+              <div className="logout-container">
+                <button 
+                className="logout-btn" 
+                onClick={manejarCerrarSesion}
+                >
+                 Cerrar Sesión
+                </button>
+              </div>
       )}
-      {/* Tuve que ponerlo aparte para poder ubicarlo en otro lugar, de esta manera es independiente */}
-      {isAuthenticated && (
-        <div className="logout-container">
-          <button 
-            className="logout-btn" 
-            onClick={manejarCerrarSesion}
-          >
-            Cerrar Sesión
-          </button>
-        </div>
+            </div>
+          </div>
       )}
-      <div className='products-wrapper'>
-        <ProductsGrid products={filteredProducts} isResultEmpty={isResultEmpty}/>
       </div>
+      <div className="filter-and-table">
+        <SearchColumn onSearch={handleSearch} />  
+          <div className='products-wrapper'>
+            <ProductsGrid products={filteredProducts} />
+          </div>
+      </div>
+      
+      
+      
+
     </div>
   );
 }

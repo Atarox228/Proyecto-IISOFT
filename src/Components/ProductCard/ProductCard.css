@@ -9,7 +9,7 @@
 }
 
 .card {
-    width: 13vw;
+    width: 13.7vw;
     height: 45vh;
     display: flex;
     flex-direction: column;
@@ -21,6 +21,7 @@
     justify-content: space-between;
     background-color: #fbf1e0;
     border-radius: 1vh; 
+    border: 2px solid #024d82 ;
 }
 
 .card-header {

@@ -5,13 +5,14 @@
   flex-direction: column;
   align-items: center;
   border-radius: 8px;
-  background-color: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 0px;
-  margin-top: -120px;
-  margin-left: 300px;
-  z-index: 1;
-  position: relative; 
+  background-color: #fbf1e0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
+  border: 2px solid #024d82;
+  padding: 5px;
+  height: fit-content;
+  padding-bottom: 50px;
+  padding-top: 50px;
+  
 }
 
 .search-logo {
@@ -26,7 +27,7 @@
 }
 
 .search-field {
-  width: 100%;
+  width: 95%;
   display: flex;
   margin-bottom: 15px;
 }
@@ -34,11 +35,12 @@
 .search-field input {
   flex: 1;
   padding: 10px 15px;
-  border: 1px solid #ccc;
+  border: 2px solid #0b5a8e;
   border-radius: 4px 0 0 4px;
   font-size: 16px;
-  background-color: white;
+  background-color: #fbf1e0;
   color: #0b5a8e;
+  width: 70%;
 }
 
 .search-field input:focus {
@@ -48,30 +50,44 @@
 
 .search-button {
   padding: 10px 20px;
-  background-color: #0099ff;
-  color: white;
-  border: none;
+  background-color: #fbf1e0;
+  color: #024d82;
+  border: 2px solid #024d82;
   border-radius: 0 4px 4px 0;
   cursor: pointer;
   font-size: 16px;
   font-weight: bold;
   transition: background-color 0.3s;
+  width: 10%;
+  justify-content: center;
+  justify-items: center;
+  display: flex;
 }
 
 .search-button:hover {
-  background-color: #0077cc;
+  background-color: #b78048;
+}
+
+.search-button img {
+  width: 20px;
+  height: 100%;
 }
 
 .search-filters {
   width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 5px;
+  justify-content: space-between;  
+  align-items: center;
 }
 
 .filter-group {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
 }
 
 .filter-group label {
@@ -83,16 +99,28 @@
 
 .filter-group select {
   padding: 8px 10px;
-  border: 1px solid #ccc;
+  border: 2px solid #0b5a8e;
   border-radius: 4px;
-  background-color: white;
+  background-color: #fbf1e0;
   font-size: 14px;
   color: #0b5a8e;
+  width: 100%;
+
+}
+
+.filter-row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  justify-content: space-around;
+  gap: 10px;
 }
 
 .filter-group select:focus {
   outline: none;
   border-color: #0b5a8e;
+
 }
 
 @media (max-width: 768px) {

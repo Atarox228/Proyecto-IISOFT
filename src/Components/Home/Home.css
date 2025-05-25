@@ -1,43 +1,98 @@
 .products-wrapper {
-    position: absolute;
-    left: 15vw;
-    width: 70vw;
-}
-
-.auth-buttons {
-    position: absolute;
-    top: 50px;
-    left: 230px;
+    width: 64%;
+    height: 700px;
     display: flex;
-    gap: 10px;
+    flex-direction: column;
+    justify-items: start;
+    justify-content: start;
+    align-items: start;
 }
+.auth-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 60%;
+
+
+  }
   
-.create-account-btn,.view-mode-btn,.logout-btn {
-  width: auto;
-  background-color: #0099ff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 12px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  margin-top: 10px;
-}
+  .create-account-btn,.view-mode-btn {
+    width: auto;
+    background-color: #fbf1e0;
+    color: #024d82;
+    border: 2px solid #024d82;
+    border-radius: 4px;
+    padding: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .logout-btn {
+   width: auto;
+    background-color: #fbf1e0;
+    color: #024d82;
+    border: 2px solid #024d82;
+    border-radius: 4px;
+    padding: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+  }
+
+  .logout-btn:hover {
+    background-color: #e60000;
+  }
   
-.create-account-btn:hover, .view-mode-btn:hover {
-  background-color: #0284db;
-}
+  .create-account-btn:hover, .view-mode-btn:hover {
+    background-color: #b78048;
+  }
 
-/* Esto me permite ponerlo en otro lugar */
+  .view-mode-btn img {
+    width: 25px;
+  }
 
-.logout-container {
-  position: absolute;
-  top: 50px;
-  right: 50px;
-}
+  .home-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: -45px;
+    justify-content: start;
+    justify-items: start;
+  }
 
-.logout-btn:hover {
-  background-color: #e60000;
-}
+  .button-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    width: 40%;
+  }
 
+
+  .filter-and-table {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+  }
+
+  .products-wrapper {
+    display: flex;
+    flex-direction: row;
+    
+  }
+
+ .dashboard-wrapper {
+  width: 100%;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+ }

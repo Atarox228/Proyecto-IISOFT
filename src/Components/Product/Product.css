@@ -1,5 +1,5 @@
 .container {
-    width: 80%;
+    width: 65%;
     height: 90%;
     display: inline;
     overflow: visible;
@@ -58,6 +58,8 @@
     flex-direction: column;
     align-items: start;
     justify-content: space-between;
+               
+    border: 2px solid #024d82;
 
 }
 
@@ -70,7 +72,9 @@
     background-color: #fbf1e0;
     height: 40%;
     overflow-y: scroll; 
-    overflow-x: hidden;     
+    overflow-x: hidden;   
+               
+    border: 2px solid #024d82;  
 }
 
 .seccion::-webkit-scrollbar-track{
@@ -85,7 +89,7 @@
 .textoSeccion {
     font-size: 25px;
     text-align: start;
-    margin: 0px;
+    margin: 0px;    
 }
 
 .nombreVendedor {
@@ -94,26 +98,22 @@
 }
 
 .botonManual {
-    background-color: #04a4ff;
-    border: none;
+    background-color: #fbf1e0;
+    color: #024d82;
+    border: 2px solid #024d82;
     border-radius: 5px;    
     width: 100%;
-    height: 40px;
+    height: 35px;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    margin-bottom: 8px;
-
-    font-weight: 500;
-    cursor: pointer; /* Cambia el cursor a pointer para indicar que es un botón */
+    transition: background-color 0.3s;
 }
 
-/* Permite que el mouse cambie de formato para que directamente no se pueda seleccionar el boton */
-.botonManual:disabled {
-    opacity: 1;
-    cursor: not-allowed;
-}
+.botonManual:hover {
+    background-color: #b78048;
+  }
 
 .logoManual {
 height: 80%;
@@ -131,11 +131,10 @@ margin-right: 10px;
     height: 800px;
 }
 
-.manual embed, .manual iframe.tutorial-video {
+.manual embed {
     margin-top: 5px;
     height: 90%;
     border-radius: 10px;
-    width: auto; /* es para que ocupen gran parte del fondo, modificable*/
 }
 
 .informacionBasica p {
