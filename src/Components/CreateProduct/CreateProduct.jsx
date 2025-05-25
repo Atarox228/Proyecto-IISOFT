@@ -115,7 +115,7 @@ const CreateProduct = () => {
           </div>
 
           <div className='form-item'>
-            <p>Ubicación:</p>
+            <p>Direccion:</p>
             <input
               placeholder="Ingresá la ubicación del producto"
               value={ubicacion}
