@@ -159,11 +159,8 @@ p {
 }
 
 .back-face {
-  background-color: #024d82;
+  background-image: url('../../assets/card-reverse.png');
+  background-size: cover;
   color: white;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2vh;
-  border-radius: 1vh;
 }

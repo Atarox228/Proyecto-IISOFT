@@ -3,10 +3,12 @@ import './ProductCard.css';
 import cards from '../../assets/cards-icon.png';
 import dices from '../../assets/dices-icon.png';
 import board from '../../assets/board-icon.png';
+import reverse from '../../assets/card-reverse.png';
 import location from '../../assets/location.png';
 import age from '../../assets/age.png';
 import duration from '../../assets/duration.png';
 import players from '../../assets/players.png';
+
 
 const ProductCard = ({ product, onClick }) => {
   const [girada, setGirada] = useState(false);  
@@ -69,7 +71,7 @@ const ProductCard = ({ product, onClick }) => {
 
         <div className="card-back">
           <div className="card back-face">
-            <h2>A DISEÑAR</h2>
+            
           </div>
         </div>
       </div>
