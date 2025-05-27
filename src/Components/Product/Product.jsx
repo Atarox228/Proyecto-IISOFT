@@ -6,7 +6,7 @@ import manual from '../../assets/manual.png';
 import tutorial from '../../assets/video-icon-32.png';
 import receipt from '../../assets/receipt-icon.png';
 import returnIcon from '../../assets/return.png';
-import editar from '../../assets/return.png';
+import editar from '../../assets/edit.png';
 import Loading from "../Loading/Loading.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import supabase from '../../supabase-client.js';
