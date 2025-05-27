@@ -11,10 +11,7 @@ Instalación y ejecución
 
 ```
 git clone https://github.com/Atarox228/Proyecto-IISOFT.git
-cd proyecto-IISOFT
-cd tablerolibre
+cd Proyecto-IISOFT
 npm install
 npm run dev
 ```
-
-prueba
