@@ -1,5 +1,9 @@
+import loading from '../../assets/loading.gif';
+
+
+
 const Loading = () => {
-  return (<div>Cargando...</div>);
+  return (<img src={loading}/>);
 }
 
 export default Loading;
