@@ -27,8 +27,9 @@ const ProductCard = ({ product, onClick }) => {
   }, []);
 
   return (
-    <div className="productcard-wrapper" onClick={onClick}>
-      <div className={`card-container ${girada ? 'girada' : ''}`}>
+  <div className="productcard-wrapper" onClick={onClick}>
+    <div className="card-container">
+      <div className={`card-inner ${girada ? 'girada' : ''}`}>
         <div className="card-front">
           <div className="card">
             <div className="card-header">
@@ -67,14 +68,16 @@ const ProductCard = ({ product, onClick }) => {
         </div>
 
         <div className="card-back">
-          
           <div className="card back-face">
             <h2>A DISEÑAR</h2>
           </div>
         </div>
       </div>
     </div>
+    </div>
+    
   );
+
 };
 
 export default ProductCard;
