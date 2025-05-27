@@ -4,6 +4,7 @@ import NotFound from '../NotFound.jsx';
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getProductById, reserveProduct, getReceiptFrom, cancelReserve, confirmSale, uploadFile, savePaymentUrl} from "../../db/queries.jsx";
+import Loading from '../Loading/Loading.jsx';
 
 const Reserve = () => {
     const { isAuthenticated, user } = useAuth();      
@@ -226,7 +227,7 @@ const Reserve = () => {
     }
 
     if (loading) {
-        return <p>Cargando...</p>;
+        return <Loading />;
     }
     
     if (error || !product) {
