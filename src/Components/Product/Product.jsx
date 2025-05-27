@@ -3,7 +3,7 @@ import {Link, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {cancelReserve, getProductById} from "../../db/queries.jsx";
 import manual from '../../assets/manual.png';
-import tutorial from '../../assets/video-icon-32.png';
+import tutorial from '../../assets/tutorial.png';
 import receipt from '../../assets/receipt-icon.png';
 import returnIcon from '../../assets/return.png';
 import editar from '../../assets/edit.png';
