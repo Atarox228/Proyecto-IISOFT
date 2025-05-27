@@ -1,110 +1,160 @@
-.productcard-wrapper {
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: visible; /*Permite que el contenido se desborde*/
-    width: 100%;
-    height: 100%;
+    .productcard-wrapper {
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: visible; /*Permite que el contenido se desborde*/
+        width: 100%;
+        height: 100%;
+    }
+
+    
+
+    .card {
+        width: 13.7vw;
+        height: 45vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-size: 100%;        
+        background-position: center;    
+        background-repeat: no-repeat;
+        justify-content: space-between;
+        background-color: #fbf1e0;
+        border-radius: 1vh; 
+        border: 2px solid #024d82 ;
+    }
+
+    .card-header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;  
+        width: 98%;
+        height: 15%;
+    }
+    .category-icon {
+        height: 80%;
+        aspect-ratio: 1;
+    }
+
+    .card-image {
+        aspect-ratio: 1;
+        height: 45%;
+        border-radius: 10%;
+    }
+
+    .card-characteristics {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        height: 28%;
+        width: 80%;
+    }
+
+
+    .card-detail {
+        height: 25%;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        align-items: center;
+    }
+
+    .detail-icon {
+        height: 80%;
+        aspect-ratio: 1;
+        margin-right: 10%;
+    }
+
+    /* tuve que hacer una clase nueva para generalizar */
+    .card-footer {
+        height: 10%;
+        background-color: #04a4ff;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        padding-bottom: 2%;
+        border-radius: 0 0 1vh 1vh;
+    }
+
+    /* color respectivo para cada caso */
+    .card-price {
+        background-color: #04a4ff; 
+    }
+
+    .card-status {
+        background-color: red; 
+    }
+
+    /* Utilizan distinto bloque debido a que cuando estan juntos se ve mal */
+    .card-price > h1 {
+        color: white;
+        font-size: 4vh;
+    }
+
+    .card-status > h1 {
+        color: white;
+        font-size: 3vh;
+    }
+
+    .card-price > h1::first-letter {
+        color: #024d82; 
+    }
+
+    p {
+        font-size: 2vh;
+        margin: 0.5vh 0;
+    }
+
+.card-container {
+  width: 13.7vw;
+  height: 45vh;
+  perspective: 1000px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s ease;
 }
 
-.card {
-    width: 13.7vw;
-    height: 45vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-size: 100%;        
-    background-position: center;    
-    background-repeat: no-repeat;
-    justify-content: space-between;
-    background-color: #fbf1e0;
-    border-radius: 1vh; 
-    border: 2px solid #024d82 ;
+.card-container {
+  transform: rotateY(0deg);
 }
 
-.card-header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;  
-    width: 98%;
-    height: 15%;
-}
-.category-icon {
-    height: 80%;
-    aspect-ratio: 1;
+.card-container.girada {
+  transform: rotateY(180deg);
 }
 
-.card-image {
-    aspect-ratio: 1;
-    height: 45%;
-    border-radius: 10%;
+.card-front, .card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  top: 0;
+  left: 0;
 }
 
-.card-characteristics {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    height: 28%;
-    width: 80%;
+.card-back {
+  transform: rotateY(0deg); 
+  z-index: 2;
+}
+
+.card-front {
+  transform: rotateY(180deg);
+  z-index: 1;
 }
 
 
-.card-detail {
-    height: 25%;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-    align-items: center;
-}
 
-.detail-icon {
-    height: 80%;
-    aspect-ratio: 1;
-    margin-right: 10%;
-}
-
-/* tuve que hacer una clase nueva para generalizar */
-.card-footer {
-    height: 10%;
-    background-color: #04a4ff;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    padding-bottom: 2%;
-    border-radius: 0 0 1vh 1vh;
-}
-
-/* color respectivo para cada caso */
-.card-price {
-    background-color: #04a4ff; 
-}
-
-.card-status {
-    background-color: red; 
-}
-
-/* Utilizan distinto bloque debido a que cuando estan juntos se ve mal */
-.card-price > h1 {
-    color: white;
-    font-size: 4vh;
-}
-
-.card-status > h1 {
-    color: white;
-    font-size: 3vh;
-}
-
-.card-price > h1::first-letter {
-    color: #024d82; 
-}
-
-p {
-    font-size: 2vh;
-    margin: 0.5vh 0; /*Margen superior e inferior*/
+.back-face {
+  background-color: #024d82;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2vh;
+  border-radius: 1vh;
 }
