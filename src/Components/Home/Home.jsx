@@ -211,7 +211,8 @@ const Home = () => {
       <div className="filter-and-table">
         <SearchColumn onSearch={handleSearch} />  
           <div className='products-wrapper'>
-            <ProductsGrid products={filteredProducts} />
+            {/* <ProductsGrid products={filteredProducts} /> */}
+            <ProductsGrid products={filteredProducts} isResultEmpty={isResultEmpty}/>
           </div>
       </div>
       
