@@ -24,7 +24,7 @@ const ProductCard = ({ product, onClick }) => {
     setVisible(true);
     const timer = setTimeout(() => {
       setGirada(true);
-    }, 1000);
+    }, 500);
     return () => clearTimeout(timer);
   }, []);
 
