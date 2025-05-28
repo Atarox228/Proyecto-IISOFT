@@ -129,12 +129,16 @@ margin-right: 10px;
     min-width: max-content;
     min-height: max-content;
     height: 800px;
+    align-items: center;
+    width: 100%;
 }
 
 .manual embed {
     margin-top: 5px;
     height: 90%;
     border-radius: 10px;
+    width: 100%;
+
 }
 
 .informacionBasica p {
@@ -144,4 +148,10 @@ margin-right: 10px;
 
 .textoSeccion p {
     font-size: 0.6rem;
+}
+
+.tutorial-video {
+    width: 100%;
+    height: 95%;
+    margin: 1%;
 }
