@@ -23,3 +23,9 @@ vw: 1vw = 1% del Ancho de pantala
     background-image: url('../../assets/grid-background.png');
     background-size: cover;
 }
+
+.emptyResults {
+    align-self: center;
+    position: absolute;
+    margin-left: 225px;
+}
