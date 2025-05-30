@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getProductById, reserveProduct, getReceiptFrom, cancelReserve, confirmSale, uploadFile, savePaymentUrl} from "../../db/queries.jsx";
 import Loading from '../Loading/Loading.jsx';
+import volver from '../../assets/return.png'
 
 const Reserve = () => {
     const { isAuthenticated, user } = useAuth();      
@@ -192,6 +193,11 @@ const Reserve = () => {
         )
     }
 
+
+    const returnToProduct = () => {
+        navigate(`/products/${product.id}`);
+    }
+
     const renderPaymentDetails = () => {
         if (!receipt || receipt.payment_method === 'Efectivo') {
             return null;
@@ -260,22 +266,29 @@ const Reserve = () => {
                     </div>
                 ) : (
                     <div className='reserved-window'>
+                        <div className='return-wrapper'>
+                            <img className='return-button' onClick={returnToProduct} src={volver}/>
+                        </div>
                         <h1>Comprobante</h1>
                         {receipt ? (
                             <>
-                                <p>Mail interesado: {receipt.buyer_email}</p>
-                                <p>Nombre del producto: {receipt.product_name}</p>
-                                <p>
-                                    <a
-                                        href={`/products/${product.id}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        Ver producto asociado
-                                    </a>
-                                </p>
-
-                                <p>Número de pedido: #{receipt.id}</p>
+                                
+                                <div className='receipt-item'>
+                                    <p>Número de pedido:</p>
+                                    <p>#{receipt.id}</p>
+                                </div>
+                                <div className='receipt-item'>
+                                    <p>Usuario interesado:</p>
+                                    <p>{receipt.buyer}</p>
+                                </div>
+                                <div className='receipt-item'>
+                                    <p>Mail de contacto:</p>
+                                     <p>{receipt.buyer_email}</p>
+                                </div>
+                                <div className='receipt-item'>
+                                <p>Método de pago:</p>
+                                <p>{receipt.payment_method}</p>
+                                </div>
 
                                 {seeReceiptButton()}
                                 {cancelled ? (
@@ -287,7 +300,7 @@ const Reserve = () => {
                                 )}
                             </>
                         ) : (
-                            <p>Cargando comprobante...</p>
+                            <Loading/>
                         )}
                     </div>
                 )}
@@ -349,6 +362,10 @@ const Reserve = () => {
     return (
         <div className='reserve-wrapper'>
             <div className='reserved-window'>
+                <div className='return-wrapper'>
+                <img className='return-button' onClick={returnToProduct} src={volver}/>
+                </div>
+
                 <h3>Comprobante</h3>               
                 {receipt ? (
                     <>
@@ -387,7 +404,7 @@ const Reserve = () => {
                         )}
                     </>
                 ) : (
-                    <p>Cargando comprobante...</p>
+                   <Loading/>
                 )}
             </div>
         </div>

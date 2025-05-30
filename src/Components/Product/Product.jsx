@@ -191,11 +191,12 @@ const Product = () => {
                     <p>Tutorial no disponible</p>
                   </button>
                 )}
-                {renderEditButton()}
+               
                 <button className="botonManual" onClick={() => setEsManualVisible(true)} type="button">
                   <img className='logoManual' src={manual} alt="logoManual"/>
                   <p>Ver instrucciones de juego</p>
                 </button>
+                 {renderEditButton()}
                 {renderReservationButton()}
               </div>
             </div>
