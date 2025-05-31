@@ -4,11 +4,11 @@ import {Link, useLocation, useNavigate} from "react-router-dom";
 import {fetchAllProducts} from "../../db/queries.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import "./Home.css";
-import logout from '../../assets/log-out.png'
-import signin from '../../assets/sign-in.png'
-import add from '../../assets/add-icon.png'
-import signup from '../../assets/sign-up.png'
+import signin from '../../assets/sign-in.png';
+import add from '../../assets/add-icon.png';
+import signup from '../../assets/sign-up.png';
 import Loading from "../Loading/Loading.jsx";
+import logout from '../../assets/log-out.png';
 import SearchColumn from "../SearchColumn/SearchColumn.jsx";
 
 const Home = () => {
@@ -161,7 +161,10 @@ const Home = () => {
                 </button>
             </Link>
             <Link to="./Login">
-             <button className="view-mode-btn">Iniciar Sesión</button>
+             <button className="view-mode-btn">
+              <img src={signin}/>
+              Iniciar Sesión
+             </button>
             </Link>
             </div>
               <div className="button-group">
@@ -192,17 +195,20 @@ const Home = () => {
             <div className="button-group">
 
             <Link to="./create">
-             <button className="view-mode-btn">Crear Producto</button>
+             <button className="view-mode-btn">
+              <img src={add}/>
+              Crear Producto
+              </button>
             </Link>
-            {isAuthenticated && (
-              <div className="logout-container">
+            {isAuthenticated && (              
                 <button 
                 className="logout-btn" 
                 onClick={manejarCerrarSesion}
                 >
+                <img src={logout}/>
                  Cerrar Sesión
                 </button>
-              </div>
+              
       )}
             </div>
           </div>
