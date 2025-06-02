@@ -111,7 +111,14 @@
     transition: background-color 0.3s;
 }
 
-.botonManual:hover {
+.botonManual:disabled {
+  cursor: not-allowed;
+  background-color: lightgrey;
+}
+
+
+
+.botonManual:hover:enabled {
     background-color: #b78048;
   }
 
