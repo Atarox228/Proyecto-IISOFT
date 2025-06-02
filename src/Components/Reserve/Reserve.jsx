@@ -366,7 +366,7 @@ const Reserve = () => {
                 <img className='return-button' onClick={returnToProduct} src={volver}/>
                 </div>
 
-                <h3>Comprobante</h3>               
+                <h1>Comprobante</h1>               
                 {receipt ? (
                     <>
                         {justBought && <p>¡Gracias por confirmar la reserva!</p>}
@@ -383,7 +383,7 @@ const Reserve = () => {
                             <p>{receipt.delivery_method}</p>
                         </div>
                         <div className='receipt-item'>
-                            <p>Ubicación de retiro:</p>
+                            <p>Lugar de retiro:</p>
                             <p>{receipt.address}</p>
                         </div>
                         <div className='receipt-item'>

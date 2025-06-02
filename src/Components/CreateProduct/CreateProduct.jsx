@@ -61,7 +61,10 @@ const CreateProduct = () => {
       seller_username: user.username  
     };
     createProduct(productBody);
-    navigate('/');
+    setTimeout(() => {
+      navigate("/");
+    }, 1000);
+
   };
 
   const handleCbuSubmit = async (cbu) => {

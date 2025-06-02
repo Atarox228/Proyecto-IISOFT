@@ -43,7 +43,17 @@
         justify-content: space-around;
     
 }
-.reserved-window h3:first-of-type {
+
+.reserved-window h2:first-of-type {
+    width: 100%;
+    align-items: start;
+    border-bottom: 3px solid #044070;
+    padding-bottom: 5px; 
+    margin-bottom: 10px; 
+  
+}
+
+.reserved-window h1:first-of-type {
     width: 100%;
     align-items: start;
     border-bottom: 3px solid #044070;
