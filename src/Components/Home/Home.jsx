@@ -153,14 +153,14 @@ const Home = () => {
         {!isAuthenticated ? (
           <div className="auth-buttons">
             <div className="button-group">
-            <Link to="./Registro">
+            <Link to="./Registro" className="no-decoration">
               
               <button className="view-mode-btn">
                 <img src={signup}/>
                 Registrarse
                 </button>
             </Link>
-            <Link to="./Login">
+            <Link to="./Login" className="no-decoration">
              <button className="view-mode-btn">
               <img src={signin}/>
               Iniciar Sesión
@@ -168,7 +168,7 @@ const Home = () => {
             </Link>
             </div>
               <div className="button-group">
-            <Link to="./create">
+            <Link to="./create" className="no-decoration">
              <button className="view-mode-btn">
               <img src={add}/>
               Crear Producto
@@ -194,7 +194,7 @@ const Home = () => {
             </div>
             <div className="button-group">
 
-            <Link to="./create">
+            <Link to="./create" className="no-decoration">
              <button className="view-mode-btn">
               <img src={add}/>
               Crear Producto

@@ -52,7 +52,9 @@
     gap: 5px;
   }
 
-
+.no-decoration {
+  text-decoration: none;
+}
 
   .logout-btn:hover {
     background-color: #e60000;
