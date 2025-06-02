@@ -175,7 +175,7 @@ const Product = () => {
                 <h1>{product.Juegos.name}</h1>
                 <p className="nombreVendedor">De {product.seller_username}</p>
                 <p>Categoría: {product.Juegos.category}</p>
-                <p>Lugar: {product.location}</p>
+                <p>Dirección: {product.location}</p>
                 <p>Edad mínima: {product.Juegos.age}</p>
                 <p>Duración estimada: {product.Juegos.duration} min.</p>
                 <p>Cantidad de jugadores: {product.Juegos.players}</p>
