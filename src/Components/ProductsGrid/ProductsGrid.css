@@ -27,6 +27,5 @@ vw: 1vw = 1% del Ancho de pantala
 .emptyResults {
     align-self: center;
     position: absolute;
-    margin-left: 300px;
+    margin-left: 225px;
 }
-

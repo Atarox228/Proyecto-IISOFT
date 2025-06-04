@@ -3,7 +3,7 @@ import {Link, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {cancelReserve, getProductById} from "../../db/queries.jsx";
 import manual from '../../assets/manual.png';
-import tutorial from '../../assets/video-icon-32.png';
+import tutorial from '../../assets/tutorial.png';
 import receipt from '../../assets/receipt-icon.png';
 import returnIcon from '../../assets/return.png';
 import editar from '../../assets/edit.png';
@@ -175,7 +175,7 @@ const Product = () => {
                 <h1>{product.Juegos.name}</h1>
                 <p className="nombreVendedor">De {product.seller_username}</p>
                 <p>Categoría: {product.Juegos.category}</p>
-                <p>Lugar: {product.location}</p>
+                <p>Dirección: {product.location}</p>
                 <p>Edad mínima: {product.Juegos.age}</p>
                 <p>Duración estimada: {product.Juegos.duration} min.</p>
                 <p>Cantidad de jugadores: {product.Juegos.players}</p>
@@ -191,11 +191,12 @@ const Product = () => {
                     <p>Tutorial no disponible</p>
                   </button>
                 )}
-                {renderEditButton()}
+               
                 <button className="botonManual" onClick={() => setEsManualVisible(true)} type="button">
                   <img className='logoManual' src={manual} alt="logoManual"/>
                   <p>Ver instrucciones de juego</p>
                 </button>
+                 {renderEditButton()}
                 {renderReservationButton()}
               </div>
             </div>

@@ -128,7 +128,7 @@ const EditProduct = () => {
             <button className="cancel-button" type="button" onClick={handleCancel}>
               Cancelar
             </button>
-            <button className="create-button" type="submit">
+            <button className="cancel-button" type="submit">
               Guardar cambios
             </button>
           </div>
