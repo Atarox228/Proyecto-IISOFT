@@ -20,13 +20,14 @@ const NotFound = () => {
       </p>
       <Link to="/">
         <button className="create-account-btn" style={{ 
-          backgroundColor: '#0099ff',
-          color: 'white',
+          backgroundColor: '#fbf1e0',
+          color: '#024d82',
           padding: '10px 20px',
-          border: 'none',
+          border: '2px solid #024d82',
           borderRadius: '5px',
           cursor: 'pointer',
-          fontSize: '1rem'
+          fontSize: '1rem',
+          width: '300px'
         }}>
           Volver a la página principal
         </button>

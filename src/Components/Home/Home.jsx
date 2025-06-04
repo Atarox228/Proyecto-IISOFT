@@ -1,19 +1,24 @@
 import ProductsGrid from "../ProductsGrid/ProductsGrid.jsx";
 import {useEffect, useState} from "react";
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {fetchAllProducts} from "../../db/queries.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import "./Home.css";
+import signin from '../../assets/sign-in.png';
+import add from '../../assets/add-icon.png';
+import signup from '../../assets/sign-up.png';
 import Loading from "../Loading/Loading.jsx";
+import logout from '../../assets/log-out.png';
 import SearchColumn from "../SearchColumn/SearchColumn.jsx";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, logout } = useAuth();
   const [viewingReservations, setViewingReservations] = useState(false);
   const [viewingPublications, setViewingPublications] = useState(false);
   const location = useLocation();
+  const [isResultEmpty, setIsResultEmpty] = useState(false);
 
   useEffect(() => {
     fetchAllProducts().then((data) => {
@@ -117,54 +122,109 @@ const Home = () => {
         product.Juegos.players === searchParams.players
       );
     }
-    
+
+    // Para avisar que no se encontró nada
+    if (results.length === 0) {
+      setIsResultEmpty(true);
+    } else {
+      setIsResultEmpty(false);
+    }
     setFilteredProducts(results);
   };
 
-  
+  const manejarCerrarSesion = () => {
+    if (logout) {
+      logout();
+    }
+    // Limpiar el localStorage
+    localStorage.clear();
+    // Recargar la página
+    window.location.reload();
+
+  };
 
   if (!products) {
     return <Loading />;
   }
 
   return (
-    <div>
-      <SearchColumn onSearch={handleSearch} />
-      
-      {!isAuthenticated ? (
-        <div className="auth-buttons">
-          <Link to="./Registro">
-            <button className="create-account-btn">Registrarse</button>
-          </Link>
-          <Link to="./Login">
-            <button className="create-account-btn">Iniciar Sesión</button>
-          </Link>
-          <Link to="./create">
-            <button className="create-account-btn">Crear Producto</button>
-          </Link>
-        </div>
-      ) : (
-        <div className="auth-buttons">
-          <Link to="./create">
-            <button className="create-account-btn">Crear Producto</button>
-          </Link>
-          <button 
-            className="view-mode-btn" 
-            onClick={filterByReservations}
-          >
-            Mis Reservas
-          </button>
-          <button 
-            className="view-mode-btn" 
-            onClick={filterByPublications}
-          >
-            Mis Publicaciones
-          </button>
-        </div>
+    <div className="home-wrapper">
+      <div className="dashboard-wrapper">
+        {!isAuthenticated ? (
+          <div className="auth-buttons">
+            <div className="button-group">
+            <Link to="./Registro" className="no-decoration">
+              
+              <button className="view-mode-btn">
+                <img src={signup}/>
+                Registrarse
+                </button>
+            </Link>
+            <Link to="./Login" className="no-decoration">
+             <button className="view-mode-btn">
+              <img src={signin}/>
+              Iniciar Sesión
+             </button>
+            </Link>
+            </div>
+              <div className="button-group">
+            <Link to="./create" className="no-decoration">
+             <button className="view-mode-btn">
+              <img src={add}/>
+              Crear Producto
+              </button>
+            </Link>
+            </div>
+          </div>
+        ) : (
+          <div className="auth-buttons">            
+            <div className="button-group">
+            <button 
+             className="view-mode-btn" 
+             onClick={filterByReservations}
+            >
+             Mis Reservas
+            </button>
+            <button 
+             className="view-mode-btn" 
+             onClick={filterByPublications}
+            >
+             Mis Publicaciones
+            </button>
+            </div>
+            <div className="button-group">
+
+            <Link to="./create" className="no-decoration">
+             <button className="view-mode-btn">
+              <img src={add}/>
+              Crear Producto
+              </button>
+            </Link>
+            {isAuthenticated && (              
+                <button 
+                className="logout-btn" 
+                onClick={manejarCerrarSesion}
+                >
+                <img src={logout}/>
+                 Cerrar Sesión
+                </button>
+              
       )}
-      <div className='products-wrapper'>
-        <ProductsGrid products={filteredProducts} />
+            </div>
+          </div>
+      )}
       </div>
+      <div className="filter-and-table">
+        <SearchColumn onSearch={handleSearch} />  
+          <div className='products-wrapper'>
+            {/* <ProductsGrid products={filteredProducts} /> */}
+            <ProductsGrid products={filteredProducts} isResultEmpty={isResultEmpty}/>
+          </div>
+      </div>
+      
+      
+      
+
     </div>
   );
 }

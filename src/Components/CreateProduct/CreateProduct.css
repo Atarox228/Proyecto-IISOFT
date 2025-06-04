@@ -53,15 +53,25 @@ form {
 
 .create-button {
 
-    background-color: #04a4ff;
-    border: lightblue;
+    background-color: #fbf1e0;
+    color: #024d82;
+    border: 2px solid #024d82;
     border-radius: 5px;    
-    width: 40%;
+    width: 50%;
     height: 35px;
+    display: flex;
     margin-top: 10px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+    
 }
 
-
+.create-button:hover {
+    background-color: #b78048;
+    cursor: pointer;
+}
 
 form input,
 form textarea {

@@ -43,7 +43,17 @@
         justify-content: space-around;
     
 }
-.reserved-window h3:first-of-type {
+
+.reserved-window h2:first-of-type {
+    width: 100%;
+    align-items: start;
+    border-bottom: 3px solid #044070;
+    padding-bottom: 5px; 
+    margin-bottom: 10px; 
+  
+}
+
+.reserved-window h1:first-of-type {
     width: 100%;
     align-items: start;
     border-bottom: 3px solid #044070;
@@ -85,15 +95,50 @@
 }
 
 .button {
-    background-color: #04a4ff;
-    border: lightblue;
+   
+    background-color: #fbf1e0;
+    color: #024d82;
+    border: 2px solid #024d82;
     border-radius: 5px;    
-    width: 90%;
+    width: 70%;
     height: 35px;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    margin-bottom: 10px;
-    margin-top: 10px
+    transition: background-color 0.3s;
+    margin: 10px;
+}
+
+
+.return-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.return-button {
+    display: flex;
+    width: 25px;
+    margin-left: 5px;
+    margin-top: 5px;
+    margin-bottom: -20px;
+
+}
+
+.button:hover {
+  background-color: #b78048;
+}
+
+
+.receiptImage {
+    width: 700px;
+    height: auto;
+    padding: 5px;
+}
+
+.containerReceiptImage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
 }

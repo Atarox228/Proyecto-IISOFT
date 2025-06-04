@@ -24,5 +24,8 @@ vw: 1vw = 1% del Ancho de pantala
     background-size: cover;
 }
 
-
-
+.emptyResults {
+    align-self: center;
+    position: absolute;
+    margin-left: 225px;
+}

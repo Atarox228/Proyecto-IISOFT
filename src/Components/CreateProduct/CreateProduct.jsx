@@ -61,7 +61,10 @@ const CreateProduct = () => {
       seller_username: user.username  
     };
     createProduct(productBody);
-    navigate('/');
+    setTimeout(() => {
+      navigate("/");
+    }, 1000);
+
   };
 
   const handleCbuSubmit = async (cbu) => {
@@ -115,7 +118,7 @@ const CreateProduct = () => {
           </div>
 
           <div className='form-item'>
-            <p>Ubicación:</p>
+            <p>Direccion:</p>
             <input
               placeholder="Ingresá la ubicación del producto"
               value={ubicacion}
